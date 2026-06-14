@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analizador de Logoaudiometría - Ajuste Curva Logística (V3.1)</title>
+    <title>Comparador de Logoaudiometría: Logística vs Distribución Φ</title>
     <style>
         :root {
             --primary: #0f766e;
             --primary-hover: #115e59;
-            --primary-light: #ccfbf1;
             --bg: #f8fafc;
             --card-bg: #ffffff;
             --text: #1e293b;
@@ -18,14 +17,14 @@
             --right-ear-light: #fee2e2;
             --left-ear: #2563eb;
             --left-ear-light: #dbeafe;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
@@ -36,7 +35,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
         }
 
@@ -66,9 +65,9 @@
             gap: 24px;
         }
 
-        @media (min-width: 900px) {
+        @media (min-width: 950px) {
             .main-grid {
-                grid-template-columns: 1fr 1.2fr;
+                grid-template-columns: 1fr 1.3fr;
             }
         }
 
@@ -78,6 +77,7 @@
             padding: 24px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
+            margin-bottom: 24px;
         }
 
         .card h2 {
@@ -106,21 +106,10 @@
             text-align: center;
         }
 
-        .ear-btn.derecho {
-            color: var(--right-ear);
-        }
-        .ear-btn.derecho.active {
-            background-color: var(--right-ear-light);
-            border-color: var(--right-ear);
-        }
-
-        .ear-btn.izquierdo {
-            color: var(--left-ear);
-        }
-        .ear-btn.izquierdo.active {
-            background-color: var(--left-ear-light);
-            border-color: var(--left-ear);
-        }
+        .ear-btn.derecho { color: var(--right-ear); }
+        .ear-btn.derecho.active { background-color: var(--right-ear-light); border-color: var(--right-ear); }
+        .ear-btn.izquierdo { color: var(--left-ear); }
+        .ear-btn.izquierdo.active { background-color: var(--left-ear-light); border-color: var(--left-ear); }
 
         table {
             width: 100%;
@@ -141,6 +130,9 @@
             font-weight: 600;
         }
 
+        .comp-table th { background-color: #f1f5f9; color: #334155;}
+        .comp-table td { font-size: 15px; font-weight: 500; }
+
         .input-field {
             width: 100%;
             padding: 8px;
@@ -150,87 +142,20 @@
             font-size: 15px;
         }
 
-        .input-field:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
         .btn {
             padding: 10px 16px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 500;
-            transition: background 0.2s;
             font-size: 14px;
         }
 
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-            width: 100%;
-            margin-top: 8px;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .btn-danger {
-            background-color: #fee2e2;
-            color: #ef4444;
-            padding: 6px 12px;
-        }
-
-        .btn-danger:hover {
-            background-color: #fca5a5;
-            color: #b91c1c;
-        }
-
-        .results-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .result-box {
-            background-color: var(--bg);
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .result-box.full-width {
-            grid-column: span 2;
-        }
-
-        .result-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-
-        .result-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .result-box.alert {
-            background-color: #fff7ed;
-            border-color: #ffedd5;
-        }
-        .result-box.alert .result-value {
-            color: #c2410c;
-        }
+        .btn-primary { background-color: var(--primary); color: white; width: 100%; margin-top: 8px; }
+        .btn-danger { background-color: #fee2e2; color: #ef4444; padding: 6px 12px; }
 
         .canvas-container {
             width: 100%;
-            position: relative;
             background: white;
             border-radius: 8px;
             padding: 10px;
@@ -242,13 +167,16 @@
             display: block;
         }
 
-        .list-info {
-            margin-top: 15px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            background: #f1f5f9;
+        .alert-box {
+            background-color: #fff7ed;
+            border: 1px solid #ffedd5;
             padding: 12px;
-            border-radius: 6px;
+            border-radius: 8px;
+            color: #c2410c;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            display: none;
         }
     </style>
 </head>
@@ -256,14 +184,13 @@
 
 <div class="container">
     <header>
-        <h1>Analizador Digital de Logoaudiometría</h1>
-        <p>Ajuste matemático por Curva Logística (V3.1) • Ponderación de Errores y Jerger Cut del Motor Logístico</p>
+        <h1>Comparador Gráfico de Modelos Psicométricos</h1>
+        <p>Visualización simultánea: Curva Logística Ponderada (Código 1) vs Distribución Normal Acumulada Φ (Código 2 original)</p>
     </header>
 
     <div class="main-grid">
         <div class="card">
             <h2>Configuración y Entrada de Datos</h2>
-            
             <div class="ear-selector">
                 <button type="button" class="ear-btn derecho active" onclick="setEar('OD')">Oído Derecho (OD)</button>
                 <button type="button" class="ear-btn izquierdo" onclick="setEar('OI')">Oído Izquierdo (OI)</button>
@@ -280,387 +207,23 @@
                 <tbody id="tableBody">
                     </tbody>
             </table>
-
             <button type="button" class="btn btn-primary" onclick="addRow()">+ Añadir Fila de Intensidad</button>
-
-            <div class="list-info">
-                <strong>Instrucciones:</strong> Introduzca los valores de la prueba. El modelo aplicará un filtro de corte si detecta Roll-Over patológico ($\ge 0.40$) y buscará la curva logística óptima priorizando las zonas de inflexión (40%-60%) y saturación.
-            </div>
         </div>
 
-        <div class="card">
-            <h2>Resultados del Ajuste Estadístico</h2>
-            
-            <div class="results-grid">
-                <div class="result-box">
-                    <div class="result-label">URV (SRT al 50% Absoluto)</div>
-                    <div class="result-value" id="resURV">-- dB</div>
-                </div>
+        <div>
+            <div class="card">
+                <h2>Resultados del Ajuste Estadístico en Coexistencia</h2>
+                <div id="roAlert" class="alert-box"></div>
                 
-                <div class="result-box">
-                    <div class="result-label">Discriminación Máxima (Ymax)</div>
-                    <div class="result-value" id="resPBMax">-- %</div>
-                </div>
-
-                <div class="result-box">
-                    <div class="result-label">Pendiente (b × 25)</div>
-                    <div class="result-value" id="resPendiente">-- %/dB</div>
-                </div>
-
-                <div class="result-box">
-                    <div class="result-label">Bondad de Ajuste (R²)</div>
-                    <div class="result-value" id="resR2">--</div>
-                </div>
-
-                <div class="result-box full-width" id="boxRollover">
-                    <div class="result-label">Fenómeno de Roll-Over</div>
-                    <div class="result-value" id="resRollover">--</div>
-                </div>
-            </div>
-
-            <h2>Curva de Logoaudiometría (Fitted Logistic)</h2>
-            <div class="canvas-container">
-                <canvas id="audiogramCanvas" width="500" height="400"></canvas>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    let currentEar = 'OD';
-    let dataPoints = [
-        { db: 10, pct: 0 },
-        { db: 20, pct: 10 },
-        { db: 30, pct: 45 },
-        { db: 40, pct: 85 },
-        { db: 50, pct: 100 },
-        { db: 60, pct: 100 }
-    ];
-
-    window.onload = function() {
-        renderTable();
-        calculateAndDraw();
-    };
-
-    function setEar(ear) {
-        currentEar = ear;
-        document.querySelectorAll('.ear-btn').forEach(btn => btn.classList.remove('active'));
-        if (ear === 'OD') {
-            document.querySelector('.ear-btn.derecho').classList.add('active');
-        } else {
-            document.querySelector('.ear-btn.izquierdo').classList.add('active');
-        }
-        calculateAndDraw();
-    }
-
-    function renderTable() {
-        const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = '';
-        dataPoints.sort((a, b) => a.db - b.db);
-
-        dataPoints.forEach((point, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><input type="number" class="input-field" value="${point.db}" onchange="updatePoint(${index}, 'db', this.value)" min="-10" max="120" step="5"></td>
-                <td><input type="number" class="input-field" value="${point.pct}" onchange="updatePoint(${index}, 'pct', this.value)" min="0" max="100" step="5"></td>
-                <td><button class="btn btn-danger" onclick="deleteRow(${index})">🗑️</button></td>
-            `;
-            tbody.appendChild(row);
-        });
-    }
-
-    function addRow() {
-        let lastDb = dataPoints.length > 0 ? dataPoints[dataPoints.length - 1].db : 0;
-        dataPoints.push({ db: lastDb + 10, pct: 0 });
-        renderTable();
-        calculateAndDraw();
-    }
-
-    function deleteRow(index) {
-        dataPoints.splice(index, 1);
-        renderTable();
-        calculateAndDraw();
-    }
-
-    function updatePoint(index, field, value) {
-        dataPoints[index][field] = parseFloat(value) || 0;
-        if (field === 'pct') {
-            if (dataPoints[index].pct > 100) dataPoints[index].pct = 100;
-            if (dataPoints[index].pct < 0) dataPoints[index].pct = 0;
-        }
-        calculateAndDraw();
-    }
-
-    // --- MOTOR MATEMÁTICO ADAPTADO EXACTAMENTE DEL CÓDIGO 1 ---
-    function calculateAndDraw() {
-        if (dataPoints.length < 2) {
-            clearResults();
-            return;
-        }
-
-        // 1. FILTRADO DE DATOS (Jerger Cut de Código 1)
-        let x_reales = dataPoints.map(p => p.db);
-        let y_reales = dataPoints.map(p => p.pct);
-
-        let pb_max = -Infinity;
-        let index_pb_max = -1;
-        for (let i = 0; i < y_reales.length; i++) {
-            if (y_reales[i] > pb_max) {
-                pb_max = y_reales[i];
-                index_pb_max = i;
-            }
-        }
-        
-        let pb_min = pb_max; 
-        if (index_pb_max !== -1 && index_pb_max < y_reales.length - 1) {
-            for (let i = index_pb_max + 1; i < y_reales.length; i++) {
-                if (y_reales[i] < pb_min) {
-                    pb_min = y_reales[i];
-                }
-            }
-        }
-        
-        let rollover_index = 0;
-        if (pb_max > 0) {
-            rollover_index = (pb_max - pb_min) / pb_max;
-        }
-        
-        let es_patologico = (rollover_index >= 0.40);
-        let indice_corte = x_reales.length;
-        if (es_patologico) {
-             for (let i = index_pb_max + 1; i < y_reales.length; i++) {
-                if (y_reales[i] < (pb_max * 0.8)) { 
-                    indice_corte = i;
-                    break;
-                }
-            }
-        }
-
-        let x_filtrados = x_reales.slice(0, indice_corte);
-        let y_filtrados = y_reales.slice(0, indice_corte);
-
-        if (x_filtrados.length < 2) {
-            clearResults();
-            return;
-        }
-
-        // 2. DICTADOR DEL MÁXIMO (Código 1)
-        let y_max_fijo = -Infinity;
-        for (let val of y_filtrados) {
-            if (val > y_max_fijo) y_max_fijo = val;
-        }
-        if (y_max_fijo === -Infinity || y_max_fijo < 20) y_max_fijo = 100;
-
-        // 3. GRID SEARCH LOGÍSTICO CON PONDERACIÓN (Código 1)
-        let mejorError = Infinity;
-        let bestB = 0.1, bestX50_abs = 0;
-
-        for (let b = 0.05; b <= 2.5; b += 0.05) {
-            for (let x50 = -10; x50 <= 110; x50 += 0.5) {
-              
-                let sumaError_WEIGHTED = 0;
-                for (let k = 0; k < x_filtrados.length; k++) {
-                    let y_teorica = y_max_fijo / (1 + Math.exp(-b * (x_filtrados[k] - x50)));
-                    let dif = y_filtrados[k] - y_teorica;
-                    
-                    // --- SISTEMA DE PESOS EXACTO ---
-                    let peso = 1;
-                    if (y_filtrados[k] >= 40 && y_filtrados[k] <= 60) { peso = 5000; }
-                    else if (y_filtrados[k] >= (y_max_fijo - 5)) { peso = 10000; }
-                    else if (y_filtrados[k] >= 15) { peso = 50; }
-                    else if (y_filtrados[k] < 10) { peso = 0; }
-                    
-                    sumaError_WEIGHTED += (dif * dif) * peso;
-                }
-              
-                if (sumaError_WEIGHTED < mejorError) {
-                    mejorError = sumaError_WEIGHTED; 
-                    bestB = b; 
-                    bestX50_abs = x50;
-                }
-            }
-        }
-
-        // 4. CÁLCULO DE R² REAL SIN PESOS (Código 1)
-        let finalError_UNWEIGHTED_Sum = 0; 
-        let sumY = y_filtrados.reduce((a, b) => a + b, 0);
-        let meanY = sumY / y_filtrados.length;
-        let sumOfSquaresTotal = 0; 
-
-        for (let k = 0; k < x_filtrados.length; k++) {
-            let y_teorica = y_max_fijo / (1 + Math.exp(-bestB * (x_filtrados[k] - bestX50_abs)));
-            let dif = y_filtrados[k] - y_teorica;
-            finalError_UNWEIGHTED_Sum += (dif * dif); 
-            sumOfSquaresTotal += Math.pow(y_filtrados[k] - meanY, 2);
-        }
-      
-        let R_squared = sumOfSquaresTotal === 0 ? 1 : 1 - (finalError_UNWEIGHTED_Sum / sumOfSquaresTotal);
-        if (R_squared < 0) R_squared = 0;
-
-        // 5. DETERMINAR PARÁMETROS CLÍNICOS LOGÍSTICOS
-        let pendiente_final = bestB * 25; // Definición estricta de Código 1
-        
-        // Calcular URV al 50% Absoluto despejando la logística
-        let urvText = "-- dB";
-        if (y_max_fijo >= 50) {
-            let urvVal = bestX50_abs;
-            if (y_max_fijo > 50) {
-                urvVal = bestX50_abs - Math.log((y_max_fijo / 50) - 1) / bestB;
-            }
-            urvText = `${urvVal.toFixed(1)} dB HL`;
-        } else {
-            urvText = "No Alcanzado (<50%)";
-        }
-
-        // 6. ESTADO DE ROLL-OVER
-        let rolloverStatus = "Ausente (0.00)";
-        if (es_patologico) {
-            rolloverStatus = `⚠️ ROLL-OVER PATOLÓGICO (RI: ${rollover_index.toFixed(2)})`;
-            document.getElementById('boxRollover').classList.add('alert');
-        } else if (rollover_index > 0) {
-            rolloverStatus = `Leve / No Significativo (RI: ${rollover_index.toFixed(2)})`;
-            document.getElementById('boxRollover').classList.remove('alert');
-        } else {
-            document.getElementById('boxRollover').classList.remove('alert');
-        }
-
-        // Renderizar a la UI
-        document.getElementById('resURV').innerText = urvText;
-        document.getElementById('resPBMax').innerText = `${y_max_fijo.toFixed(0)}%`;
-        document.getElementById('resPendiente').innerText = `${pendiente_final.toFixed(1)} %/dB`;
-        document.getElementById('resR2').innerText = R_squared.toFixed(3);
-        document.getElementById('resRollover').innerText = rolloverStatus;
-
-        // Dibujar en Canvas con los parámetros ganadores
-        drawCanvasChart(bestB, bestX50_abs, y_max_fijo);
-    }
-
-    function clearResults() {
-        document.getElementById('resURV').innerText = "-- dB";
-        document.getElementById('resPBMax').innerText = "-- %";
-        document.getElementById('resPendiente').innerText = "-- %/dB";
-        document.getElementById('resR2').innerText = "--";
-        document.getElementById('resRollover').innerText = "--";
-        document.getElementById('boxRollover').classList.remove('alert');
-        
-        const canvas = document.getElementById('audiogramCanvas');
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-
-    function drawCanvasChart(b, x50, yMax) {
-        const canvas = document.getElementById('audiogramCanvas');
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const padding = 50;
-        const width = canvas.width - 2 * padding;
-        const height = canvas.height - 2 * padding;
-
-        const maxDb = 110;
-        const minDb = -10;
-
-        function getX(db) {
-            return padding + ((db - minDb) / (maxDb - minDb)) * width;
-        }
-        function getY(pct) {
-            return padding + (1 - (pct / 100)) * height;
-        }
-
-        // Rejilla
-        ctx.strokeStyle = '#e2e8f0';
-        ctx.lineWidth = 1;
-        ctx.fillStyle = '#64748b';
-        ctx.font = '11px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
-
-        for (let db = minDb; db <= maxDb; db += 10) {
-            let x = getX(db);
-            ctx.beginPath();
-            ctx.moveTo(x, padding);
-            ctx.lineTo(x, padding + height);
-            ctx.stroke();
-            ctx.fillText(db, x, padding + height + 8);
-        }
-
-        ctx.textAlign = 'right';
-        ctx.textBaseline = 'middle';
-        for (let pct = 0; pct <= 100; pct += 20) {
-            let y = getY(pct);
-            ctx.beginPath();
-            ctx.moveTo(padding, y);
-            ctx.lineTo(padding + width, y);
-            ctx.stroke();
-            ctx.fillText(pct + '%', padding - 8, y);
-        }
-
-        ctx.fillStyle = '#1e293b';
-        ctx.font = 'bold 12px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('Intensidad (dB HL)', padding + width / 2, padding + height + 28);
-        
-        ctx.save();
-        ctx.translate(padding - 35, padding + height / 2);
-        ctx.rotate(-Math.PI / 2);
-        ctx.fillText('Discriminación de Palabras (%)', 0, 0);
-        ctx.restore();
-
-        // Guía del 50% absoluto
-        ctx.strokeStyle = '#cbd5e1';
-        ctx.setLineDash([4, 4]);
-        ctx.beginPath();
-        ctx.moveTo(padding, getY(50));
-        ctx.lineTo(padding + width, getY(50));
-        ctx.stroke();
-        ctx.setLineDash([]);
-
-        // --- DIBUJAR CURVA LOGÍSTICA AJUSTADA ---
-        ctx.strokeStyle = currentEar === 'OD' ? varColor('--right-ear') : varColor('--left-ear');
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        let first = true;
-        for (let db = minDb; db <= maxDb; db += 0.5) {
-            let predPct = yMax / (1 + Math.exp(-b * (db - x50)));
-            let x = getX(db);
-            let y = getY(predPct);
-            if (first) {
-                ctx.moveTo(x, y);
-                first = false;
-            } else {
-                ctx.lineTo(x, y);
-            }
-        }
-        ctx.stroke();
-
-        // Puntos Reales
-        dataPoints.forEach(p => {
-            let x = getX(p.db);
-            let y = getY(p.pct);
-            
-            ctx.beginPath();
-            if (currentEar === 'OD') {
-                ctx.arc(x, y, 6, 0, 2 * Math.PI);
-                ctx.fillStyle = 'white';
-                ctx.fill();
-                ctx.strokeStyle = varColor('--right-ear');
-                ctx.lineWidth = 3;
-                ctx.stroke();
-            } else {
-                ctx.strokeStyle = varColor('--left-ear');
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5);
-                ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5);
-                ctx.stroke();
-            }
-        });
-    }
-
-    function varColor(name) {
-        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-    }
-</script>
-
-</body>
-</html>
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Métrica Clínica</th>
+                            <th>Modelo Logístico (Cód 1)</th>
+                            <th>Modelo Normal Φ (Cód 2)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>URV / SRT (al 50% Absoluto)</strong></td>
+                            <td id="logURV" style="color: #0f766e;">
