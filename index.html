@@ -96,10 +96,10 @@
             margin-top: 45px;
         }
 
-        /* Estilos para la nueva guía técnica interactiva */
+        /* Estilos de la guía técnica interactiva con significado clínico */
         .guide-card {
             margin-top: 24px;
-            border-left: 4px solid var(--text-secondary);
+            border-left: 4px solid var(--primary);
         }
         .guide-card summary {
             font-size: 16px;
@@ -123,16 +123,25 @@
             padding: 16px;
             border-radius: 8px;
             border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .metric-explain h3 {
-            font-size: 14px;
-            color: var(--text);
+            font-size: 15px;
+            color: var(--primary);
             margin-bottom: 8px;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 4px;
         }
         .metric-explain p {
             font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
+            color: var(--text);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .metric-explain p strong {
+            color: var(--primary);
         }
         .formula-box {
             background: #334155;
@@ -140,9 +149,10 @@
             padding: 8px 12px;
             border-radius: 6px;
             font-family: monospace;
-            font-size: 12.5px;
+            font-size: 12px;
             text-align: center;
             overflow-x: auto;
+            margin-top: 6px;
         }
 
         .ear-selector {
@@ -243,9 +253,7 @@
             display: block;
         }
 
-        /* ==========================================
-           CONFIGURACIÓN OPTIMIZADA PARA IMPRESIÓN (PDF A4)
-           ========================================== */
+        /* CONFIGURACIÓN OPTIMIZADA PARA IMPRESIÓN (PDF A4) */
         @media print {
             @page {
                 size: A4;
@@ -260,7 +268,6 @@
                 print-color-adjust: exact;
             }
 
-            /* Ocultar panel de datos, botones E INDUDABLEMENTE la guía de fórmulas */
             .main-grid > div:first-child,
             .ear-selector,
             .btn,
@@ -416,46 +423,51 @@
         </div>
     </div>
 
-    <!-- NUEVO APARTADO: ACORDEÓN DE EXPLICACIÓN TÉCNICA (Oculto en Impresión automáticamente) -->
+    <!-- GUÍA TÉCNICA INTERACTIVA COMPLETA CON SIGNIFICADO CLÍNICO -->
     <div class="card guide-card">
         <details>
-            <summary>📖 Ver Guía Técnica: ¿Cómo se calculan estas métricas?</summary>
+            <summary>📖 Ver Guía Técnica: ¿Cómo se calculan e interpretan estas métricas?</summary>
             <div class="guide-section">
                 
                 <div class="metric-explain">
                     <h3>URV / SRT (al 50% Absoluto)</h3>
-                    <p><strong>Qué mide:</strong> La intensidad exacta (dB HL) en la que el paciente comprende el 50% absoluto de la lista de palabras.</p>
+                    <p><strong>Qué mide:</strong> La intensidad exacta (dB HL) en la que el paciente comprende el 50% absoluto de las palabras presentadas[cite: 1, 2].</p>
+                    <p><strong>Significado clínico:</strong> Es el umbral de inteligibilidad donde inicia la comprensión verbal; sirve para validar de forma directa el promedio tonal (PTA) de la vía aérea[cite: 1, 2].</p>
                     <div class="formula-box">X<sub>URV</sub> = X<sub>50</sub> - [ln(Y<sub>max</sub> / 50 - 1) / b]</div>
                 </div>
 
                 <div class="metric-explain">
                     <h3>Discriminación Máxima (Ymax)</h3>
-                    <p><strong>Qué mide:</strong> El porcentaje óptimo (techo biológico) de discriminación de la palabra que posee el paciente.</p>
+                    <p><strong>Qué mide:</strong> El techo porcentual óptimo de discriminación de la palabra hablada que posee el paciente[cite: 1, 2].</p>
+                    <p><strong>Significado clínico:</strong> Define la capacidad máxima de rendimiento del sistema auditivo. Valores por debajo del 100% reflejan distorsión y daño neurosensorial (coclear o neural)[cite: 1, 2].</p>
                     <div class="formula-box">Y<sub>max</sub> = max(Y<sub>filtrados</sub>)</div>
                 </div>
 
                 <div class="metric-explain">
                     <h3>Pendiente (b × 25)</h3>
-                    <p><strong>What mide:</strong> La tasa de aceleración e inclinación del reconocimiento verbal por cada dB aumentado (%/dB).</p>
+                    <p><strong>Qué mide:</strong> La tasa de aceleración e inclinación del reconocimiento verbal por cada dB aumentado (%/dB)[cite: 1, 2].</p>
+                    <p><strong>Significado clínico:</strong> Evalúa la eficiencia del rango dinámico. Una pendiente plana o de bajo porcentaje denota problemas severos de reclutamiento coclear o rigidez neural[cite: 1, 2].</p>
                     <div class="formula-box">Pendiente = b × 25</div>
                 </div>
 
                 <div class="metric-explain">
                     <h3>Bondad de Ajuste (R²)</h3>
-                    <p><strong>Qué mide:</strong> Control de calidad estadístico que valida la fidelidad entre el modelo PHI y los datos tomados en cabina.</p>
+                    <p><strong>Qué mide:</strong> Coeficiente estadístico que cuantifica la fidelidad entre el modelo matemático matemático PHI y los datos anotados en cabina[cite: 1, 2].</p>
+                    <p><strong>Significado clínico:</strong> Valores muy próximos a 1.00 garantizan que el comportamiento biológico del paciente fue consistente y que los umbrales calculados son altamente confiables[cite: 1, 2].</p>
                     <div class="formula-box">R² = 1 - [Σ(Y<sub>real</sub> - Y<sub>teórica</sub>)² / Σ(Y<sub>real</sub> - Y<sub>media</sub>)²]</div>
                 </div>
 
                 <div class="metric-explain" style="grid-column: 1 / -1;">
-                    <h3>Ecuación General de la Curva Ajustada (PHI)</h3>
-                    <p>Representación matemática de la distribución logística continua que dibuja la sigmoide en el gráfico:</p>
-                    <div class="formula-box">Y<sub>teórica</sub> = Y<sub>max</sub> / (1 + e<sup>-b · (X - X<sub>50</sub>)</sup>)</div>
+                    <h3>Fenómeno de Roll-Over</h3>
+                    <p><strong>Qué mide:</strong> Cuantifica la caída paradójica de la inteligibilidad a intensidades sonoras muy elevadas[cite: 1, 2].</p>
+                    <p><strong>Significado clínico:</strong> Actúa como una potente alerta diagnóstica. Si la discriminación colapsa a volúmenes altos y el índice matemático da un resultado igual o mayor a 0.40, el motor activa la etiqueta crítica de sospecha de <strong>Patología Retrococlear</strong> (ej. fatiga del nervio auditivo o neurinoma)[cite: 1, 2].</p>
+                    <div class="formula-box">Índice de Roll-Over = (Y<sub>max</sub> - Y<sub>min_post_pico</sub>) / Y<sub>max</sub></div>
                 </div>
 
                 <div class="metric-explain" style="grid-column: 1 / -1;">
-                    <h3>Fenómeno de Roll-Over</h3>
-                    <p><strong>Qué mide:</strong> Evalúa la distorsión o colapso neural de la vía auditiva a altas intensidades. Si el índice matemático resultante es &ge; 0.40, la aplicación lo cataloga automáticamente como patológico.</p>
-                    <div class="formula-box">Índice de Roll-Over = (Y<sub>max</sub> - Y<sub>min_post_pico</sub>) / Y<sub>max</sub></div>
+                    <h3>Ecuación General de la Curva Ajustada (PHI)</h3>
+                    <p>Fórmula de distribución logística continua empleada por el algoritmo de software para proyectar de manera matemática y precisa la sigmoide en el gráfico bilateral[cite: 2]:</p>
+                    <div class="formula-box">Y<sub>teórica</sub> = Y<sub>max</sub> / (1 + e<sup>-b · (X - X<sub>50</sub>)</sup>)</div>
                 </div>
 
             </div>
