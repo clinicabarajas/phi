@@ -92,9 +92,57 @@
             padding-bottom: 8px;
         }
 
-        /* Clase específica para generar el espacio solicitado entre tablas y gráfica */
         .chart-card {
             margin-top: 45px;
+        }
+
+        /* Estilos para la nueva guía técnica interactiva */
+        .guide-card {
+            margin-top: 24px;
+            border-left: 4px solid var(--text-secondary);
+        }
+        .guide-card summary {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            outline: none;
+            user-select: none;
+        }
+        .guide-section {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        @media (min-width: 768px) {
+            .guide-section { grid-template-columns: 1fr 1fr; }
+        }
+        .metric-explain {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .metric-explain h3 {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        .metric-explain p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        .formula-box {
+            background: #334155;
+            color: #f8fafc;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12.5px;
+            text-align: center;
+            overflow-x: auto;
         }
 
         .ear-selector {
@@ -196,7 +244,7 @@
         }
 
         /* ==========================================
-           CONFIGURACIÓN OPTIMIZADA PARA 1 SOLA HOJA A4
+           CONFIGURACIÓN OPTIMIZADA PARA IMPRESIÓN (PDF A4)
            ========================================== */
         @media print {
             @page {
@@ -212,10 +260,12 @@
                 print-color-adjust: exact;
             }
 
+            /* Ocultar panel de datos, botones E INDUDABLEMENTE la guía de fórmulas */
             .main-grid > div:first-child,
             .ear-selector,
             .btn,
-            #dataTable {
+            #dataTable,
+            .guide-card {
                 display: none !important;
             }
 
@@ -249,7 +299,6 @@
                 padding-bottom: 4px !important;
             }
 
-            /* Forzar el espacio de separación también en la impresión en PDF */
             .chart-card {
                 margin-top: 50px !important;
             }
@@ -271,7 +320,7 @@
             }
 
             canvas {
-                max-width: 68% !important; /* Escala de seguridad idónea para mantener todo en 1 sola hoja */
+                max-width: 68% !important;
                 margin: 0 auto !important;
             }
         }
@@ -358,7 +407,6 @@
                 </button>
             </div>
 
-            <!-- Se le aplicó la clase chart-card para asegurar la separación física en pantalla e impresión -->
             <div class="card chart-card">
                 <h2>Curva Logoaudiometría Ajustada (PHI)</h2>
                 <div class="canvas-container">
@@ -367,6 +415,53 @@
             </div>
         </div>
     </div>
+
+    <!-- NUEVO APARTADO: ACORDEÓN DE EXPLICACIÓN TÉCNICA (Oculto en Impresión automáticamente) -->
+    <div class="card guide-card">
+        <details>
+            <summary>📖 Ver Guía Técnica: ¿Cómo se calculan estas métricas?</summary>
+            <div class="guide-section">
+                
+                <div class="metric-explain">
+                    <h3>URV / SRT (al 50% Absoluto)</h3>
+                    <p><strong>Qué mide:</strong> La intensidad exacta (dB HL) en la que el paciente comprende el 50% absoluto de la lista de palabras.</p>
+                    <div class="formula-box">X<sub>URV</sub> = X<sub>50</sub> - [ln(Y<sub>max</sub> / 50 - 1) / b]</div>
+                </div>
+
+                <div class="metric-explain">
+                    <h3>Discriminación Máxima (Ymax)</h3>
+                    <p><strong>Qué mide:</strong> El porcentaje óptimo (techo biológico) de discriminación de la palabra que posee el paciente.</p>
+                    <div class="formula-box">Y<sub>max</sub> = max(Y<sub>filtrados</sub>)</div>
+                </div>
+
+                <div class="metric-explain">
+                    <h3>Pendiente (b × 25)</h3>
+                    <p><strong>What mide:</strong> La tasa de aceleración e inclinación del reconocimiento verbal por cada dB aumentado (%/dB).</p>
+                    <div class="formula-box">Pendiente = b × 25</div>
+                </div>
+
+                <div class="metric-explain">
+                    <h3>Bondad de Ajuste (R²)</h3>
+                    <p><strong>Qué mide:</strong> Control de calidad estadístico que valida la fidelidad entre el modelo PHI y los datos tomados en cabina.</p>
+                    <div class="formula-box">R² = 1 - [Σ(Y<sub>real</sub> - Y<sub>teórica</sub>)² / Σ(Y<sub>real</sub> - Y<sub>media</sub>)²]</div>
+                </div>
+
+                <div class="metric-explain" style="grid-column: 1 / -1;">
+                    <h3>Ecuación General de la Curva Ajustada (PHI)</h3>
+                    <p>Representación matemática de la distribución logística continua que dibuja la sigmoide en el gráfico:</p>
+                    <div class="formula-box">Y<sub>teórica</sub> = Y<sub>max</sub> / (1 + e<sup>-b · (X - X<sub>50</sub>)</sup>)</div>
+                </div>
+
+                <div class="metric-explain" style="grid-column: 1 / -1;">
+                    <h3>Fenómeno de Roll-Over</h3>
+                    <p><strong>Qué mide:</strong> Evalúa la distorsión o colapso neural de la vía auditiva a altas intensidades. Si el índice matemático resultante es &ge; 0.40, la aplicación lo cataloga automáticamente como patológico.</p>
+                    <div class="formula-box">Índice de Roll-Over = (Y<sub>max</sub> - Y<sub>min_post_pico</sub>) / Y<sub>max</sub></div>
+                </div>
+
+            </div>
+        </details>
+    </div>
+
 </div>
 
 <script>
@@ -554,7 +649,6 @@
         drawCanvasChart(resOD, resOI);
     }
 
-    // --- FUNCIÓN DE RENDERIZADO DEL GRÁFICO ---
     function drawCanvasChart(resOD, resOI) {
         const canvas = document.getElementById('audiogramCanvas');
         const ctx = canvas.getContext('2d');
