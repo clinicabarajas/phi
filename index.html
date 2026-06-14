@@ -226,4 +226,323 @@
                     <tbody>
                         <tr>
                             <td><strong>URV / SRT (al 50% Absoluto)</strong></td>
-                            <td id="logURV" style="color: #0f766e;">
+                            <td id="logURV" style="color: #0f766e;">--</td>
+                            <td id="normURV" style="color: #b45309;">--</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Asíntota Máxima (Techo / PBMax)</strong></td>
+                            <td id="logMax">--</td>
+                            <td id="normMax">--</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pendiente Máxima</strong></td>
+                            <td id="logSlope">--</td>
+                            <td id="normSlope">--</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bondad de Ajuste (R²)</strong></td>
+                            <td id="logR2">--</td>
+                            <td id="normR2">--</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>Gráfico Unificado de Discriminación</h2>
+                <div class="canvas-container">
+                    <canvas id="audiogramCanvas" width="540" height="420"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentEar = 'OD';
+    let dataPoints = [
+        { db: 10, pct: 0 },
+        { db: 20, pct: 10 },
+        { db: 30, pct: 45 },
+        { db: 40, pct: 85 },
+        { db: 50, pct: 100 },
+        { db: 60, pct: 100 }
+    ];
+
+    window.onload = function() {
+        renderTable();
+        calculateAndDraw();
+    };
+
+    function setEar(ear) {
+        currentEar = ear;
+        document.querySelectorAll('.ear-btn').forEach(btn => btn.classList.remove('active'));
+        if (ear === 'OD') {
+            document.querySelector('.ear-btn.derecho').classList.add('active');
+        } else {
+            document.querySelector('.ear-btn.izquierdo').classList.add('active');
+        }
+        calculateAndDraw();
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        dataPoints.sort((a, b) => a.db - b.db);
+        dataPoints.forEach((point, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="number" class="input-field" value="${point.db}" onchange="updatePoint(${index}, 'db', this.value)" min="-10" max="120" step="5"></td>
+                <td><input type="number" class="input-field" value="${point.pct}" onchange="updatePoint(${index}, 'pct', this.value)" min="0" max="100" step="5"></td>
+                <td><button class="btn btn-danger" onclick="deleteRow(${index})">🗑️</button></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function addRow() {
+        let lastDb = dataPoints.length > 0 ? dataPoints[dataPoints.length - 1].db : 0;
+        dataPoints.push({ db: lastDb + 10, pct: 0 });
+        renderTable();
+        calculateAndDraw();
+    }
+
+    function deleteRow(index) {
+        dataPoints.splice(index, 1);
+        renderTable();
+        calculateAndDraw();
+    }
+
+    function updatePoint(index, field, value) {
+        dataPoints[index][field] = parseFloat(value) || 0;
+        if (field === 'pct') {
+            if (dataPoints[index].pct > 100) dataPoints[index].pct = 100;
+            if (dataPoints[index].pct < 0) dataPoints[index].pct = 0;
+        }
+        calculateAndDraw();
+    }
+
+    function standardNormalCDF(x) {
+        let t = 1.0 / (1.0 + 0.2316419 * Math.abs(x));
+        let d = 0.3989422804 * Math.exp(-x * x / 2.0);
+        let p = d * t * (0.319381530 + t * (-0.356563782 + t * (1.781477937 + t * (-1.821255978 + t * 1.330274429))));
+        return x > 0 ? 1.0 - p : p;
+    }
+
+    function calculateAndDraw() {
+        if (dataPoints.length < 2) return;
+
+        let x_reales = dataPoints.map(p => p.db);
+        let y_reales = dataPoints.map(p => p.pct);
+
+        // ==========================================
+        // EJECUCIÓN MODELO 1: LOGÍSTICO CON PESOS Y JERGER CUT
+        // ==========================================
+        let pb_max_c1 = -Infinity;
+        let index_pb_max = -1;
+        for (let i = 0; i < y_reales.length; i++) {
+            if (y_reales[i] > pb_max_c1) { pb_max_c1 = y_reales[i]; index_pb_max = i; }
+        }
+        let pb_min_c1 = pb_max_c1; 
+        if (index_pb_max !== -1 && index_pb_max < y_reales.length - 1) {
+            for (let i = index_pb_max + 1; i < y_reales.length; i++) {
+                if (y_reales[i] < pb_min_c1) pb_min_c1 = y_reales[i];
+            }
+        }
+        let ri_c1 = pb_max_c1 > 0 ? (pb_max_c1 - pb_min_c1) / pb_max_c1 : 0;
+        let es_patologico_c1 = (ri_c1 >= 0.40);
+        let indice_corte = x_reales.length;
+        if (es_patologico_c1) {
+            for (let i = index_pb_max + 1; i < y_reales.length; i++) {
+                if (y_reales[i] < (pb_max_c1 * 0.8)) { indice_corte = i; break; }
+            }
+        }
+        let x_filtrados = x_reales.slice(0, indice_corte);
+        let y_filtrados = y_reales.slice(0, indice_corte);
+
+        let y_max_fijo = -Infinity;
+        for (let val of y_filtrados) { if (val > y_max_fijo) y_max_fijo = val; }
+        if (y_max_fijo === -Infinity || y_max_fijo < 20) y_max_fijo = 100;
+
+        let mejorErrorLog = Infinity;
+        let bestB = 0.1, bestX50 = 0;
+        for (let b = 0.05; b <= 2.5; b += 0.05) {
+            for (let x50 = -10; x50 <= 110; x50 += 0.5) {
+                let sumaErrorW = 0;
+                for (let k = 0; k < x_filtrados.length; k++) {
+                    let y_teorica = y_max_fijo / (1 + Math.exp(-b * (x_filtrados[k] - x50)));
+                    let dif = y_filtrados[k] - y_teorica;
+                    let peso = 1;
+                    if (y_filtrados[k] >= 40 && y_filtrados[k] <= 60) peso = 5000;
+                    else if (y_filtrados[k] >= (y_max_fijo - 5)) peso = 10000;
+                    else if (y_filtrados[k] >= 15) peso = 50;
+                    else if (y_filtrados[k] < 10) peso = 0;
+                    sumaErrorW += (dif * dif) * peso;
+                }
+                if (sumaErrorW < mejorErrorLog) { mejorErrorLog = sumaErrorW; bestB = b; bestX50 = x50; }
+            }
+        }
+        let sseLog = 0, ssTotLog = 0, meanYLog = y_filtrados.reduce((a,b)=>a+b,0)/y_filtrados.length;
+        for (let k = 0; k < x_filtrados.length; k++) {
+            let y_teorica = y_max_fijo / (1 + Math.exp(-bestB * (x_filtrados[k] - bestX50)));
+            sseLog += Math.pow(y_filtrados[k] - y_teorica, 2);
+            ssTotLog += Math.pow(y_filtrados[k] - meanYLog, 2);
+        }
+        let r2Log = ssTotLog === 0 ? 1 : 1 - (sseLog / ssTotLog);
+
+        // ==========================================
+        // EJECUCIÓN MODELO 2: NORMAL Φ ORIGINAL
+        // ==========================================
+        let pbMaxNorm = 0;
+        dataPoints.forEach(p => { if(p.pct > pbMaxNorm) pbMaxNorm = p.pct; });
+        let bestMu = 30, bestSigma = 10, minSSENorm = Infinity;
+        for (let mu = -10; mu <= 100; mu += 0.5) {
+            for (let sigma = 1; sigma <= 35; sigma += 0.5) {
+                let sse = 0;
+                dataPoints.forEach(p => {
+                    let pred = pbMaxNorm * standardNormalCDF((p.db - mu) / sigma);
+                    sse += Math.pow(p.pct - pred, 2);
+                });
+                if (sse < minSSENorm) { minSSENorm = sse; bestMu = mu; bestSigma = sigma; }
+            }
+        }
+        let meanPctNorm = dataPoints.reduce((sum, p) => sum + p.pct, 0) / dataPoints.length;
+        let ssTotNorm = dataPoints.reduce((sum, p) => sum + Math.pow(p.pct - meanPctNorm, 2), 0);
+        let r2Norm = ssTotNorm === 0 ? 1 : 1 - (minSSENorm / ssTotNorm);
+
+        // ==========================================
+        // PROCESAMIENTO DE ADAPTACIONES DE UI
+        // ==========================================
+        // Alerta Roll-over unificada
+        let alertDiv = document.getElementById('roAlert');
+        if (es_patologico_c1) {
+            alertDiv.style.display = 'block';
+            alertDiv.innerText = `⚠️ ALERTA: Roll-Over Patológico detectado por Filtro Logístico (Índice: ${ri_c1.toFixed(2)}).`;
+        } else {
+            alertDiv.style.display = 'none';
+        }
+
+        // URV Logístico
+        let urvLogTxt = "No Alc.";
+        if (y_max_fijo >= 50) {
+            let val = bestX50;
+            if (y_max_fijo > 50) val = bestX50 - Math.log((y_max_fijo / 50) - 1) / bestB;
+            urvLogTxt = `${val.toFixed(1)} dB`;
+        }
+        // URV Normal Φ
+        let urvNormTxt = "No Alc.";
+        if (pbMaxNorm >= 50) {
+            for (let dbEval = -10; dbEval <= 120; dbEval += 0.1) {
+                if (pbMaxNorm * standardNormalCDF((dbEval - bestMu) / bestSigma) >= 50) {
+                    urvNormTxt = `${dbEval.toFixed(1)} dB`;
+                    break;
+                }
+            }
+        }
+
+        // Volcar Métricas a Tabla
+        document.getElementById('logURV').innerText = urvLogTxt;
+        document.getElementById('normURV').innerText = urvNormTxt;
+        document.getElementById('logMax').innerText = `${y_max_fijo.toFixed(0)}%`;
+        document.getElementById('normMax').innerText = `${pbMaxNorm.toFixed(0)}%`;
+        document.getElementById('logSlope').innerText = `${(bestB * 25).toFixed(1)} %/dB`;
+        document.getElementById('normSlope').innerText = `${(pbMaxNorm / (bestSigma * 2.5066)).toFixed(1)} %/dB`;
+        document.getElementById('logR2').innerText = Math.max(0, r2Log).toFixed(3);
+        document.getElementById('normR2').innerText = Math.max(0, r2Norm).toFixed(3);
+
+        // Dibujar ambas en el Canvas
+        drawCanvasChart(bestB, bestX50, y_max_fijo, bestMu, bestSigma, pbMaxNorm);
+    }
+
+    function drawCanvasChart(b, x50, yMaxLog, mu, sigma, pbMaxNorm) {
+        const canvas = document.getElementById('audiogramCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const padding = 55;
+        const width = canvas.width - 2 * padding;
+        const height = canvas.height - 2 * padding;
+        const maxDb = 110, minDb = -10;
+
+        function getX(db) { return padding + ((db - minDb) / (maxDb - minDb)) * width; }
+        function getY(pct) { return padding + (1 - (pct / 100)) * height; }
+
+        // Ejes y Grid
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.fillStyle = '#64748b';
+        ctx.font = '11px sans-serif';
+        
+        // Verticales
+        ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+        for (let db = minDb; db <= maxDb; db += 10) {
+            ctx.beginPath(); ctx.moveTo(getX(db), padding); ctx.lineTo(getX(db), padding + height); ctx.stroke();
+            ctx.fillText(db, getX(db), padding + height + 8);
+        }
+        // Horizontales
+        ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+        for (let pct = 0; pct <= 100; pct += 20) {
+            ctx.beginPath(); ctx.moveTo(padding, getY(pct)); ctx.lineTo(padding + width, getY(pct)); ctx.stroke();
+            ctx.fillText(pct + '%', padding - 8, getY(pct));
+        }
+
+        // Línea Guía del 50% Absoluto
+        ctx.strokeStyle = '#cbd5e1'; ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.moveTo(padding, getY(50)); ctx.lineTo(padding + width, getY(50)); ctx.stroke();
+        ctx.setLineDash([]);
+
+        // COLORES DE ASIGNACIÓN SEGÚN EL OÍDO SELECCIONADO
+        let colorLog = currentEar === 'OD' ? '#dc2626' : '#2563eb'; // Rojo intenso o Azul Intenso
+        let colorNorm = currentEar === 'OD' ? '#f97316' : '#a855f7'; // Naranja o Púrpura para contrastar la Normal
+
+        // 1. TRAZAR CURVA 1: LOGÍSTICA (Línea Continua)
+        ctx.strokeStyle = colorLog;
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        for (let db = minDb; db <= maxDb; db += 0.5) {
+            let pred = yMaxLog / (1 + Math.exp(-b * (db - x50)));
+            if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred));
+        }
+        ctx.stroke();
+
+        // 2. TRAZAR CURVA 2: NORMAL Φ (Línea Discontinua)
+        ctx.strokeStyle = colorNorm;
+        ctx.lineWidth = 2.5;
+        ctx.setLineDash([6, 4]);
+        ctx.beginPath();
+        for (let db = minDb; db <= maxDb; db += 0.5) {
+            let pred = pbMaxNorm * standardNormalCDF((db - mu) / sigma);
+            if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred));
+        }
+        ctx.stroke();
+        ctx.setLineDash([]); // Resetear discontinuidad
+
+        // 3. DIBUJAR PUNTOS REALES DEL PACIENTE
+        ctx.fillStyle = colorLog;
+        dataPoints.forEach(p => {
+            let x = getX(p.db), y = getY(p.pct);
+            ctx.beginPath();
+            if (currentEar === 'OD') {
+                ctx.arc(x, y, 6, 0, 2 * Math.PI); ctx.fillStyle = 'white'; ctx.fill();
+                ctx.strokeStyle = colorLog; ctx.lineWidth = 3; ctx.stroke();
+            } else {
+                ctx.strokeStyle = colorLog; ctx.lineWidth = 3;
+                ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5);
+                ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5); ctx.stroke();
+            }
+        });
+
+        // 4. LEYENDA DEL GRÁFICO
+        ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
+        
+        ctx.fillStyle = colorLog; ctx.fillRect(padding + 15, padding + 15, 20, 4);
+        ctx.fillStyle = '#1e293b'; ctx.fillText('Curva Logística (Cód 1 - Continua)', padding + 42, padding + 18);
+
+        ctx.strokeStyle = colorNorm; ctx.lineWidth = 2; ctx.setLineDash([4, 2]);
+        ctx.beginPath(); ctx.moveTo(padding + 15, padding + 32); ctx.lineTo(padding + 35, padding + 32); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#1e293b'; ctx.fillText('Distribución Normal Φ (Cód 2 - Discontinua)', padding + 42, padding + 32);
+    }
+</script>
+
+</body>
+</html>
