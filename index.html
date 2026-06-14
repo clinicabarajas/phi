@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador de Logoaudiometría - Ajuste Distribución Φ</title>
+    <style>
+        :root {
+            --primary: #0f766e;
+            --primary-hover: #115e59;
+            --primary-light: #ccfbf1;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --right-ear: #dc2626;
+            --right-ear-light: #fee2e2;
+            --left-ear: #2563eb;
+            --left-ear-light: #dbeafe;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            border-left: 6px solid var(--primary);
+        }
+
+        header h1 {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media (min-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr 1.2fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: var(--text);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        /* Opciones de Oído */
+        .ear-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .ear-btn {
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .ear-btn.derecho {
+            color: var(--right-ear);
+        }
+        .ear-btn.derecho.active {
+            background-color: var(--right-ear-light);
+            border-color: var(--right-ear);
+        }
+
+        .ear-btn.izquierdo {
+            color: var(--left-ear);
+        }
+        .ear-btn.izquierdo.active {
+            background-color: var(--left-ear-light);
+            border-color: var(--left-ear);
+        }
+
+        /* Tabla de Entrada */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--bg);
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-danger {
+            background-color: #fee2e2;
+            color: #ef4444;
+            padding: 6px 12px;
+        }
+
+        .btn-danger:hover {
+            background-color: #fca5a5;
+            color: #b91c1c;
+        }
+
+        /* Resultados */
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .result-box {
+            background-color: var(--bg);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .result-box.full-width {
+            grid-column: span 2;
+        }
+
+        .result-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .result-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .result-box.alert {
+            background-color: #fff7ed;
+            border-color: #ffedd5;
+        }
+        .result-box.alert .result-value {
+            color: #c2410c;
+        }
+
+        /* Gráfico Canvas */
+        .canvas-container {
+            width: 100%;
+            position: relative;
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .list-info {
+            margin-top: 15px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Analizador Digital de Logoaudiometría</h1>
+        <p>Ajuste matemático por Función Psicometría (Distribución Φ) • Listas de María Rosa Cárdenas y Marrero</p>
+    </header>
+
+    <div class="main-grid">
+        <!-- Panel Izquierdo: Entrada de datos -->
+        <div class="card">
+            <h2>Configuración y Entrada de Datos</h2>
+            
+            <div class="ear-selector">
+                <button type="button" class="ear-btn derecho active" onclick="setEar('OD')">Oído Derecho (OD)</button>
+                <button type="button" class="ear-btn izquierdo" onclick="setEar('OI')">Oído Izquierdo (OI)</button>
+            </div>
+
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Intensidad (dB HL)</th>
+                        <th>Discriminación (%)</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Filas dinámicas se insertan aquí -->
+                </tbody>
+            </table>
+
+            <button type="button" class="btn btn-primary" onclick="addRow()">+ Añadir Fila de Intensidad</button>
+
+            <div class="list-info">
+                <strong>Instrucciones:</strong> Introduzca los valores obtenidos en la prueba. Al modificar o añadir filas, el modelo calculará automáticamente la curva psicométrica óptima usando la distribución normal acumulada (Φ).
+            </div>
+        </div>
+
+        <!-- Panel Derecho: Gráfico y Parámetros -->
+        <div class="card">
+            <h2>Resultados del Ajuste Estadístico</h2>
+            
+            <div class="results-grid">
+                <div class="result-box">
+                    <div class="result-label">URV (SRT al 50% Absoluto)</div>
+                    <div class="result-value" id="resURV">-- dB</div>
+                </div>
+                
+                <div class="result-box">
+                    <div class="result-label">Discriminación Máxima (PB Max)</div>
+                    <div class="result-value" id="resPBMax">-- %</div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Pendiente (k) en Inflexión</div>
+                    <div class="result-value" id="resPendiente">-- %/dB</div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-label">Bondad de Ajuste (R²)</div>
+                    <div class="result-value" id="resR2">--</div>
+                </div>
+
+                <div class="result-box full-width" id="boxRollover">
+                    <div class="result-label">Fenómeno de Roll-Over</div>
+                    <div class="result-value" id="resRollover">--</div>
+                </div>
+            </div>
+
+            <h2>Curva de Logoaudiometría (Fitted Φ)</h2>
+            <div class="canvas-container">
+                <canvas id="audiogramCanvas" width="500" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentEar = 'OD';
+    // Datos iniciales realistas para simulación inmediata
+    let dataPoints = [
+        { db: 10, pct: 0 },
+        { db: 20, pct: 10 },
+        { db: 30, pct: 45 },
+        { db: 40, pct: 85 },
+        { db: 50, pct: 100 },
+        { db: 60, pct: 100 }
+    ];
+
+    // Inicialización al cargar la página
+    window.onload = function() {
+        renderTable();
+        calculateAndDraw();
+    };
+
+    function setEar(ear) {
+        currentEar = ear;
+        document.querySelectorAll('.ear-btn').forEach(btn => btn.classList.remove('active'));
+        if (ear === 'OD') {
+            document.querySelector('.ear-btn.derecho').classList.add('active');
+        } else {
+            document.querySelector('.ear-btn.izquierdo').classList.add('active');
+        }
+        calculateAndDraw();
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        
+        // Ordenar puntos por intensidad antes de mostrar
+        dataPoints.sort((a, b) => a.db - b.db);
+
+        dataPoints.forEach((point, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="number" class="input-field" value="${point.db}" onchange="updatePoint(${index}, 'db', this.value)" min="0" max="120" step="5"></td>
+                <td><input type="number" class="input-field" value="${point.pct}" onchange="updatePoint(${index}, 'pct', this.value)" min="0" max="100" step="5"></td>
+                <td><button class="btn btn-danger" onclick="deleteRow(${index})">🗑️</button></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function addRow() {
+        let lastDb = dataPoints.length > 0 ? dataPoints[dataPoints.length - 1].db : 0;
+        dataPoints.push({ db: lastDb + 10, pct: 0 });
+        renderTable();
+        calculateAndDraw();
+    }
+
+    function deleteRow(index) {
+        dataPoints.splice(index, 1);
+        renderTable();
+        calculateAndDraw();
+    }
+
+    function updatePoint(index, field, value) {
+        dataPoints[index][field] = parseFloat(value) || 0;
+        if (field === 'pct') {
+            if (dataPoints[index].pct > 100) dataPoints[index].pct = 100;
+            if (dataPoints[index].pct < 0) dataPoints[index].pct = 0;
+        }
+        calculateAndDraw();
+    }
+
+    // Aproximación polinómica precisa de la CDF Normal Estándar (Función Φ)
+    function standardNormalCDF(x) {
+        let t = 1.0 / (1.0 + 0.2316419 * Math.abs(x));
+        let d = 0.3989422804 * Math.exp(-x * x / 2.0);
+        let p = d * t * (0.319381530 + t * (-0.356563782 + t * (1.781477937 + t * (-1.821255978 + t * 1.330274429))));
+        if (x > 0) return 1.0 - p;
+        return p;
+    }
+
+    function calculateAndDraw() {
+        if (dataPoints.length < 2) {
+            clearResults();
+            return;
+        }
+
+        // 1. Obtener PB Max
+        let pbMax = 0;
+        let intensityAtPbMax = 0;
+        dataPoints.forEach(p => {
+            if (p.pct > pbMax) {
+                pbMax = p.pct;
+                intensityAtPbMax = p.db;
+            } else if (p.pct === pbMax && p.db < intensityAtPbMax) {
+                intensityAtPbMax = p.db; // El umbral más bajo donde se alcanza el máximo
+            }
+        });
+
+        // 2. Analizar Roll-Over
+        let pbMinAlta = pbMax;
+        let tienePuntosAltos = false;
+        dataPoints.forEach(p => {
+            if (p.db > intensityAtPbMax) {
+                tienePuntosAltos = true;
+                if (p.pct < pbMinAlta) {
+                    pbMinAlta = p.pct;
+                }
+            }
+        });
+
+        let rolloverIndex = 0;
+        let rolloverStatus = "Ausente";
+        if (tienePuntosAltos && pbMax > 0) {
+            rolloverIndex = (pbMax - pbMinAlta) / pbMax;
+            if (rolloverIndex >= 0.25) {
+                rolloverStatus = `Presente (Índice: ${rolloverIndex.toFixed(2)})`;
+                document.getElementById('boxRollover').classList.add('alert');
+            } else if (rolloverIndex > 0) {
+                rolloverStatus = `Leve / No Significativo (Índice: ${rolloverIndex.toFixed(2)})`;
+                document.getElementById('boxRollover').classList.remove('alert');
+            } else {
+                rolloverStatus = "Ausente (0.00)";
+                document.getElementById('boxRollover').classList.remove('alert');
+            }
+        } else {
+            document.getElementById('boxRollover').classList.remove('alert');
+        }
+
+        // 3. Ajuste de curvas (Grid Search rápido de parámetros Mu y Sigma de la función Φ)
+        // Optimizamos para minimizar la suma de errores al cuadrado (SSE)
+        let bestMu = 30;
+        let bestSigma = 10;
+        let minSSE = Infinity;
+
+        // Búsqueda exhaustiva controlada
+        for (let mu = -10; mu <= 100; mu += 0.5) {
+            for (let sigma = 1; sigma <= 35; sigma += 0.5) {
+                let sse = 0;
+                dataPoints.forEach(p => {
+                    // El modelo asume que el techo teórico local es pbMax
+                    let pred = pbMax * standardNormalCDF((p.db - mu) / sigma);
+                    sse += Math.pow(p.pct - pred, 2);
+                });
+                if (sse < minSSE) {
+                    minSSE = sse;
+                    bestMu = mu;
+                    bestSigma = sigma;
+                }
+            }
+        }
+
+        // 4. Calcular R² (Bondad de ajuste)
+        let meanPct = dataPoints.reduce((sum, p) => sum + p.pct, 0) / dataPoints.length;
+        let ssTot = dataPoints.reduce((sum, p) => sum + Math.pow(p.pct - meanPct, 2), 0);
+        let r2 = ssTot === 0 ? 1 : 1 - (minSSE / ssTot);
+        if (r2 < 0) r2 = 0; // Evitar artefactos en distribuciones anómalas
+
+        // 5. Determinar Pendiente teórica (k) en %/dB en el punto de inflexión
+        // La derivada máxima de pbMax * Φ((x-mu)/sigma) es pbMax * (1 / (sigma * sqrt(2*pi)))
+        let k = pbMax / (bestSigma * 2.5066);
+
+        // 6. Determinar URV Clínico (Intensidad exacta al 50% absoluto)
+        let urvText = "-- dB";
+        if (pbMax >= 50) {
+            // Buscamos numéricamente el punto de corte exacto al 50% en el modelo
+            for (let dbEval = -10; dbEval <= 120; dbEval += 0.1) {
+                let evalPct = pbMax * standardNormalCDF((dbEval - bestMu) / bestSigma);
+                if (evalPct >= 50) {
+                    urvText = `${dbEval.toFixed(1)} dB HL`;
+                    break;
+                }
+            }
+        } else {
+            urvText = "No Alcanzado (<50%)";
+        }
+
+        // Mostrar Parámetros en UI
+        document.getElementById('resURV').innerText = urvText;
+        document.getElementById('resPBMax').innerText = `${pbMax.toFixed(0)}%`;
+        document.getElementById('resPendiente').innerText = `${k.toFixed(1)} %/dB`;
+        document.getElementById('resR2').innerText = r2.toFixed(3);
+        document.getElementById('resRollover').innerText = rolloverStatus;
+
+        // Dibujar en Canvas
+        drawCanvasChart(bestMu, bestSigma, pbMax);
+    }
+
+    function clearResults() {
+        document.getElementById('resURV').innerText = "-- dB";
+        document.getElementById('resPBMax').innerText = "-- %";
+        document.getElementById('resPendiente').innerText = "-- %/dB";
+        document.getElementById('resR2').innerText = "--";
+        document.getElementById('resRollover').innerText = "--";
+        
+        const canvas = document.getElementById('audiogramCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawCanvasChart(mu, sigma, pbMax) {
+        const canvas = document.getElementById('audiogramCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const padding = 50;
+        const width = canvas.width - 2 * padding;
+        const height = canvas.height - 2 * padding;
+
+        const maxDb = 100;
+        const minDb = 0;
+
+        // Mapeos de coordenadas
+        function getX(db) {
+            return padding + ((db - minDb) / (maxDb - minDb)) * width;
+        }
+        function getY(pct) {
+            return padding + (1 - (pct / 100)) * height; // 100% arriba, 0% abajo
+        }
+
+        // 1. Dibujar Rejilla y Ejes
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        ctx.fillStyle = '#64748b';
+        ctx.font = '11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+
+        // Líneas verticales (Intensidad)
+        for (let db = minDb; db <= maxDb; db += 10) {
+            let x = getX(db);
+            ctx.beginPath();
+            ctx.moveTo(x, padding);
+            ctx.lineTo(x, padding + height);
+            ctx.stroke();
+            ctx.fillText(db, x, padding + height + 8);
+        }
+
+        // Líneas horizontales (Porcentaje)
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        for (let pct = 0; pct <= 100; pct += 20) {
+            let y = getY(pct);
+            ctx.beginPath();
+            ctx.moveTo(padding, y);
+            ctx.lineTo(padding + width, y);
+            ctx.stroke();
+            ctx.fillText(pct + '%', padding - 8, y);
+        }
+
+        // Títulos de ejes
+        ctx.fillStyle = '#1e293b';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Intensidad (dB HL)', padding + width / 2, padding + height + 28);
+        
+        ctx.save();
+        ctx.translate(padding - 35, padding + height / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText('Discriminación de Palabras (%)', 0, 0);
+        ctx.restore();
+
+        // Línea de referencia del 50% (URV)
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(padding, getY(50));
+        ctx.lineTo(padding + width, getY(50));
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // 2. Dibujar la curva ajustada matemática Φ
+        ctx.strokeStyle = currentEar === 'OD' ? varColor('--right-ear') : varColor('--left-ear');
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        let first = true;
+        for (let db = minDb; db <= maxDb; db += 0.5) {
+            let predPct = pbMax * standardNormalCDF((db - mu) / sigma);
+            let x = getX(db);
+            let y = getY(predPct);
+            if (first) {
+                ctx.moveTo(x, y);
+                first = false;
+            } else {
+                ctx.lineTo(x, y);
+            }
+        }
+        ctx.stroke();
+
+        // 3. Dibujar los puntos reales del paciente
+        ctx.fillStyle = currentEar === 'OD' ? varColor('--right-ear') : varColor('--left-ear');
+        dataPoints.forEach(p => {
+            let x = getX(p.db);
+            let y = getY(p.pct);
+            
+            ctx.beginPath();
+            if (currentEar === 'OD') {
+                // El Oído derecho tradicionalmente se representa con círculos 'O'
+                ctx.arc(x, y, 6, 0, 2 * Math.PI);
+                ctx.fillStyle = 'white';
+                ctx.fill();
+                ctx.strokeStyle = varColor('--right-ear');
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            } else {
+                // El Oído izquierdo tradicionalmente se representa con aspas 'X'
+                ctx.strokeStyle = varColor('--left-ear');
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5);
+                ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5);
+                ctx.stroke();
+            }
+        });
+    }
+
+    // Función auxiliar para leer variables CSS desde JS
+    function varColor(name) {
+        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+</script>
+
+</body>
+</html>
