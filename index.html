@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analizador de Logoaudiometría - Ajuste Curva Logística (V3.1)</title>
+    <title>Logoaudiometría - Curva de Inteligibilidad Verbal</title>
     <style>
         :root {
             --primary: #0f766e;
@@ -256,8 +256,8 @@
 
 <div class="container">
     <header>
-        <h1>Analizador Digital de Logoaudiometría</h1>
-        <p>Ajuste matemático por Curva Logística (V3.1) • Ponderación de Errores y Jerger Cut del Motor Logístico</p>
+        <h1>LOGOAUDIOMETRÍA: Audiometría Verbal</h1>
+        <p>Ajuste a Curva Logística • Curva de Inteligibilidad Verbal</p>
     </header>
 
     <div class="main-grid">
@@ -289,7 +289,7 @@
         </div>
 
         <div class="card">
-            <h2>Resultados del Ajuste Estadístico</h2>
+            <h2>Resultados del ajuste</h2>
             
             <div class="results-grid">
                 <div class="result-box">
@@ -318,7 +318,7 @@
                 </div>
             </div>
 
-            <h2>Curva de Logoaudiometría (Fitted Logistic)</h2>
+            <h2>Curva Logoaudiometría Ajustada (PHI)</h2>
             <div class="canvas-container">
                 <canvas id="audiogramCanvas" width="500" height="400"></canvas>
             </div>
@@ -391,14 +391,12 @@
         calculateAndDraw();
     }
 
-    // --- MOTOR MATEMÁTICO ADAPTADO EXACTAMENTE DEL CÓDIGO 1 ---
     function calculateAndDraw() {
         if (dataPoints.length < 2) {
             clearResults();
             return;
         }
 
-        // 1. FILTRADO DE DATOS (Jerger Cut de Código 1)
         let x_reales = dataPoints.map(p => p.db);
         let y_reales = dataPoints.map(p => p.pct);
 
@@ -444,14 +442,12 @@
             return;
         }
 
-        // 2. DICTADOR DEL MÁXIMO (Código 1)
         let y_max_fijo = -Infinity;
         for (let val of y_filtrados) {
             if (val > y_max_fijo) y_max_fijo = val;
         }
         if (y_max_fijo === -Infinity || y_max_fijo < 20) y_max_fijo = 100;
 
-        // 3. GRID SEARCH LOGÍSTICO CON PONDERACIÓN (Código 1)
         let mejorError = Infinity;
         let bestB = 0.1, bestX50_abs = 0;
 
@@ -463,7 +459,6 @@
                     let y_teorica = y_max_fijo / (1 + Math.exp(-b * (x_filtrados[k] - x50)));
                     let dif = y_filtrados[k] - y_teorica;
                     
-                    // --- SISTEMA DE PESOS EXACTO ---
                     let peso = 1;
                     if (y_filtrados[k] >= 40 && y_filtrados[k] <= 60) { peso = 5000; }
                     else if (y_filtrados[k] >= (y_max_fijo - 5)) { peso = 10000; }
@@ -481,7 +476,6 @@
             }
         }
 
-        // 4. CÁLCULO DE R² REAL SIN PESOS (Código 1)
         let finalError_UNWEIGHTED_Sum = 0; 
         let sumY = y_filtrados.reduce((a, b) => a + b, 0);
         let meanY = sumY / y_filtrados.length;
@@ -497,7 +491,6 @@
         let R_squared = sumOfSquaresTotal === 0 ? 1 : 1 - (finalError_UNWEIGHTED_Sum / sumOfSquaresTotal);
         if (R_squared < 0) R_squared = 0;
 
-        // 5. DETERMINAR PARÁMETROS CLÍNICOS LOGÍSTICOS
         let pendiente_final = bestB * 25; 
         
         let urvText = "-- dB";
@@ -511,7 +504,6 @@
             urvText = "No Alcanzado (<50%)";
         }
 
-        // 6. ESTADO DE ROLL-OVER
         let rolloverStatus = "Ausente (0.00)";
         if (es_patologico) {
             rolloverStatus = `⚠️ ROLL-OVER PATOLÓGICO (RI: ${rollover_index.toFixed(2)})`;
@@ -523,7 +515,6 @@
             document.getElementById('boxRollover').classList.remove('alert');
         }
 
-        // Renderizar a la UI
         document.getElementById('resURV').innerText = urvText;
         document.getElementById('resPBMax').innerText = `${y_max_fijo.toFixed(0)}%`;
         document.getElementById('resPendiente').innerText = `${pendiente_final.toFixed(1)} %/dB`;
@@ -590,7 +581,7 @@
             ctx.moveTo(padding, y);
             ctx.lineTo(padding + width, y);
             ctx.stroke();
-            ctx.fillText(pct + '%', padding - 8, y);
+            ctx.fillText(pct, padding - 8, y); // Unidades sin el signo %
         }
 
         ctx.fillStyle = '#1e293b';
@@ -601,7 +592,7 @@
         ctx.save();
         ctx.translate(padding - 35, padding + height / 2);
         ctx.rotate(-Math.PI / 2);
-        ctx.fillText('Discriminación de Palabras (%)', 0, 0);
+        ctx.fillText('Reconocimiento (%)', 0, 0); // Modificado a Reconocimiento (%)
         ctx.restore();
 
         // Guía del 50% absoluto
@@ -613,7 +604,6 @@
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Dibujar curva logística ajustada
         ctx.strokeStyle = currentEar === 'OD' ? varColor('--right-ear') : varColor('--left-ear');
         ctx.lineWidth = 3;
         ctx.beginPath();
@@ -631,7 +621,6 @@
         }
         ctx.stroke();
 
-        // Puntos Reales
         dataPoints.forEach(p => {
             let x = getX(p.db);
             let y = getY(p.pct);
