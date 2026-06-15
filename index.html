@@ -23,401 +23,44 @@
             --warning-alert: #c2410c;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1250px;
-            margin: 0 auto;
-        }
-
-        header {
-            background-color: var(--card-bg);
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            margin-bottom: 24px;
-            border-left: 6px solid var(--primary);
-        }
-
-        header h1 {
-            font-size: 26px;
-            color: var(--primary);
-            margin-bottom: 4px;
-            letter-spacing: 0.5px;
-        }
-
-        header p {
-            color: var(--text-secondary);
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 24px;
-        }
-
-        @media (max-width: 900px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            margin-bottom: 24px;
-        }
-
-        .card h2 {
-            font-size: 18px;
-            margin-bottom: 16px;
-            color: var(--text);
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 8px;
-        }
-
-        .chart-card {
-            margin-top: 20px;
-        }
-
-        .recommendation-box {
-            font-size: 13.5px;
-            color: #0369a1;
-            background-color: #f0f9ff;
-            border: 1px solid #bae6fd;
-            padding: 14px;
-            border-radius: 6px;
-            margin-top: 12px;
-            margin-bottom: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-        }
-
-        .asymmetry-alert {
-            display: none;
-            font-size: 13.5px;
-            color: #b91c1c;
-            background-color: #fef2f2;
-            border: 1px solid #fca5a5;
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 12px;
-            font-weight: bold;
-            line-height: 1.4;
-        }
-
-        /* Estilos de las guías clínicas inferiores */
-        .guide-card {
-            margin-top: 20px;
-            border-left: 4px solid var(--primary);
-        }
-        .guide-card summary {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--primary);
-            cursor: pointer;
-            outline: none;
-            user-select: none;
-        }
-        .guide-container {
-            margin-top: 16px;
-        }
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-            margin-bottom: 10px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-        }
-        .guide-title-internal {
-            font-size: 15px;
-            color: var(--primary);
-            margin: 10px 0 10px 0;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 4px;
-        }
-        .guide-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            min-width: 900px;
-        }
-        .guide-table th {
-            background-color: #f1f5f9;
-            color: #1e293b;
-            text-align: left;
-            padding: 12px;
-            font-weight: 600;
-            border-bottom: 2px solid #cbd5e1;
-        }
-        .guide-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-            line-height: 1.4;
-            vertical-align: top;
-        }
-        .guide-table tr:hover { background-color: #f8fafc; }
-        .badge-rule {
-            background-color: #334155;
-            color: #f8fafc;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 11.5px;
-            white-space: nowrap;
-            display: inline-block;
-            margin-bottom: 4px;
-        }
-        .badge-suspect {
-            background-color: #ffedd5;
-            color: #c2410c;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 12px;
-        }
-
-        .guide-section {
-            margin-top: 5px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        @media (min-width: 768px) {
-            .guide-section { grid-template-columns: 1fr 1fr; }
-        }
-        .metric-explain {
-            background: #f8fafc;
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .metric-explain h3 {
-            font-size: 15px;
-            color: var(--primary);
-            margin-bottom: 8px;
-            border-bottom: 1px dashed var(--border);
-            padding-bottom: 4px;
-        }
-        .metric-explain p {
-            font-size: 13px;
-            color: var(--text);
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-        .formula-box {
-            background-color: #f1f5f9;
-            padding: 8px;
-            border-radius: 6px;
-            font-family: monospace;
-            font-size: 12.5px;
-            color: #0f766e;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 6px;
-            border: 1px solid #e2e8f0;
-        }
-
-        /* Aviso Legal */
-        .legal-disclaimer {
-            background-color: #f8fafc;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 16px;
-            margin-top: 30px;
-        }
-        .legal-disclaimer summary {
-            font-size: 14px;
-            font-weight: 600;
-            color: #475569;
-            cursor: pointer;
-            outline: none;
-            user-select: none;
-        }
-        .legal-content {
-            margin-top: 12px;
-            font-size: 13px;
-            color: #475569;
-            line-height: 1.5;
-        }
-        .legal-content ul {
-            margin-top: 8px;
-            margin-left: 20px;
-        }
-        .legal-content li {
-            margin-bottom: 6px;
-        }
-
-        .site-footer {
-            text-align: center;
-            padding: 20px 0 10px 0;
-            margin-top: 20px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            border-top: 1px solid var(--border);
-        }
-        .site-footer p { margin-bottom: 4px; }
-        .site-footer a { color: var(--primary); text-decoration: none; font-weight: 500; }
-        .site-footer a:hover { text-decoration: underline; }
-
-        .ear-selector {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .ear-btn {
-            padding: 12px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            background: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .ear-btn.derecho { color: var(--right-ear); }
-        .ear-btn.derecho.active { background-color: var(--right-ear-light); border-color: var(--right-ear); }
-        .ear-btn.izquierdo { color: var(--left-ear); }
-        .ear-btn.izquierdo.active { background-color: var(--left-ear-light); border-color: var(--left-ear); }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 16px;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-        }
-
-        th {
-            background-color: var(--bg);
-            color: var(--text-secondary);
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            text-align: center;
-            font-size: 15px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); line-height: 1.5; padding: 20px; }
+        .container { max-width: 1250px; margin: 0 auto; }
+        header { background-color: var(--card-bg); padding: 24px; border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 24px; border-left: 6px solid var(--primary); display: flex; justify-content: space-between; align-items: center; }
+        header h1 { font-size: 26px; color: var(--primary); letter-spacing: 0.5px; }
         
-        .input-field.inline-input {
-            max-width: 60px;
-            padding: 5px;
-            font-size: 14px;
-            background-color: #fafafa;
-        }
-
-        .btn {
-            padding: 10px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 14px;
-            transition: background 0.2s;
-        }
-
+        .main-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 24px; }
+        @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
+        .card { background: var(--card-bg); border-radius: 12px; padding: 24px; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 24px; }
+        .card h2 { font-size: 18px; margin-bottom: 16px; color: var(--text); border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+        
+        .btn { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 14px; transition: background 0.2s; text-decoration: none; text-align: center; }
         .btn-primary { background-color: var(--primary); color: white; width: 100%; margin-top: 8px; }
         .btn-primary:hover { background-color: var(--primary-hover); }
         .btn-danger { background-color: #fee2e2; color: #ef4444; padding: 6px 12px; }
-        
-        .btn-clear { background-color: #ef4444; color: white; width: 100%; margin-top: 8px; font-weight: 600; padding: 12px; box-shadow: var(--shadow); }
-        .btn-clear:hover { background-color: #dc2626; }
-        
-        .btn-success { 
-            background-color: var(--success); 
-            color: white; 
-            width: 100%; 
-            margin-top: 8px;
-            font-weight: bold;
-            font-size: 15px;
-            padding: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: var(--shadow);
-        }
-        .btn-success:hover { background-color: var(--success-hover); }
+        .btn-clear { background-color: #ef4444; color: white; width: 100%; margin-top: 8px; font-weight: 600; padding: 12px; }
+        .btn-success { background-color: var(--success); color: white; width: 100%; margin-top: 8px; font-weight: bold; font-size: 15px; padding: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-help { background-color: #0284c7; color: white; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-help:hover { background-color: #0369a1; }
 
+        table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+        th, td { padding: 10px; text-align: center; border-bottom: 1px solid var(--border); }
+        th { background-color: var(--bg); color: var(--text-secondary); font-size: 13px; font-weight: 600; }
+        .input-field { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; text-align: center; font-size: 15px; }
+        .input-field.inline-input { max-width: 60px; padding: 5px; font-size: 14px; background-color: #fafafa; }
         .results-table th { background-color: #f1f5f9; color: #334155; }
         .results-table td { font-size: 14px; font-weight: 500; padding: 8px 10px; }
-        .alert-text { color: #c2410c; font-weight: bold; }
-
-        .canvas-container {
-            width: 100%;
-            background: white;
-            border-radius: 8px;
-            padding: 10px;
-        }
-
-        canvas {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .tonal-details summary {
-            font-size: 14px;
-            font-weight: 600;
-            color: #475569;
-            cursor: pointer;
-            padding: 4px;
-        }
+        .asymmetry-alert { display: none; font-size: 13.5px; color: #b91c1c; background-color: #fef2f2; border: 1px solid #fca5a5; padding: 12px; border-radius: 6px; margin-top: 12px; font-weight: bold; }
+        .canvas-container { width: 100%; background: white; border-radius: 8px; padding: 10px; }
+        canvas { width: 100%; height: auto; display: block; }
+        .recommendation-box { font-size: 13.5px; color: #0369a1; background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 14px; border-radius: 6px; line-height: 1.5; margin-bottom: 20px; }
 
         @media print {
-            @page { size: A4; margin: 8mm 12mm 8mm 12mm; }
-            body { background: white !important; color: #000 !important; padding: 0 !important; font-size: 11px !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .hide-on-print, .btn, .guide-card, .recommendation-box, .legal-disclaimer { display: none !important; }
-            .main-grid, .left-col, .right-col { display: block !important; width: 100% !important; }
-            header { box-shadow: none !important; border-left: 5px solid var(--primary) !important; padding: 0 0 0 10px !important; margin-bottom: 12px !important; border-radius: 0 !important; background: transparent !important; }
-            header h1 { font-size: 18px !important; }
-            header p { font-size: 12px !important; }
-            .card { box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: 10px !important; background: transparent !important; page-break-inside: avoid; }
-            .card h2 { font-size: 13px !important; margin-bottom: 6px !important; border-bottom: 1px solid #cbd5e1 !important; padding-bottom: 2px !important; }
-            .chart-card { margin-top: 20px !important; }
-            .results-table th, .results-table td { padding: 5px 6px !important; font-size: 11.5px !important; }
-            .results-table th { background-color: #f1f5f9 !important; }
-            .input-field.inline-input { border: none !important; background: transparent !important; padding: 0 !important; font-size: 11.5px !important; font-weight: 500 !important; color: #000 !important; text-align: center !important; appearance: none; -webkit-appearance: none; display: inline-block; width: auto; max-width: 35px; }
-            .canvas-container { padding: 0 !important; text-align: center !important; margin-top: 5px !important; page-break-inside: avoid; }
+            .hide-on-print, .btn, .recommendation-box { display: none !important; }
+            body { background: white !important; color: #000 !important; padding: 0 !important; font-size: 11px !important; }
+            .main-grid { display: block !important; width: 100% !important; }
+            .card { box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: 10px !important; page-break-inside: avoid; }
             canvas { max-width: 65% !important; margin: 0 auto !important; }
-            .site-footer { margin-top: 15px !important; padding-top: 8px !important; font-size: 10px !important; border-top: 1px solid #cbd5e1 !important; }
         }
     </style>
 </head>
@@ -425,470 +68,185 @@
 
 <div class="container">
     <header>
-        <h1>LOGOAUDIOMETRÍA</h1>
-        <p>Ajuste PHI con Árbol Diagnóstico Experto</p>
+        <div>
+            <h1>LOGOAUDIOMETRÍA</h1>
+            <p>Modelado Digital Analítico PHI</p>
+        </div>
+        <a href="manual_clinico.html" target="_blank" class="btn btn-help hide-on-print">📖 Abrir Manual Clínico y Criterios</a>
     </header>
 
-    <div class="recommendation-box" style="margin-bottom: 20px; border-left: 4px solid #0369a1;">
-        <strong>Principio de interpretación:</strong> La logoaudiometría no diagnostica por sí sola la localización de la lesión, pero detecta patrones de congruencia, distorsión y desproporción que orientan el diagnóstico diferencial y deciden cuándo repetir, complementar o derivar.
+    <div class="recommendation-box">
+        <strong>Principio del algoritmo:</strong> La logoaudiometría no diagnostica por sí sola la localización de la lesión, pero detecta patrones de congruencia, distorsión y desproporción que orientan el diagnóstico diferencial y deciden cuándo repetir, complementar o derivar.
     </div>
 
     <div class="main-grid">
-        
         <div class="left-col">
-            <div class="card intensity-card hide-on-print">
+            <div class="card hide-on-print">
                 <h2>Entrada de Datos por Oído</h2>
-                 
                 <div class="ear-selector">
-                    <button type="button" class="ear-btn derecho active" onclick="setEar('OD')">Editar Oído Derecho (OD)</button>
-                    <button type="button" class="ear-btn izquierdo" onclick="setEar('OI')">Editar Oído Izquierdo (OI)</button>
+                    <button type="button" class="ear-btn derecho active" onclick="setEar('OD')">Oído Derecho (OD)</button>
+                    <button type="button" class="ear-btn izquierdo" onclick="setEar('OI')">Oído Izquierdo (OI)</button>
                 </div>
-
-                <table id="dataTable">
-                    <thead>
-                        <tr>
-                            <th>Intensidad (dB HL)</th>
-                            <th>Discriminación (%)</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                    </tbody>
+                <table>
+                    <thead><tr><th>Intensidad (dB HL)</th><th>Discriminación (%)</th><th>Acción</th></tr></thead>
+                    <tbody id="tableBody"></tbody>
                 </table>
-
                 <button type="button" class="btn btn-primary" onclick="addRow()">+ Añadir Fila de Intensidad</button>
             </div>
 
-            <div class="card tonal-card hide-on-print">
-                <details class="tonal-details">
-                    <summary>📊 Vincular Audiometría Tonal Cruzada (Opcional)</summary>
-                    <div style="margin-top: 12px;">
-                        <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
-                            Introduce los umbrales (500, 1000, 2000, 4000 Hz) para calcular el <strong>PTA4</strong> y analizar la concordancia.
-                        </p>
-                        <table class="results-table">
-                            <thead>
-                                <tr>
-                                    <th rowspan="2" style="vertical-align: middle;">Frecuencia</th>
-                                    <th colspan="2" style="color: var(--right-ear);">Oído Derecho (OD)</th>
-                                    <th colspan="2" style="color: var(--left-ear);">Oído Izquierdo (OI)</th>
-                                </tr>
-                                <tr>
-                                    <th style="font-size: 11px; padding: 4px;">Vía Aérea</th>
-                                    <th style="font-size: 11px; padding: 4px;">Vía Ósea</th>
-                                    <th style="font-size: 11px; padding: 4px;">Vía Aérea</th>
-                                    <th style="font-size: 11px; padding: 4px;">Vía Ósea</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>500 Hz</strong></td>
-                                    <td><input type="number" id="odVA500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="odVO500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVA500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVO500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>1000 Hz</strong></td>
-                                    <td><input type="number" id="odVA1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="odVO1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVA1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVO1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>2000 Hz</strong></td>
-                                    <td><input type="number" id="odVA2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="odVO2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVA2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVO2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>4000 Hz</strong></td>
-                                    <td><input type="number" id="odVA4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="odVO4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVA4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVO4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </details>
-            </div>
-
-            <div class="card umbrales-card">
-                <h2>Umbrales Clínicos de Referencia</h2>
+            <div class="card hide-on-print">
+                <h2>Audiometría Tonal Cruzada (PTA4)</h2>
                 <table class="results-table">
                     <thead>
-                        <tr>
-                            <th>Umbral de Entrada</th>
-                            <th style="color: var(--right-ear);">Oído Derecho (OD)</th>
-                            <th style="color: var(--left-ear);">Oído Izquierdo (OI)</th>
-                        </tr>
+                        <tr><th rowspan="2" style="vertical-align:middle;">kHz</th><th colspan="2" style="color:var(--right-ear);">Oído Derecho</th><th colspan="2" style="color:var(--left-ear);">Oído Izquierdo</th></tr>
+                        <tr><th>V.A.</th><th>V.O.</th><th>V.A.</th><th>V.O.</th></tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><strong>Detección (UDV / SDT)</strong></td>
-                            <td><input type="number" id="odUDV" class="input-field inline-input" value="" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                            <td><input type="number" id="oiUDV" class="input-field inline-input" value="" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Comodidad (MCL)</strong></td>
-                            <td><input type="number" id="odMCL" class="input-field inline-input" value="" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                            <td><input type="number" id="oiMCL" class="input-field inline-input" value="" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Disconfort (UCL)</strong></td>
-                            <td><input type="number" id="odUCL" class="input-field inline-input" value="" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                            <td><input type="number" id="oiUCL" class="input-field inline-input" value="" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                        </tr>
+                        <tr><td><strong>0.5</strong></td><td><input type="number" id="odVA500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
+                        <tr><td><strong>1.0</strong></td><td><input type="number" id="odVA1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
+                        <tr><td><strong>2.0</strong></td><td><input type="number" id="odVA2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
+                        <tr><td><strong>4.0</strong></td><td><input type="number" id="odVA4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
                     </tbody>
                 </table>
             </div>
 
-            <button type="button" class="btn btn-clear hide-on-print" onclick="clearAllData()">🗑️ Borrar y Reiniciar Formulario</button>
-            
-            <button type="button" class="btn btn-success hide-on-print" onclick="window.print()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-                Imprimir Curva Ajustada PDF (A4)
-            </button>
+            <div class="card">
+                <h2>Umbrales de Referencia Basales</h2>
+                <table class="results-table">
+                    <thead><tr><th>Umbral</th><th style="color:var(--right-ear);">OD</th><th style="color:var(--left-ear);">OI</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Detección (SDT)</strong></td><td><input type="number" id="odUDV" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td><td><input type="number" id="oiUDV" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td></tr>
+                        <tr><td><strong>Comodidad (MCL)</strong></td><td><input type="number" id="odMCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td><td><input type="number" id="oiMCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td></tr>
+                        <tr><td><strong>Disconfort (UCL)</strong></td><td><input type="number" id="odUCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td><td><input type="number" id="oiUCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <button type="button" class="btn btn-clear hide-on-print" onclick="clearAllData()">🗑️ Reiniciar Todo</button>
+            <button type="button" class="btn btn-success hide-on-print" onclick="window.print()">🖨️ Imprimir Perfil PDF</button>
         </div>
 
         <div class="right-col">
-            <div class="card resultados-card">
+            <div class="card">
                 <h2>Análisis y Perfil Clínico</h2>
                 <table class="results-table">
-                    <thead>
-                        <tr>
-                            <th>Métrica Calculada</th>
-                            <th style="color: var(--right-ear);">Oído Derecho (OD)</th>
-                            <th style="color: var(--left-ear);">Oído Izquierdo (OI)</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Métrica Analizada</th><th style="color:var(--right-ear);">Oído Derecho</th><th style="color:var(--left-ear);">Oído Izquierdo</th></tr></thead>
                     <tbody>
-                        <tr>
-                            <td><strong>URV / SRT (al 50%)</strong></td>
-                            <td id="odURV">--</td>
-                            <td id="oiURV">--</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Discriminación Máx. (WRS)</strong></td>
-                            <td id="odPBMax">--</td>
-                            <td id="oiPBMax">--</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Simetría Interaural (WRS)</strong></td>
-                            <td colspan="2" id="simetriaInteraural" style="font-weight: bold; background-color: #f8fafc; text-align: center;">--</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Pendiente Máxima</strong></td>
-                            <td id="odPendiente">--</td>
-                            <td id="oiPendiente">--</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Bondad de Ajuste (R²)</strong></td>
-                            <td id="odR2">--</td>
-                            <td id="oiR2">--</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Concord. SDT vs SRT</strong></td>
-                            <td id="odSDT_SRT">--</td>
-                            <td id="oiSDT_SRT">--</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Rango Dinámico (UCL-SRT)</strong></td>
-                            <td id="odRangoDyn">--</td>
-                            <td id="oiRangoDyn">--</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Margen Comodidad (MCL-SRT)</strong></td>
-                            <td id="odMargenCom">--</td>
-                            <td id="oiMargenCom">--</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Reclutamiento (UCL-SRT)</strong></td>
-                            <td id="odReclutamiento">--</td>
-                            <td id="oiReclutamiento">--</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Fenómeno de Roll-Over</strong></td>
-                            <td id="odRollover">--</td>
-                            <td id="oiRollover">--</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Concordancia Logo-Tonal:</strong></td>
-                            <td id="odConcordancia" style="font-weight: 500;">--</td>
-                            <td id="oiConcordancia" style="font-weight: 500;">--</td>
-                        </tr>
-                        <tr style="background-color: #f8fafc;">
-                            <td><strong>Clasificación diagnóstica:</strong></td>
-                            <td id="odClasif" style="font-weight: bold; font-size: 13px; max-width: 200px; word-wrap: break-word;">--</td>
-                            <td id="oiClasif" style="font-weight: bold; font-size: 13px; max-width: 200px; word-wrap: break-word;">--</td>
-                        </tr>
+                        <tr><td><strong>SRT / URV (al 50%)</strong></td><td id="odURV">--</td><td id="oiURV">--</td></tr>
+                        <tr><td><strong>Discriminación Máx. (WRS)</strong></td><td id="odPBMax">--</td><td id="oiPBMax">--</td></tr>
+                        <tr><td><strong>Simetría Interaural (WRS)</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold; background-color:#f8fafc;">--</td></tr>
+                        <tr><td><strong>Pendiente Máxima Real</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
+                        <tr><td><strong>Bondad de Ajuste (R²)</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
+                        <tr><td><strong>Concordancia SDT vs SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
+                        <tr><td><strong>Rango Dinámico (UCL-SRT)</strong></td><td id="odRangoDyn">--</td><td id="oiRangoDyn">--</td></tr>
+                        <tr><td><strong>Margen Comodidad (MCL-SRT)</strong></td><td id="odMargenCom">--</td><td id="oiMargenCom">--</td></tr>
+                        <tr><td><strong>Reclutamiento por Rango</strong></td><td id="odReclutamiento">--</td><td id="oiReclutamiento">--</td></tr>
+                        <tr><td><strong>Índice de Roll-Over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
+                        <tr><td><strong>Concordancia Logo-Tonal</strong></td><td id="odConcordancia">--</td><td id="oiConcordancia">--</td></tr>
+                        <tr style="background-color:#f8fafc;"><td><strong>Clasificación Diagnóstica:</strong></td><td id="odClasif" style="font-weight:bold; font-size:13px;">--</td><td id="oiClasif" style="font-weight:bold; font-size:13px;">--</td></tr>
                     </tbody>
                 </table>
-                
                 <div id="asimetriaAlert" class="asymmetry-alert"></div>
             </div>
 
             <div class="card chart-card">
-                <h2>Curva Logoaudiometría Ajustada (PHI)</h2>
-                <div class="canvas-container">
-                    <canvas id="audiogramCanvas" width="520" height="420"></canvas>
-                </div>
+                <h2>Curva de Inteligibilidad Verbal (PHI)</h2>
+                <div class="canvas-container"><canvas id="audiogramCanvas" width="520" height="420"></canvas></div>
             </div>
         </div>
-        
     </div>
-
-    <div class="card guide-card hide-on-print">
-        <details>
-            <summary>📖 Criterios Diagnósticos y Guía de Interpretación Clínica</summary>
-            <div class="guide-container">
-                <div class="guide-title-internal">📋 Desglose Clínico de Métricas, Ecuaciones e Indicadores</div>
-                <div class="guide-section">
-                    
-                    <div class="metric-explain">
-                        <h3>Concordancia SDT vs SRT</h3>
-                        <p><strong>Fiabilidad Interna:</strong> El SDT debe estar entre 5 y 15 dB mejor que el SRT. Si es igual o peor, indica incongruencia acústica verbal.</p>
-                    </div>
-
-                    <div class="metric-explain">
-                        <h3>URV / SRT (al 50% Absoluto)</h3>
-                        <p><strong>Significado clínico:</strong> Valida la congruencia logo-tonal frente al PTA4 aéreo, esperándose un desfase normal de 5-12 dB.</p>
-                        <div class="formula-box">X_SRT = X_50 - [ln(Y_max / 50 - 1) / b]</div>
-                    </div>
-
-                    <div class="metric-explain">
-                        <h3>Discriminación Máxima (Ymax / WRS)</h3>
-                        <p><strong>Significado clínico:</strong> Su reducción documenta distorsión biológica periférica. Caídas muy agudas y desproporcionadas orientan a sospecha neural.</p>
-                        <div class="formula-box">Y_max = max(Y_filtrados)</div>
-                    </div>
-
-                    <div class="metric-explain">
-                        <h3>Pendiente Máxima (En el punto X50)</h3>
-                        <p><strong>Importancia:</strong> Ajusta la inclinación real corrigiéndola según el techo efectivo (Ymax) alcanzado en la prueba verbal.</p>
-                        <div class="formula-box">Pendiente máxima = (Y_max &times; b) / 4</div>
-                    </div>
-                </div>
-            </div>
-        </details>
-    </div>
-
-    <div class="card guide-card hide-on-print">
-        <details>
-            <summary>🎛️ Tabla de Puntos de Corte y Zonas de Sospecha Algorítmica</summary>
-            <div class="guide-container">
-                <div class="table-responsive">
-                    <table class="guide-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 18%;">Variable Logoaudiométrica</th>
-                                <th style="width: 18%;">Rango Normal / Esperado</th>
-                                <th style="width: 16%;">Patrón Conductivo</th>
-                                <th style="width: 16%;">Patrón Coclear</th>
-                                <th style="width: 16%;">Patrón Retrococlear</th>
-                                <th style="width: 16%;">⚠️ Puntos de Alarma</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Concordancia SDT vs SRT</strong></td>
-                                <td>SDT 5 a 15 dB mejor que SRT</td>
-                                <td>Coherente</td>
-                                <td>Coherente</td>
-                                <td>Desfasado (&gt; 15 dB)</td>
-                                <td><span class="badge-suspect">SDT &ge; SRT:</span> Incongruente. Sospecha de simulación o error técnico.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Diferencia SRT vs PTA4</strong></td>
-                                <td>5 a 12 dB de diferencia</td>
-                                <td>Congruente</td>
-                                <td>Congruente</td>
-                                <td>Discordante / Peor de lo esperado</td>
-                                <td><span class="badge-suspect">11-14 dB:</span> Discrepancia leve.<br><span class="badge-suspect">&ge; 15 dB:</span> Inconsistencia significativa.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Índice de Rollover</strong></td>
-                                <td>&lt; 0.35 (Negativo)</td>
-                                <td>Negativo</td>
-                                <td>Negativo o leve campana</td>
-                                <td>&ge; 0.45 (Sospecha significativa)</td>
-                                <td><span class="badge-suspect">0.35 a 0.44:</span> Sospecha leve / Zona gris clínica.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </details>
-    </div>
-
-    <div class="legal-disclaimer hide-on-print">
-        <details>
-            <summary>ℹ️ Acerca de este software y Aviso Legal</summary>
-            <div class="legal-content">
-                <p>Esta herramienta web ha sido desarrollada de forma independiente por <strong>Franz Zenker</strong> con fines didácticos y de investigación académica, careciendo de validación clínica oficial.</p>
-            </div>
-        </details>
-    </div>
-
-    <footer class="site-footer">
-        <p>© 2026 Zenker. Todos los derechos reservados.</p>
-        <p>Contacto: <a href="mailto:zenker@clinicabarajas.com">zenker@clinicabarajas.com</a></p>
-    </footer>
-
 </div>
 
 <script>
     let currentEar = 'OD';
-    
-    let dataPointsOD = [
-        { db: 10, pct: null }, { db: 20, pct: null }, { db: 30, pct: null },
-        { db: 40, pct: null }, { db: 50, pct: null }, { db: 60, pct: null }
-    ];
-
-    let dataPointsOI = [
-        { db: 10, pct: null }, { db: 20, pct: null }, { db: 30, pct: null },
-        { db: 40, pct: null }, { db: 50, pct: null }, { db: 60, pct: null }
-    ];
-
-    window.onload = function() {
-        renderTable();
-        calculateAndDraw();
-    };
+    let dataPointsOD = [{db:10, pct:null},{db:20, pct:null},{db:30, pct:null},{db:40, pct:null},{db:50, pct:null},{db:60, pct:null}];
+    let dataPointsOI = [{db:10, pct:null},{db:20, pct:null},{db:30, pct:null},{db:40, pct:null},{db:50, pct:null},{db:60, pct:null}];
 
     function setEar(ear) {
         currentEar = ear;
         document.querySelectorAll('.ear-btn').forEach(btn => btn.classList.remove('active'));
-        if (ear === 'OD') {
-            document.querySelector('.ear-btn.derecho').classList.add('active');
-        } else {
-            document.querySelector('.ear-btn.izquierdo').classList.add('active');
-        }
+        document.querySelector('.ear-btn.' + (ear === 'OD' ? 'derecho' : 'izquierdo')).classList.add('active');
         renderTable();
     }
 
     function renderTable() {
-        const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = '';
+        const tbody = document.getElementById('tableBody'); tbody.innerHTML = '';
         let currentPoints = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
-        currentPoints.sort((a, b) => a.db - b.db);
-
-        currentPoints.forEach((point, index) => {
-            const row = document.createElement('tr');
+        currentPoints.forEach((p, i) => {
+            let row = document.createElement('tr');
             row.innerHTML = `
-                <td><input type="number" class="input-field" value="${point.db !== null ? point.db : ''}" onchange="updatePoint(${index}, 'db', this.value)" min="-10" max="120" step="5"></td>
-                <td><input type="number" class="input-field" value="${point.pct !== null ? point.pct : ''}" placeholder="--" onchange="updatePoint(${index}, 'pct', this.value)" min="0" max="100" step="5"></td>
-                <td class="hide-on-print"><button class="btn btn-danger" onclick="deleteRow(${index})">🗑</button></td>
-            `;
+                <td><input type="number" class="input-field" value="${p.db!==null?p.db:''}" onchange="updatePoint(${i},'db',this.value)"></td>
+                <td><input type="number" class="input-field" value="${p.pct!==null?p.pct:''}" placeholder="--" onchange="updatePoint(${i},'pct',this.value)"></td>
+                <td><button class="btn btn-danger" onclick="deleteRow(${i})">🗑</button></td>`;
             tbody.appendChild(row);
         });
     }
 
-    function addRow() {
-        let currentPoints = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
-        let lastDb = currentPoints.length > 0 ? currentPoints[currentPoints.length - 1].db : 0;
-        currentPoints.push({ db: lastDb + 10, pct: null });
-        renderTable();
-        calculateAndDraw();
-    }
-
-    function deleteRow(index) {
-        let currentPoints = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
-        currentPoints.splice(index, 1);
-        renderTable();
-        calculateAndDraw();
-    }
-
-    function updatePoint(index, field, value) {
-        let currentPoints = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
-        if (value === "") {
-            currentPoints[index][field] = null;
-        } else {
-            currentPoints[index][field] = parseFloat(value);
-        }
-        if (field === 'pct' && currentPoints[index].pct !== null) {
-            if (currentPoints[index].pct > 100) currentPoints[index].pct = 100;
-            if (currentPoints[index].pct < 0) currentPoints[index].pct = 0;
-        }
-        calculateAndDraw();
-    }
+    function addRow() { let pts = currentEar === 'OD' ? dataPointsOD : dataPointsOI; let last = pts.length > 0 ? pts[pts.length - 1].db : 0; pts.push({db: last + 10, pct: null}); renderTable(); calculateAndDraw(); }
+    function deleteRow(i) { let pts = currentEar === 'OD' ? dataPointsOD : dataPointsOI; pts.splice(i, 1); renderTable(); calculateAndDraw(); }
+    function updatePoint(i, f, v) { let pts = currentEar === 'OD' ? dataPointsOD : dataPointsOI; pts[i][f] = v===""?null:parseFloat(v); if(f==='pct' && pts[i].pct>100) pts[i].pct=100; calculateAndDraw(); }
 
     function clearAllData() {
-        if (confirm("¿Está seguro?")) {
-            dataPointsOD = [{ db: 10, pct: null }, { db: 20, pct: null }, { db: 30, pct: null }, { db: 40, pct: null }, { db: 50, pct: null }, { db: 60, pct: null }];
-            dataPointsOI = [{ db: 10, pct: null }, { db: 20, pct: null }, { db: 30, pct: null }, { db: 40, pct: null }, { db: 50, pct: null }, { db: 60, pct: null }];
-            document.getElementById('odUDV').value = ""; document.getElementById('oiUDV').value = "";
-            document.getElementById('odMCL').value = ""; document.getElementById('oiMCL').value = "";
-            document.getElementById('odUCL').value = ""; document.getElementById('oiUCL').value = "";
+        if(confirm("¿Vaciar ficha?")) {
+            dataPointsOD = [{db:10, pct:null},{db:20, pct:null},{db:30, pct:null},{db:40, pct:null},{db:50, pct:null},{db:60, pct:null}];
+            dataPointsOI = [{db:10, pct:null},{db:20, pct:null},{db:30, pct:null},{db:40, pct:null},{db:50, pct:null},{db:60, pct:null}];
+            document.querySelectorAll('.input-field').forEach(i => i.value = "");
+            document.getElementById('simetriaInteraural').innerText = "--";
+            document.getElementById('asimetriaAlert').style.display='none';
             renderTable(); calculateAndDraw();
         }
     }
 
     function procesarAjusteOido(points, ear) {
-        let pointsValidos = points.filter(p => p.db !== null && p.pct !== null && !isNaN(p.db) && !isNaN(p.pct));
-        if (pointsValidos.length < 2) return null;
+        let validos = points.filter(p => p.db !== null && p.pct !== null && !isNaN(p.db) && !isNaN(p.pct));
+        if (validos.length < 2) return null;
 
-        let x_reales = pointsValidos.map(p => p.db);
-        let y_reales = pointsValidos.map(p => p.pct);
-
+        let x_reales = validos.map(p => p.db); let y_reales = validos.map(p => p.pct);
         let prefix = ear === 'OD' ? 'od' : 'oi';
         let va500 = document.getElementById(prefix + 'VA500').value;
         let va1000 = document.getElementById(prefix + 'VA1000').value;
         let va2000 = document.getElementById(prefix + 'VA2000').value;
         let va4000 = document.getElementById(prefix + 'VA4000').value;
-
         let vo500 = document.getElementById(prefix + 'VO500').value;
         let vo1000 = document.getElementById(prefix + 'VO1000').value;
         let vo2000 = document.getElementById(prefix + 'VO2000').value;
         let vo4000 = document.getElementById(prefix + 'VO4000').value;
 
-        let ptaVA = (va500 !== "" && va1000 !== "" && va2000 !== "" && va4000 !== "") ? (parseFloat(va500) + parseFloat(va1000) + parseFloat(va2000) + parseFloat(va4000)) / 4 : null;
-        let ptaVO = (vo500 !== "" && vo1000 !== "" && vo2000 !== "" && vo4000 !== "") ? (parseFloat(vo500) + parseFloat(vo1000) + parseFloat(vo2000) + parseFloat(vo4000)) / 4 : null;
+        let ptaVA = (va500!==""&&va1000!==""&&va2000!==""&&va4000!=="") ? (parseFloat(va500)+parseFloat(va1000)+parseFloat(va2000)+parseFloat(va4000))/4 : null;
+        let ptaVO = (vo500!==""&&vo1000!==""&&vo2000!==""&&vo4000!=="") ? (parseFloat(vo500)+parseFloat(vo1000)+parseFloat(vo2000)+parseFloat(vo4000))/4 : null;
 
-        let pb_max = -Infinity; let index_pb_max = -1;
-        for (let i = 0; i < y_reales.length; i++) {
-            if (y_reales[i] > pb_max) { pb_max = y_reales[i]; index_pb_max = i; }
-        }
-        let pb_min = pb_max; 
-        if (index_pb_max !== -1 && index_pb_max < y_reales.length - 1) {
-            for (let i = index_pb_max + 1; i < y_reales.length; i++) {
-                if (y_reales[i] < pb_min) pb_min = y_reales[i];
-            }
+        let pb_max = Math.max(...y_reales); let idx_max = y_reales.indexOf(pb_max);
+        let pb_min = pb_max;
+        if(idx_max !== -1 && idx_max < y_reales.length - 1) {
+            pb_min = Math.min(...y_reales.slice(idx_max + 1));
         }
 
         let rollover_index = pb_max > 0 ? (pb_max - pb_min) / pb_max : 0;
-
         let es_patologico = (rollover_index >= 0.45);
         let es_sospecha_leve = (rollover_index >= 0.35 && rollover_index < 0.45);
-        
+
         let indice_corte = x_reales.length;
         if (es_patologico || es_sospecha_leve) {
-             for (let i = index_pb_max + 1; i < y_reales.length; i++) {
+             for (let i = idx_max + 1; i < y_reales.length; i++) {
                 if (y_reales[i] < (pb_max * 0.8)) { indice_corte = i; break; }
             }
         }
 
-        let x_filtrados = x_reales.slice(0, indice_corte);
-        let y_filtrados = y_reales.slice(0, indice_corte);
+        let x_filtrados = x_reales.slice(0, indice_corte); let y_filtrados = y_reales.slice(0, indice_corte);
         if (x_filtrados.length < 2) return null;
 
-        let y_max_fijo = -Infinity;
-        for (let val of y_filtrados) { if (val > y_max_fijo) y_max_fijo = val; }
-        if (y_max_fijo === -Infinity || y_max_fijo < 20) y_max_fijo = 100;
+        let y_max_fijo = Math.max(...y_filtrados); if(y_max_fijo < 20) y_max_fijo = 100;
 
         let mejorError = Infinity; let bestB = 0.1, bestX50 = 0;
         for (let b = 0.05; b <= 2.5; b += 0.05) {
             for (let x50 = -10; x50 <= 110; x50 += 0.5) {
-                let sumaError_WEIGHTED = 0;
+                let sumaError = 0;
                 for (let k = 0; k < x_filtrados.length; k++) {
                     let y_teorica = y_max_fijo / (1 + Math.exp(-b * (x_filtrados[k] - x50)));
                     let dif = y_filtrados[k] - y_teorica;
-                    let peso = 1;
-                    if (y_filtrados[k] >= 40 && y_filtrados[k] <= 60) peso = 5000;
-                    else if (y_filtrados[k] >= (y_max_fijo - 5)) peso = 10000;
-                    sumaError_WEIGHTED += (dif * dif) * peso;
+                    let peso = (y_filtrados[k] >= 40 && y_filtrados[k] <= 60) ? 5000 : (y_filtrados[k] >= (y_max_fijo - 5) ? 10000 : 1);
+                    sumaError += (dif * dif) * peso;
                 }
-                if (sumaError_WEIGHTED < mejorError) { mejorError = sumaError_WEIGHTED; bestB = b; bestX50 = x50; }
+                if (sumaError < mejorError) { mejorError = sumaError; bestB = b; bestX50 = x50; }
             }
         }
 
@@ -896,48 +254,38 @@
         let sumSquaresTotal = 0;
         for (let k = 0; k < x_filtrados.length; k++) {
             let y_teorica = y_max_fijo / (1 + Math.exp(-bestB * (x_filtrados[k] - bestX50)));
-            finalErrorSum += Math.pow(y_filtrados[k] - y_teorica, 2); 
-            sumSquaresTotal += Math.pow(y_filtrados[k] - meanY, 2);
+            finalErrorSum += Math.pow(y_filtrados[k] - y_teorica, 2); sumSquaresTotal += Math.pow(y_filtrados[k] - meanY, 2);
         }
         let r2_num = sumSquaresTotal === 0 ? 1 : 1 - (finalErrorSum / sumSquaresTotal);
         let p_max_calc = (y_max_fijo * bestB) / 4;
 
         let urvText = "No Alc. (<50%)"; let numericSRT = null;
         if (y_max_fijo >= 50) {
-            let urvVal = bestX50;
-            if (y_max_fijo > 50) urvVal = bestX50 - Math.log((y_max_fijo / 50) - 1) / bestB;
-            urvText = `${urvVal.toFixed(1)} dB HL`; numericSRT = urvVal;
+            numericSRT = bestX50 - Math.log((y_max_fijo / 50) - 1) / bestB;
+            urvText = `${numericSRT.toFixed(1)} dB HL`;
         }
 
-        let rolloverText = "Negativo (<0.35)";
+        let rolloverText = "Negativo (&lt;0.35)";
         if (rollover_index >= 0.45) rolloverText = `<span style="color:#dc2626; font-weight:bold;">⚠️ Significativo (${rollover_index.toFixed(2)})</span>`;
         else if (rollover_index >= 0.35) rolloverText = `<span style="color:#c2410c; font-weight:bold;">⚠️ Sospecha leve (${rollover_index.toFixed(2)})</span>`;
-        else if (rollover_index > 0) rolloverText = `Negativo (${rollover_index.toFixed(2)})`;
 
         let sdt_val = document.getElementById(prefix + 'UDV').value;
         let mcl_val = document.getElementById(prefix + 'MCL').value;
         let ucl_val = document.getElementById(prefix + 'UCL').value;
-        let sdtText = "--"; let rdText = "--"; let mclText = "--"; let reclutText = "--";
+        let sdtText = "--", rdText = "--", mclText = "--", reclutText = "--";
 
         if (numericSRT !== null) {
             if (sdt_val !== "") {
-                let sdt = parseFloat(sdt_val); let diffSDT = numericSRT - sdt;
-                if (sdt >= numericSRT) sdtText = `<span style="color:#dc2626; font-weight:bold;">❌ Incongruente</span>`;
-                else if (diffSDT > 15) sdtText = `<span style="color:#c2410c; font-weight:bold;">⚠️ Desfasado (${diffSDT.toFixed(1)} dB)</span>`;
-                else sdtText = `<span style="color:#16a34a; font-weight:bold;">🟢 Coherente (${diffSDT.toFixed(1)} dB)</span>`;
+                let diffSDT = numericSRT - parseFloat(sdt_val);
+                sdtText = parseFloat(sdt_val) >= numericSRT ? `<span style="color:#dc2626; font-weight:bold;">❌ Incongruente</span>` : (diffSDT > 15 ? `<span style="color:#c2410c; font-weight:bold;">⚠️ Desfasado</span>` : `<span style="color:#16a34a; font-weight:bold;">🟢 Coherente</span>`);
             }
             if (ucl_val !== "") {
-                let ucl = parseFloat(ucl_val); let rd = ucl - numericSRT;
-                if (rd < 45) {
-                    rdText = `<span style="color:#dc2626; font-weight:bold;">⚠️ ${rd.toFixed(1)} dB</span>`;
-                    reclutText = `<span style="color:#dc2626; font-weight:bold;">⚠️ Positivo</span>`;
-                } else {
-                    rdText = `<span style="color:#16a34a; font-weight:bold;">🟢 ${rd.toFixed(1)} dB</span>`;
-                    reclutText = `<span style="color:#16a34a; font-weight:bold;">🟢 Negativo</span>`;
-                }
+                let rd = parseFloat(ucl_val) - numericSRT;
+                rdText = rd < 45 ? `<span style="color:#dc2626; font-weight:bold;">⚠️ ${rd.toFixed(1)} dB</span>` : `<span style="color:#16a34a; font-weight:bold;">🟢 ${rd.toFixed(1)} dB</span>`;
+                reclutText = rd < 45 ? `<span style="color:#dc2626; font-weight:bold;">⚠️ Positivo</span>` : `<span style="color:#16a34a; font-weight:bold;">🟢 Negativo</span>`;
             }
             if (mcl_val !== "") {
-                let mcl = parseFloat(mcl_val); let mc = mcl - numericSRT;
+                let mc = parseFloat(mcl_val) - numericSRT;
                 mclText = mc < 20 ? `<span style="color:#dc2626; font-weight:bold;">⚠️ ${mc.toFixed(1)} dB</span>` : `<span style="color:#16a34a; font-weight:bold;">🟢 ${mc.toFixed(1)} dB</span>`;
             }
         }
@@ -952,100 +300,54 @@
 
         let clasificacion = "Compatible con normalidad";
         if (!bloqueo_SRT) {
-            if (es_patologico) {
-                clasificacion = "⚠️ Sospecha de afectación neural (Roll-over significativo)";
-            } else if (es_sospecha_leve) {
-                clasificacion = "⚠️ Zona gris: Sospecha leve de fatiga neural (Roll-over moderado)";
-            } else if (numericSRT !== null) {
+            if (es_patologico) clasificacion = "⚠️ Sospecha de afectación neural (Roll-over significativo)";
+            else if (es_sospecha_leve) clasificacion = "⚠️ Zona gris: Sospecha leve de fatiga neural";
+            else if (numericSRT !== null) {
                 if (y_max_fijo >= 90) {
-                    // CORRECCIÓN CLÍNICA INTER-CRITERIO EXIGIDA (CRUZAR GAP REAL)
+                    // PERFECCIONAMIENTO LOGO-TONAL: FILTRADO OBLIGATORIO DE BARRERA MECÁNICA (GAP)
                     if (ptaVA !== null && ptaVO !== null) {
-                        let gapReal = ptaVA - ptaVO;
-                        if (gapReal >= 15) {
-                            clasificacion = "Compatible con perfil Conductivo (techo conservado, desplazada)";
-                        } else {
-                            clasificacion = "Hipoacusia Neurosensorial/Coclear con excelente discriminación supraliminar";
-                        }
+                        clasificacion = (ptaVA - ptaVO >= 15) ? "Compatible con perfil Conductivo" : "Hipoacusia Neurosensorial/Coclear con excelente discriminación";
                     } else {
-                        clasificacion = "Perfil desplazado con discriminación conservada (Se requiere valorar GAP tonal)";
+                        clasificacion = "Perfil desplazado con WRS óptimo (Requiere valorar GAP tonal)";
                     }
-                } else if (y_max_fijo >= 80) clasificacion = "WRS discretamente reducida (Interpretar clínica)";
+                } else if (y_max_fijo >= 80) clasificacion = "WRS discretamente reducida (Compatible con presbiacusia o lesión inicial)";
                 else if (y_max_fijo >= 50) clasificacion = "WRS reducida (Compatible con distorsión coclear)";
                 else clasificacion = "WRS muy reducida (Valorar severidad coclear o desproporción neural)";
             }
-        } else {
-            clasificacion = "⚠️ Inconsistencia significativa (SRT-PTA ≥ 15 dB).";
-        }
+        } else { clasificacion = "⚠️ Inconsistencia logo-tonal significativa (SRT-PTA ≥ 15 dB)."; }
 
         if (r2_num < 0.85) clasificacion = "⚠️ Baja fiabilidad matemática (R² < 0.85).";
 
-        return { urv: urvText, urvVal: numericSRT, pbMax: `${y_max_fijo.toFixed(0)}%`, pendiente: `${p_max_calc.toFixed(1)} %/dB`, r2: r2_num.toFixed(3), r2Val: r2_num, rollover: rolloverText, sdtText: sdtText, rdText: rdText, mclText: mclText, reclutText: reclutText, concordancia: concordanciaText, clasif: clasificacion, b: bestB, x50: bestX50, yMax: y_max_fijo };
+        return { urv: urvText, urvVal: numericSRT, pbMax: `${y_max_fijo.toFixed(0)}%`, pendiente: `${pendiente_maxima.toFixed(1)} %/dB`, r2: r2_num.toFixed(3), r2Val: r2_num, rollover: rolloverText, sdtText: sdtText, rdText: rdText, mclText: mclText, reclutText: reclutText, concordancia: concordanciaText, clasif: clasificacion, b: bestB, x50: bestX50, yMax: y_max_fijo };
     }
 
     function calculateAndDraw() {
-        let resOD = procesarAjusteOido(dataPointsOD, 'OD');
-        let resOI = procesarAjusteOido(dataPointsOI, 'OI');
-
-        if (resOD) {
-            document.getElementById('odURV').innerText = resOD.urv;
-            document.getElementById('odPBMax').innerText = resOD.pbMax;
-            document.getElementById('odPendiente').innerText = resOD.pendiente;
-            document.getElementById('odRollover').innerHTML = resOD.rollover;
-            document.getElementById('odSDT_SRT').innerHTML = resOD.sdtText;
-            document.getElementById('odRangoDyn').innerHTML = resOD.rdText;
-            document.getElementById('odMargenCom').innerHTML = resOD.mclText;
-            document.getElementById('odReclutamiento').innerHTML = resOD.reclutText;
-            document.getElementById('odConcordancia').innerText = resOD.concordancia;
-            document.getElementById('odClasif').innerText = resOD.clasif;
-            
-            const odR2El = document.getElementById('odR2');
-            if (resOD.r2Val >= 0.95) odR2El.innerHTML = `${resOD.r2} <span style="color:var(--success); font-weight:bold;">[🟢 Óptimo]</span>`;
-            else if (resOD.r2Val >= 0.85) odR2El.innerHTML = `${resOD.r2} <span style="color:var(--warning-alert); font-weight:bold;">[🟡 Moderado]</span>`;
-            else odR2El.innerHTML = `${resOD.r2} <span style="color:var(--right-ear); font-weight:bold;">[🔴 Baja fiabilidad]</span>`;
-        }
-        
-        if (resOI) {
-            document.getElementById('oiURV').innerText = resOI.urv;
-            document.getElementById('oiPBMax').innerText = resOI.pbMax;
-            document.getElementById('oiPendiente').innerText = resOI.pendiente;
-            document.getElementById('oiRollover').innerHTML = resOI.rollover;
-            document.getElementById('oiSDT_SRT').innerHTML = resOI.sdtText;
-            document.getElementById('oiRangoDyn').innerHTML = resOI.rdText;
-            document.getElementById('oiMargenCom').innerHTML = resOI.mclText;
-            document.getElementById('oiReclutamiento').innerHTML = resOI.reclutText;
-            document.getElementById('oiConcordancia').innerText = resOI.concordancia;
-            document.getElementById('oiClasif').innerText = resOI.clasif;
-            
-            const oiR2El = document.getElementById('oiR2');
-            if (resOI.r2Val >= 0.95) oiR2El.innerHTML = `${resOI.r2} <span style="color:var(--success); font-weight:bold;">[🟢 Óptimo]</span>`;
-            else if (resOI.r2Val >= 0.85) oiR2El.innerHTML = `${resOI.r2} <span style="color:var(--warning-alert); font-weight:bold;">[🟡 Moderado]</span>`;
-            else oiR2El.innerHTML = `${resOI.r2} <span style="color:var(--right-ear); font-weight:bold;">[🔴 Baja fiabilidad]</span>`;
-        }
-
-        let asimetriaBox = document.getElementById('asimetriaAlert');
-        let simetriaRow = document.getElementById('simetriaInteraural');
-        asimetriaBox.style.display = 'none';
-        
-        if (resOD && resOI && resOD.yMax !== undefined && resOI.yMax !== undefined) {
-            let diffWRS = Math.abs(resOD.yMax - resOI.yMax);
-            if (diffWRS >= 20) {
-                simetriaRow.innerText = `⚠️ Asimetría de ${diffWRS.toFixed(0)}%`;
-                simetriaRow.style.color = '#b91c1c';
-                asimetriaBox.innerHTML = `<strong>⚠️ Asimetría interaural significativa:</strong> Diferencia de WRS de ${diffWRS.toFixed(0)} puntos.`;
-                asimetriaBox.style.display = 'block';
-            } else {
-                simetriaRow.innerText = `Simétrica (Dif: ${diffWRS.toFixed(0)}%)`;
-                simetriaRow.style.color = 'var(--text)';
+        let resOD = procesarAjusteOido(dataPointsOD, 'OD'); let resOI = procesarAjusteOido(dataPointsOI, 'OI');
+        let ears = [{res:resOD, p:'od'}, {res:resOI, p:'oi'}];
+        ears.forEach(e => {
+            if (e.res) {
+                document.getElementById(e.p+'URV').innerText = e.res.urv; document.getElementById(e.p+'PBMax').innerText = e.res.pbMax;
+                document.getElementById(e.p+'Pendiente').innerText = e.res.pendiente; document.getElementById(e.p+'Rollover').innerHTML = e.res.rollover;
+                document.getElementById(e.p+'SDT_SRT').innerHTML = e.res.sdtText; document.getElementById(e.p+'RangoDyn').innerHTML = e.res.rdText;
+                document.getElementById(e.p+'MargenCom').innerHTML = e.res.mclText; document.getElementById(e.p+'Reclutamiento').innerHTML = e.res.reclutText;
+                document.getElementById(e.p+'Concordancia').innerText = e.res.concordancia; document.getElementById(e.p+'Clasif').innerText = e.res.clasif;
+                let r2E = document.getElementById(e.p+'R2');
+                r2E.innerHTML = e.res.r2 + (e.res.r2Val>=0.95?' <span style="color:var(--success)">[🟢]</span>':(e.res.r2Val>=0.85?' <span style="color:var(--warning-alert)">[🟡]</span>':' <span style="color:var(--right-ear)">[🔴]</span>'));
             }
+        });
+
+        let asAlert = document.getElementById('asimetriaAlert'); let simRow = document.getElementById('simetriaInteraural');
+        if (resOD && resOI && resOD.yMax!==undefined && resOI.yMax!==undefined) {
+            let diff = Math.abs(resOD.yMax - resOI.yMax);
+            simRow.innerText = diff>=20 ? `⚠️ Asimetría de ${diff.toFixed(0)}%` : `Simétrica (Dif: ${diff.toFixed(0)}%)`;
+            if (diff>=20) { asAlert.innerHTML = `<strong>⚠️ Alerta de asimetría:</strong> Variación interaural de ${diff.toFixed(0)}% en discriminación máxima.`; asAlert.style.display='block'; } else asAlert.style.display='none';
         }
         drawCanvasChart(resOD, resOI);
     }
 
     function drawCanvasChart(resOD, resOI) {
-        const canvas = document.getElementById('audiogramCanvas'); const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const padding = 50; const width = canvas.width - 2 * padding; const height = canvas.height - 2 * padding;
-        const maxDb = 110, minDb = -10;
+        const canvas = document.getElementById('audiogramCanvas'); const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const padding = 50; const width = canvas.width - 2 * padding; const height = canvas.height - 2 * padding; const maxDb = 110, minDb = -10;
         function getX(db) { return padding + ((db - minDb) / (maxDb - minDb)) * width; }
         function getY(pct) { return padding + (1 - (pct / 100)) * height; }
 
@@ -1053,24 +355,10 @@
         for (let db = minDb; db <= maxDb; db += 10) { ctx.beginPath(); ctx.moveTo(getX(db), padding); ctx.lineTo(getX(db), padding + height); ctx.stroke(); ctx.fillText(db, getX(db), padding + height + 8); }
         for (let pct = 0; pct <= 100; pct += 20) { ctx.beginPath(); ctx.moveTo(padding, getY(pct)); ctx.lineTo(padding + width, getY(pct)); ctx.stroke(); ctx.fillText(pct, padding - 8, getY(pct)); }
 
-        let empty = true;
-        if (resOD) {
-            empty = false;
-            ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3; ctx.beginPath();
-            for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOD.yMax / (1 + Math.exp(-resOD.b * (db - resOD.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); }
-            ctx.stroke();
-        }
-        dataPointsOD.forEach(p => { if (p.db !== null && p.pct !== null) { empty = false; ctx.beginPath(); ctx.arc(getX(p.db), getY(p.pct), 6, 0, 2 * Math.PI); ctx.fillStyle = 'white'; ctx.fill(); ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.stroke(); } });
-
-        if (resOI) {
-            empty = false;
-            ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 3; ctx.beginPath();
-            for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOI.yMax / (1 + Math.exp(-resOI.b * (db - resOI.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); }
-            ctx.stroke();
-        }
-        dataPointsOI.forEach(p => { if (p.db !== null && p.pct !== null) { empty = false; let x = getX(p.db), y = getY(p.pct); ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5); ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5); ctx.stroke(); } });
-
-        if (empty) { ctx.fillStyle = '#94a3b8'; ctx.font = 'italic 14px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Introduce los porcentajes en la tabla para generar la curva', padding + width / 2, padding + height / 2); }
+        if (resOD) { ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3; ctx.beginPath(); for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOD.yMax / (1 + Math.exp(-resOD.b * (db - resOD.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); } ctx.stroke(); }
+        dataPointsOD.forEach(p => { if (p.db!==null && p.pct!==null) { ctx.beginPath(); ctx.arc(getX(p.db), getY(p.pct), 6, 0, 2 * Math.PI); ctx.fillStyle = 'white'; ctx.fill(); ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.stroke(); } });
+        if (resOI) { ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 3; ctx.beginPath(); for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOI.yMax / (1 + Math.exp(-resOI.b * (db - resOI.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); } ctx.stroke(); }
+        dataPointsOI.forEach(p => { if (p.db!==null && p.pct!==null) { let x = getX(p.db), y = getY(p.pct); ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5); ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5); ctx.stroke(); } });
     }
 </script>
 </body>
