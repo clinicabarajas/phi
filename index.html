@@ -140,6 +140,9 @@
             margin-bottom: 8px;
             line-height: 1.4;
         }
+        .metric-explain p strong {
+            color: var(--primary);
+        }
         .formula-box {
             background: #334155;
             color: #f8fafc;
@@ -203,7 +206,6 @@
             font-size: 15px;
         }
         
-        /* Variación estilizada para inputs embutidos en la tabla de resultados */
         .input-field.inline-input {
             max-width: 90px;
             padding: 5px;
@@ -258,9 +260,7 @@
             display: block;
         }
 
-        /* ==========================================
-           CONFIGURACIÓN OPTIMIZADA PARA IMPRESIÓN (PDF A4)
-           ========================================== */
+        /* CONFIGURACIÓN OPTIMIZADA PARA IMPRESIÓN (PDF A4) */
         @media print {
             @page {
                 size: A4;
@@ -326,7 +326,6 @@
                 background-color: #f1f5f9 !important;
             }
 
-            /* Transformación estética de los inputs a texto plano para el PDF */
             .input-field.inline-input {
                 border: none !important;
                 background: transparent !important;
@@ -338,9 +337,6 @@
                 appearance: none;
                 -webkit-appearance: none;
             }
-            .input-field.inline-input::after {
-                content: " dB HL";
-            }
 
             .canvas-container {
                 padding: 0 !important;
@@ -350,7 +346,7 @@
             }
 
             canvas {
-                max-width: 55% !important; /* Ajuste micrométrico de escala para asegurar 1 sola hoja */
+                max-width: 55% !important;
                 margin: 0 auto !important;
             }
         }
@@ -497,342 +493,22 @@
                 </div>
 
                 <div class="metric-explain">
-                    <h3>Rango Dinámico de la Palabra</h3>
-                    <p><strong>Qué mide:</strong> El espacio útil de audición cómoda para el lenguaje que posee el paciente ($UCL - SRT$).</p>
-                    <p><strong>Significado clínico:</strong> Un rango muy estrecho (menor a 40-50 dB) es un indicador directo de <em>Reclutamiento Coclear</em>, un dato crucial para programar los límites de compresión de salida en audífonos.</p>
-                    <div class="formula-box">Rango Dinámico = UCL - SRT</div>
+                    <h3>Máxima Comodidad (MCL)</h3>
+                    <p><strong>Qué mide:</strong> El nivel de intensidad (dB HL) en el cual el paciente percibe que la palabra hablada se escucha de la forma más clara, cómoda y agradable sin esfuerzo.</p>
+                    <p><strong>Significado clínico:</strong> Es la métrica de referencia directa indispensable para estimar y programar el volumen objetivo y la ganancia inicial en la adaptación de audífonos.</p>
+                    <div class="formula-box">Valor Clínico Introducido Directamente</div>
                 </div>
 
                 <div class="metric-explain">
-                    <h3>Clasificación Cualitativa Automatizada</h3>
-                    <p><strong>Qué mide:</strong> Diagnóstico algorítmico computado según la geometría tridimensional de la curva resultante.</p>
-                    <p><strong>Significado clínico:</strong> Clasifica automáticamente el perfil de la curva en: <em>Normal/Conductiva</em> (mantiene pendientes y techos sanos), <em>Coclear</em> (exhibe techos truncados por daño de células ciliadas) o <em>Retrococlear</em> (activada por colapso neural de Roll-Over).</p>
-                    <div class="formula-box">Algoritmo Lógico de Decisión PHI</div>
+                    <h3>Umbral de Disconfort (UCL)</h3>
+                    <p><strong>Qué mide:</strong> El límite de intensidad sonora (dB HL) al cual la palabra hablada empieza a ser intolerablemente fuerte, molesta o dolorosa para el paciente.</p>
+                    <p><strong>Significado clínico:</strong> Define la tolerancia límite del oído. Imprescindible para fijar los techos de compresión de salida máxima (MPO) en audífonos para evitar traumas acústicos.</p>
+                    <div class="formula-box">Valor Clínico Introducido Directamente</div>
                 </div>
 
-                <div class="metric-explain" style="grid-column: 1 / -1;">
-                    <h3>Fenómeno de Roll-Over</h3>
-                    <p><strong>Qué mide:</strong> Cuantifica la caída paradójica de la inteligibilidad a intensidades sonoras muy elevadas.</p>
-                    <p><strong>Significado clínico:</strong> Actúa como una potente alerta diagnóstica. Si la discriminación colapsa a volúmenes altos y el índice matemático da un resultado igual o mayor a 0.40, el motor activa la etiqueta de sospecha de <strong>Patología Retrococlear</strong>.</p>
-                    <div class="formula-box">Índice de Roll-Over = (Y<sub>max</sub> - Y<sub>min_post_pico</sub>) / Y<sub>max</sub></div>
+                <div class="metric-explain">
+                    <h3>Rango Dinámico de la Palabra</h3>
+                    <p><strong>Qué mide:</strong> El espacio útil de audición cómoda para el lenguaje que posee el paciente ($UCL - SRT$).</p>
+                    <p><strong>Significado clínico:</strong> Un rango estrecho (menor a 40-50 dB) es un indicador matemático directo de <em>Reclutamiento Coclear</em>, guiando al audioprotesista a programar relaciones de compresión más estrictas.</p>
+                    <div class="formula-box">Rango Dinámico = UCL - SRT</div>
                 </div>
-
-                <div class="metric-explain" style="grid-column: 1 / -1;">
-                    <h3>Ecuación General de la Curva Ajustada (PHI)</h3>
-                    <p>Fórmula de distribución logística continua empleada por el algoritmo de software para proyectar de manera matemática y precisa la sigmoide en el gráfico bilateral:</p>
-                    <div class="formula-box">Y<sub>teórica</sub> = Y<sub>max</sub> / (1 + e<sup>-b · (X - X<sub>50</sub>)</sup>)</div>
-                </div>
-
-            </div>
-        </details>
-    </div>
-
-</div>
-
-<script>
-    let currentEar = 'OD';
-    
-    let dataPointsOD = [
-        { db: 10, pct: 0 }, { db: 20, pct: 10 }, { db: 30, pct: 45 },
-        { db: 40, pct: 85 }, { db: 50, pct: 100 }, { db: 60, pct: 100 }
-    ];
-
-    let dataPointsOI = [
-        { db: 20, pct: 0 }, { db: 30, pct: 15 }, { db: 40, pct: 50 },
-        { db: 50, pct: 80 }, { db: 60, pct: 90 }, { db: 70, pct: 90 }
-    ];
-
-    window.onload = function() {
-        renderTable();
-        calculateAndDraw();
-    };
-
-    function setEar(ear) {
-        currentEar = ear;
-        document.querySelectorAll('.ear-btn').forEach(btn => btn.classList.remove('active'));
-        if (ear === 'OD') {
-            document.querySelector('.ear-btn.derecho').classList.add('active');
-        } else {
-            document.querySelector('.ear-btn.izquierdo').classList.add('active');
-        }
-        renderTable();
-    }
-
-    function renderTable() {
-        const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = '';
-        
-        let currentPoints = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
-        currentPoints.sort((a, b) => a.db - b.db);
-
-        currentPoints.forEach((point, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><input type="number" class="input-field" value="${point.db}" onchange="updatePoint(${index}, 'db', this.value)" min="-10" max="120" step="5"></td>
-                <td><input type="number" class="input-field" value="${point.pct}" onchange="updatePoint(${index}, 'pct', this.value)" min="0" max="100" step="5"></td>
-                <td><button class="btn btn-danger" onclick="deleteRow(${index})">🗑️</button></td>
-            `;
-            tbody.appendChild(row);
-        });
-    }
-
-    function addRow() {
-        let currentPoints = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
-        let lastDb = currentPoints.length > 0 ? currentPoints[currentPoints.length - 1].db : 0;
-        currentPoints.push({ db: lastDb + 10, pct: 0 });
-        renderTable();
-        calculateAndDraw();
-    }
-
-    function deleteRow(index) {
-        let currentPoints = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
-        currentPoints.splice(index, 1);
-        renderTable();
-        calculateAndDraw();
-    }
-
-    function updatePoint(index, field, value) {
-        let currentPoints = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
-        currentPoints[index][field] = parseFloat(value) || 0;
-        if (field === 'pct') {
-            if (currentPoints[index].pct > 100) currentPoints[index].pct = 100;
-            if (currentPoints[index].pct < 0) currentPoints[index].pct = 0;
-        }
-        calculateAndDraw();
-    }
-
-    function procesarAjusteOido(points) {
-        if (points.length < 2) return null;
-
-        let x_reales = points.map(p => p.db);
-        let y_reales = points.map(p => p.pct);
-
-        let pb_max = -Infinity;
-        let index_pb_max = -1;
-        for (let i = 0; i < y_reales.length; i++) {
-            if (y_reales[i] > pb_max) { pb_max = y_reales[i]; index_pb_max = i; }
-        }
-        let pb_min = pb_max; 
-        if (index_pb_max !== -1 && index_pb_max < y_reales.length - 1) {
-            for (let i = index_pb_max + 1; i < y_reales.length; i++) {
-                if (y_reales[i] < pb_min) pb_min = y_reales[i];
-            }
-        }
-        let rollover_index = pb_max > 0 ? (pb_max - pb_min) / pb_max : 0;
-        let es_patologico = (rollover_index >= 0.40);
-        let indice_corte = x_reales.length;
-        if (es_patologico) {
-             for (let i = index_pb_max + 1; i < y_reales.length; i++) {
-                if (y_reales[i] < (pb_max * 0.8)) { indice_corte = i; break; }
-            }
-        }
-
-        let x_filtrados = x_reales.slice(0, indice_corte);
-        let y_filtrados = y_reales.slice(0, indice_corte);
-
-        if (x_filtrados.length < 2) return null;
-
-        let y_max_fijo = -Infinity;
-        for (let val of y_filtrados) { if (val > y_max_fijo) y_max_fijo = val; }
-        if (y_max_fijo === -Infinity || y_max_fijo < 20) y_max_fijo = 100;
-
-        let mejorError = Infinity;
-        let bestB = 0.1, bestX50 = 0;
-
-        for (let b = 0.05; b <= 2.5; b += 0.05) {
-            for (let x50 = -10; x50 <= 110; x50 += 0.5) {
-                let sumaError_WEIGHTED = 0;
-                for (let k = 0; k < x_filtrados.length; k++) {
-                    let y_teorica = y_max_fijo / (1 + Math.exp(-b * (x_filtrados[k] - x50)));
-                    let dif = y_filtrados[k] - y_teorica;
-                    
-                    let peso = 1;
-                    if (y_filtrados[k] >= 40 && y_filtrados[k] <= 60) peso = 5000;
-                    else if (y_filtrados[k] >= (y_max_fijo - 5)) peso = 10000;
-                    else if (y_filtrados[k] >= 15) peso = 50;
-                    else if (y_filtrados[k] < 10) peso = 0;
-                    
-                    sumaError_WEIGHTED += (dif * dif) * peso;
-                }
-                if (sumaError_WEIGHTED < mejorError) {
-                    mejorError = sumaError_WEIGHTED; bestB = b; bestX50 = x50;
-                }
-            }
-        }
-
-        let finalErrorSum = 0; 
-        let meanY = y_filtrados.reduce((a, b) => a + b, 0) / y_filtrados.length;
-        let sumSquaresTotal = 0; 
-
-        for (let k = 0; k < x_filtrados.length; k++) {
-            let y_teorica = y_max_fijo / (1 + Math.exp(-bestB * (x_filtrados[k] - bestX50)));
-            finalErrorSum += Math.pow(y_filtrados[k] - y_teorica, 2); 
-            sumSquaresTotal += Math.pow(y_filtrados[k] - meanY, 2);
-        }
-        let r2 = sumSquaresTotal === 0 ? 1 : 1 - (finalErrorSum / sumSquaresTotal);
-
-        let urvText = "No Alc. (<50%)";
-        let numericSRT = null;
-        if (y_max_fijo >= 50) {
-            let urvVal = bestX50;
-            if (y_max_fijo > 50) urvVal = bestX50 - Math.log((y_max_fijo / 50) - 1) / bestB;
-            urvText = `${urvVal.toFixed(1)} dB HL`;
-            numericSRT = urvVal;
-        }
-
-        let rolloverText = rollover_index > 0 ? `Leve (${rollover_index.toFixed(2)})` : "Ausente (0.00)";
-        if (es_patologico) rolloverText = `⚠️ PATOLÓGICO (${rollover_index.toFixed(2)})`;
-
-        // LÓGICA DE CLASIFICACIÓN CUALITATIVA AUTOMATIZADA
-        let clasificacion = "Normal / Conductiva";
-        if (es_patologico) {
-            clasificacion = "⚠️ Retrococlear (Roll-Over)";
-        } else if (y_max_fijo < 92) {
-            clasificacion = "Coclear (Techo Truncado)";
-        } else if (bestB * 25 < 6.5) {
-            clasificacion = "Coclear / Plana (Baja Pendiente)";
-        }
-
-        return {
-            urv: urvText,
-            urvVal: numericSRT,
-            pbMax: `${y_max_fijo.toFixed(0)}%`,
-            pendiente: `${(bestB * 25).toFixed(1)} %/dB`,
-            r2: Math.max(0, r2).toFixed(3),
-            rollover: rolloverText,
-            esPatol: es_patologico,
-            clasif: clasificacion,
-            b: bestB, x50: bestX50, yMax: y_max_fijo
-        };
-    }
-
-    function calculateAndDraw() {
-        let resOD = procesarAjusteOido(dataPointsOD);
-        let resOI = procesarAjusteOido(dataPointsOI);
-
-        if (resOD) {
-            document.getElementById('odURV').innerText = resOD.urv;
-            document.getElementById('odPBMax').innerText = resOD.pbMax;
-            document.getElementById('odPendiente').innerText = resOD.pendiente;
-            document.getElementById('odR2').innerText = resOD.r2;
-            document.getElementById('odRollover').innerHTML = resOD.esPatol ? `<span class="alert-text">${resOD.rollover}</span>` : resOD.rollover;
-            
-            // Render de Clasificación Cualitativa OD
-            const odClasifEl = document.getElementById('odClasif');
-            odClasifEl.innerText = resOD.clasif;
-            if (resOD.esPatol) odClasifEl.style.color = 'var(--right-ear)';
-            else if (resOD.yMax < 92) odClasifEl.style.color = '#c2410c';
-            else odClasifEl.style.color = 'var(--primary)';
-
-            // Cálculo de Rango Dinámico OD
-            if (resOD.urvVal !== null) {
-                let uclOD = parseFloat(document.getElementById('odUCL').value) || 0;
-                let rdOD = uclOD - resOD.urvVal;
-                document.getElementById('odRango').innerText = `${rdOD.toFixed(1)} dB`;
-            } else { document.getElementById('odRango').innerText = "--"; }
-        }
-        
-        if (resOI) {
-            document.getElementById('oiURV').innerText = resOI.urv;
-            document.getElementById('oiPBMax').innerText = resOI.pbMax;
-            document.getElementById('oiPendiente').innerText = resOI.pendiente;
-            document.getElementById('oiR2').innerText = resOI.r2;
-            document.getElementById('oiRollover').innerHTML = resOI.esPatol ? `<span class="alert-text">${resOI.rollover}</span>` : resOI.rollover;
-            
-            // Render de Clasificación Cualitativa OI
-            const oiClasifEl = document.getElementById('oiClasif');
-            oiClasifEl.innerText = resOI.clasif;
-            if (resOI.esPatol) oiClasifEl.style.color = 'var(--right-ear)';
-            else if (resOI.yMax < 92) oiClasifEl.style.color = '#c2410c';
-            else oiClasifEl.style.color = 'var(--primary)';
-
-            // Cálculo de Rango Dinámico OI
-            if (resOI.urvVal !== null) {
-                let uclOI = parseFloat(document.getElementById('oiUCL').value) || 0;
-                let rdOI = uclOI - resOI.urvVal;
-                document.getElementById('oiRango').innerText = `${rdOI.toFixed(1)} dB`;
-            } else { document.getElementById('oiRango').innerText = "--"; }
-        }
-
-        drawCanvasChart(resOD, resOI);
-    }
-
-    function drawCanvasChart(resOD, resOI) {
-        const canvas = document.getElementById('audiogramCanvas');
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const padding = 50;
-        const width = canvas.width - 2 * padding;
-        const height = canvas.height - 2 * padding;
-        const maxDb = 110, minDb = -10;
-
-        function getX(db) { return padding + ((db - minDb) / (maxDb - minDb)) * width; }
-        function getY(pct) { return padding + (1 - (pct / 100)) * height; }
-
-        ctx.strokeStyle = '#e2e8f0';
-        ctx.lineWidth = 1;
-        ctx.fillStyle = '#64748b';
-        ctx.font = '11px sans-serif';
-
-        for (let db = minDb; db <= maxDb; db += 10) {
-            ctx.beginPath(); ctx.moveTo(getX(db), padding); ctx.lineTo(getX(db), padding + height); ctx.stroke();
-            ctx.fillText(db, getX(db), padding + height + 8);
-        }
-        for (let pct = 0; pct <= 100; pct += 20) {
-            ctx.beginPath(); ctx.moveTo(padding, getY(pct)); ctx.lineTo(padding + width, getY(pct)); ctx.stroke();
-            ctx.fillText(pct, padding - 8, getY(pct));
-        }
-
-        ctx.strokeStyle = '#cbd5e1'; ctx.setLineDash([4, 4]);
-        ctx.beginPath(); ctx.moveTo(padding, getY(50)); ctx.lineTo(padding + width, getY(50)); ctx.stroke();
-        ctx.setLineDash([]);
-
-        ctx.fillStyle = '#1e293b'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
-        ctx.fillText('Intensidad (dB HL)', padding + width / 2, padding + height + 28);
-
-        ctx.save();
-        ctx.translate(padding - 35, padding + height / 2);
-        ctx.rotate(-Math.PI / 2);
-        ctx.fillText('Reconocimiento (%)', 0, 0);
-        ctx.restore();
-
-        if (resOD) {
-            ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3; ctx.beginPath();
-            for (let db = minDb; db <= maxDb; db += 0.5) {
-                let pred = resOD.yMax / (1 + Math.exp(-resOD.b * (db - resOD.x50)));
-                if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred));
-            }
-            ctx.stroke();
-        }
-        dataPointsOD.forEach(p => {
-            let x = getX(p.db), y = getY(p.pct);
-            ctx.beginPath(); ctx.arc(x, y, 6, 0, 2 * Math.PI);
-            ctx.fillStyle = 'white'; ctx.fill();
-            ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.stroke();
-        });
-
-        if (resOI) {
-            ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 3; ctx.beginPath();
-            for (let db = minDb; db <= maxDb; db += 0.5) {
-                let pred = resOI.yMax / (1 + Math.exp(-resOI.b * (db - resOI.x50)));
-                if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred));
-            }
-            ctx.stroke();
-        }
-        ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5;
-        dataPointsOI.forEach(p => {
-            let x = getX(p.db), y = getY(p.pct);
-            ctx.beginPath();
-            ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5);
-            ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5);
-            ctx.stroke();
-        });
-
-        ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
-        ctx.fillStyle = '#dc2626'; ctx.fillText('◯ Oído Derecho (OD)', padding + 15, padding + 20);
-        ctx.fillStyle = '#2563eb'; ctx.fillText('✕ Oído Izquierdo (OI)', padding + 15, padding + 38);
-    }
-</script>
-</body>
-</html>
