@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Criterios Diagnósticos y Guía de Interpretación Clínica</title>
+    <style>
+        body { background-color: #f8fafc; color: #1e293b; font-family: -apple-system, sans-serif; padding: 40px; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); border-top: 8px solid #0f766e; }
+        h1 { color: #0f766e; font-size: 28px; margin-bottom: 20px; }
+        h2 { color: #0f766e; font-size: 20px; margin-top: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
+        h3 { color: #1e293b; font-size: 16px; margin-top: 20px; font-weight: 700; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13.5px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+        th { background-color: #f1f5f9; font-weight: 600; }
+        .badge { background-color: #334155; color: white; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; }
+        .badge-suspect { background-color: #ffedd5; color: #c2410c; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        .formula-box { background-color: #f1f5f9; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 14px; color: #0f766e; font-weight: bold; text-align: center; margin: 10px 0; border: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Criterios Diagnósticos y Guía de Interpretación Clínica</h1>
+    <p>Este manual describe los fundamentos fisiológicos, matemáticos y las reglas del árbol de decisiones del algoritmo del motor de ajuste PHI.</p>
+
+    <h2>1. Matriz Multicriterio de Decisión y Puntos de Corte</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Variable Logoaudiométrica</th>
+                <th>Rango Normal / Esperado</th>
+                <th>Patrón Conductivo</th>
+                <th>Patrón Coclear</th>
+                <th>Patrón Retrococlear</th>
+                <th>⚠️ Zonas de Duda / Sospecha (Filtros del Motor)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Diferencia SRT vs PTA4</strong></td>
+                <td>5 a 12 dB de diferencia</td>
+                <td>Congruente</td>
+                <td>Congruente</td>
+                <td>Discordante / Peor de lo esperado</td>
+                <td><span class="badge-suspect">11 a 14 dB:</span> Discrepancia leve-moderada. Revisar técnica, instrucciones y comprensión verbal.<br><span class="badge-suspect">&ge; 15 dB:</span> Inconsistencia significativa. Detiene clasificación automática para verificar fatiga, idioma o respuesta no orgánica.</td>
+            </tr>
+            <tr>
+                <td><strong>Umbral Verbal (SRT)</strong></td>
+                <td>0 a 25 dB HL</td>
+                <td>Elevado pero totalmente congruente con la vía aérea.</td>
+                <td>Congruente con PTA, pero el WRS máximo puede verse truncado.</td>
+                <td>WRS significativamente peor de lo esperado para su PTA.</td>
+                <td>Una discrepancia aislada en el SRT no diagnostica por sí sola simulación ni afectación central. Requiere correlación.</td>
+            </tr>
+            <tr>
+                <td><strong>Discriminación Máxima (WRS)</strong></td>
+                <td>90% a 100%: Excelente / Conservada</td>
+                <td>Conservada si se estimula a suficiente intensidad supraliminar.</td>
+                <td>80-89%: Discretamente reducida.<br>50-79%: Reducida (Daño coclear).<br>&lt;50%: Muy reducida.</td>
+                <td>Muy baja o desproporcionadamente baja respecto al promedio tonal.</td>
+                <td>Hipoacusias cocleares severas-profundas también arrojan WRS muy bajos. Lo retrococlear se sospecha por asimetría, desplome o roll-over.</td>
+            </tr>
+            <tr>
+                <td><strong>Índice de Roll-Over</strong></td>
+                <td>&lt; 0.35 (Negativo)</td>
+                <td>Negativo</td>
+                <td>Negativo o leve campana</td>
+                <td>&ge; 0.45 (Sospecha significativa)</td>
+                <td><span class="badge-suspect">0.35 a 0.44:</span> Sospecha leve / Zona gris clínica. Indica fatiga neural incipiente (Sugerido corroborar con BERA o RM).</td>
+            </tr>
+            <tr>
+                <td><strong>Morfología de la Curva</strong></td>
+                <td>Sigmoidea con pendiente adecuada y techo alto.</td>
+                <td>Curva desplazada en paralelo a la derecha, manteniendo pendiente y techo conservados.</td>
+                <td>Techo reducido de forma permanente, pendiente aplanada o meseta precoz.</td>
+                <td>Caída post-pico / Roll-over marcado, curva en campana o rendimiento inestable.</td>
+                <td><span class="badge-suspect">Verticalizada:</span> Fuerte sospecha de patología conductiva inicial de frecuencias graves (ej. Otosclerosis incipiente).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>2. Implicaciones Protésicas (Métricas Supraliminares)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Variable Supraliminar</th>
+                <th>Patrón de Normalidad / Linealidad</th>
+                <th>⚠️ Patrón de Alarma (Estrategias de Adaptación)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Rango Dinámico de la Palabra (UCL - SRT)</strong></td>
+                <td><strong>Amplio (&ge; 45-50 dB):</strong> Permite adoptar una estrategia de adaptación más lineal (CR cercano a 1:1), preservando el contraste acústico y la nitidez natural del lenguaje.</td>
+                <td><strong>Estrecho (&lt; 45 dB):</strong> Obliga a adoptar una estrategia de alta compresión (Ratios CR altos en WDRC) y MPO muy estricto para evitar el rechazo de la prótesis por dolor.</td>
+            </tr>
+            <tr>
+                <td><strong>Reclutamiento Coclear</strong></td>
+                <td><strong>Negativo:</strong> Crecimiento fisiológico o conductivo extendido de la sonoridad. El oído tolera incrementos de ganancia sin saturación prematura.</td>
+                <td><strong>Positivo (Por rango estrecho):</strong> Confirmación de fatiga celular sensorial. El paciente pasa del umbral de inteligibilidad al dolor en decibelios muy reducidos.</td>
+            </tr>
+            <tr>
+                <td><strong>Margen de Comodidad (MCL - SRT)</strong></td>
+                <td><strong>Adecuado (&ge; 20-30 dB):</strong> Margen holgado para que el audioprotesista configure la ganancia objetivo conversacional (Target Gain) sin saturar de inmediato.</td>
+                <td><strong>Crítico (&lt; 20 dB):</strong> Alerta máxima de hipersensibilidad. Exige un ajuste fino milimétrico en las curvas de ganancia de entradas medias para evitar fatiga cognitiva.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3. Semáforo Estadístico de Fiabilidad del Ajuste (R²)</h2>
+    <p>El coeficiente de bondad de ajuste estadístico cuantifica qué tanto se adaptan las respuestas reales del paciente a la sigmoide PHI continua:</p>
+    <ul>
+        <li><strong>🟢 R² &ge; 0.95 (Óptimo):</strong> Ejecución biológica regular y lineal. Confianza máxima en las métricas resultantes.</li>
+        <li><strong>🟡 0.85 &le; R² &lt; 0.94 (Moderado):</strong> Inconsistencias leves en respuestas. Común en tinnitus severo, fluctuaciones de atención o curvas presbiacúsicas verticalizadas.</li>
+        <li><strong>🔴 R² &lt; 0.85 (Baja Fiabilidad):</strong> Dispersión caótica. El motor suspende la clasificación automática y emite alerta de revisión técnica por sospecha de descalibración, distracción o simulación.</li>
+    </ul>
+
+    <h2>4. Ecuaciones del Motor Matemático</h2>
+    <h3>Ecuación General de la Curva PHI</h3>
+    <div class="formula-box">$$Y_{\text{teórica}} = \frac{Y_{\text{max}}}{1 + e^{-b \cdot (X - X_{50})}}$$</div>
+    
+    <h3>Fórmula Real de la Pendiente Máxima</h3>
+    <p>La pendiente real varía dinámicamente según el techo de discriminación efectivo alcanzado por la persona:</p>
+    <div class="formula-box">$$\text{Pendiente máxima} = \frac{Y_{\text{max}} \cdot b}{4}$$</div>
+
+    <h3>Coeficiente de Bondad de Ajuste</h3>
+    <div class="formula-box">$$R^2 = 1 - \frac{\sum (Y_{\text{real}} - Y_{\text{teórica}})^2}{\sum (Y_{\text{real}} - Y_{\text{media}})^2}$$</div>
+
+    <h2>5. Acerca de este software y Aviso Legal</h2>
+    <p>Esta herramienta web ha sido desarrollada de forma independiente por <strong>Franz Zenker</strong> con fines estrictamente <strong>didácticos, formativos y de investigación académica</strong>.</p>
+    <p>Los algoritmos de modelado matemático y el árbol de decisiones integrado carecen de validación clínica regulada (marcaje CE o FDA). Las clasificaciones emitidas representan aproximaciones teóricas orientativas y <strong>bajo ningún concepto sustituyen el juicio diagnóstico final del profesional de la salud o médico responsable</strong>.</p>
+</div>
+</body>
+</html>
