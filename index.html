@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logoaudiometría Bilateral - Curva de Inteligibilidad Verbal</title>
+    <title>Logoaudiometría - Ajuste PHI</title>
     <style>
         :root {
             --primary: #0f766e;
@@ -110,7 +110,7 @@
             line-height: 1.4;
         }
 
-        /* Estilos de la guía técnica responsiva */
+        /* Estilos de la guía clínica */
         .guide-card {
             margin-top: 24px;
             border-left: 4px solid var(--primary);
@@ -294,7 +294,7 @@
         }
         
         .input-field.inline-input {
-            max-width: 75px;
+            max-width: 60px;
             padding: 5px;
             font-size: 14px;
             background-color: #fafafa;
@@ -467,7 +467,7 @@
 <div class="container">
     <header>
         <h1>LOGOAUDIOMETRÍA</h1>
-        <p>Ajuste a Curva PHI con Árbol Diagnóstico Experto</p>
+        <p>Ajuste PHI con Árbol Diagnóstico Experto</p>
     </header>
 
     <div class="main-grid">
@@ -500,31 +500,56 @@
                 </div>
             </div>
 
+            <!-- MATRIZ DE FRECUENCIAS PURAS PARA AUDIOMETRÍA TONAL -->
             <div class="card tonal-card hide-on-print">
-                <details class="tonal-details">
+                <details class="tonal-details" open>
                     <summary>📊 Vincular Audiometría Tonal Cruzada (Opcional)</summary>
                     <div style="margin-top: 12px;">
                         <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
-                            Introduce el PTA (Promedio Tonal) de la vía aérea y ósea para habilitar la detección de GAPs y validaciones de confiabilidad SRT vs PTA.
+                            Introduce los umbrales en las frecuencias de la palabra para calcular automáticamente el PTA y analizar de forma predictiva la brecha aérea-ósea (GAP).
                         </p>
                         <table class="results-table">
                             <thead>
                                 <tr>
-                                    <th>Parámetro Tonal</th>
-                                    <th style="color: var(--right-ear);">Oído Derecho (OD)</th>
-                                    <th style="color: var(--left-ear);">Oído Izquierdo (OI)</th>
+                                    <th rowspan="2" style="vertical-align: middle;">Frecuencia</th>
+                                    <th colspan="2" style="color: var(--right-ear);">Oído Derecho (OD)</th>
+                                    <th colspan="2" style="color: var(--left-ear);">Oído Izquierdo (OI)</th>
+                                </tr>
+                                <tr>
+                                    <th style="font-size: 11px; padding: 4px;">Vía Aérea</th>
+                                    <th style="font-size: 11px; padding: 4px;">Vía Ósea</th>
+                                    <th style="font-size: 11px; padding: 4px;">Vía Aérea</th>
+                                    <th style="font-size: 11px; padding: 4px;">Vía Ósea</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><strong>PTA Vía Aérea (VA)</strong></td>
-                                    <td><input type="number" id="odPTAVA" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB</td>
-                                    <td><input type="number" id="oiPTAVA" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB</td>
+                                    <td><strong>500 Hz</strong></td>
+                                    <td><input type="number" id="odVA500" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="odVO500" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVA500" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVO500" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>PTA Vía Ósea (VO)</strong></td>
-                                    <td><input type="number" id="odPTAVO" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB</td>
-                                    <td><input type="number" id="oiPTAVO" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB</td>
+                                    <td><strong>1000 Hz</strong></td>
+                                    <td><input type="number" id="odVA1000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="odVO1000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVA1000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVO1000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2000 Hz</strong></td>
+                                    <td><input type="number" id="odVA2000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="odVO2000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVA2000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVO2000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>4000 Hz</strong></td>
+                                    <td><input type="number" id="odVA4000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="odVO4000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVA4000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVO4000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -593,7 +618,7 @@
                             <td id="oiPBMax">--</td>
                         </tr>
                         <tr>
-                            <td><strong>Pendiente (b × 25)</strong></td>
+                            <td><strong>Pendiente (b &times; 25)</strong></td>
                             <td id="odPendiente">--</td>
                             <td id="oiPendiente">--</td>
                         </tr>
@@ -636,12 +661,10 @@
         
     </div>
 
-    <!-- =======================================================================
-         GUÍA TÉCNICA ACTUALIZADA CON PUNTOS DE CORTE Y MATRIZ DE SOSPECHA COMPLETOS
-         ======================================================================= -->
+    <!-- GUÍA DE INTERPRETACIÓN CLÍNICA ACTUALIZADA -->
     <div class="card guide-card">
-        <details open>
-            <summary>📖 Ver Guía Técnica Completa: Clasificación, Tablas y Modelos Matemáticos PHI</summary>
+        <details>
+            <summary>📖 Criterios Diagnósticos y Guía de Interpretación Clínica</summary>
             <div class="guide-container">
                 
                 <div class="guide-title-internal">🎯 Tabla de Puntos de Corte y Zonas de Sospecha Algorítmica</div>
@@ -649,116 +672,92 @@
                     <table class="guide-table">
                         <thead>
                             <tr>
-                                <th style="width: 18%;">Variable</th>
+                                <th style="width: 18%;">Variable Logoaudiométrica</th>
                                 <th style="width: 15%;">Rango Normalidad</th>
                                 <th style="width: 16%;">Criterio Conductivo</th>
                                 <th style="width: 18%;">Criterio Coclear (Sensorial)</th>
-                                <th style="width: 15%;">Criterio Retrococlear</th>
+                                <th style="width: 15%;">Criterio Retrococlear (Neural)</th>
                                 <th style="width: 18%;">⚠️ Zona de Duda / Sospecha (Filtro Motor)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><strong>Diferencia SRT vs PTA</strong></td>
-                                <td>&plusmn; 6 a 10 dB</td>
+                                <td>&plusmn; 6 a 10 dB de diferencia</td>
                                 <td>Congruente (&plusmn; 6 a 10 dB)</td>
                                 <td>Congruente (&plusmn; 6 a 10 dB)</td>
                                 <td>Desfase evidente</td>
-                                <td><span class="badge-suspect">11 a 14 dB:</span> Duda técnica.<br><span class="badge-suspect">&ge; 15 dB:</span> Simulación o lesión retrococlear/central.</td>
+                                <td><span class="badge-suspect">11 a 14 dB:</span> Duda técnica (verificar calibración/colaboración).<br><span class="badge-suspect">&ge; 15 dB:</span> Sospecha firme de simulación o lesión central.</td>
                             </tr>
                             <tr>
                                 <td><strong>Umbral Verbal (SRT)</strong></td>
                                 <td>0 a 25 dB HL</td>
                                 <td>25 a 60 dB HL</td>
                                 <td>Variable según grado de pérdida</td>
-                                <td>Variable (peor que el PTA)</td>
-                                <td><span class="badge-suspect">25 a 30 dB:</span> Zona gris conductiva/neurosensorial leve.<br><span class="badge-suspect">&gt; 60 dB:</span> Sospecha Hipoacusia Mixta.</td>
+                                <td>Variable (suele ser peor que el PTA)</td>
+                                <td><span class="badge-suspect">25 a 30 dB:</span> Zona gris entre conductiva y neurosensorial leve.<br><span class="badge-suspect">&gt; 60 dB:</span> Sospecha de componente mixto o neurosensorial severo.</td>
                             </tr>
                             <tr>
-                                <td><strong>Discriminación (WRS)</strong></td>
+                                <td><strong>Discriminación Máxima (WRS)</strong></td>
                                 <td>90% a 100%</td>
                                 <td>90% a 100%</td>
-                                <td>Leve/Mod: 50%-80%<br>Severa: 22%-48%</td>
+                                <td>Leve/Mod: 50% a 80%<br>Severa: 22% a 48%</td>
                                 <td>Menor a 22%</td>
-                                <td><span class="badge-suspect">80% a 89%:</span> Conductiva con daño incipiente / Presbiacusia leve.<br><span class="badge-suspect">90%-100% con SRT leve:</span> Exige VO.</td>
+                                <td><span class="badge-suspect">80% a 89%:</span> Duda entre conductiva con daño incipiente o presbiacusia inicial.<br><span class="badge-suspect">90%-100% con SRT leve:</span> Requiere vía ósea indispensable.</td>
                             </tr>
                             <tr>
                                 <td><strong>Índice de Rollover</strong></td>
                                 <td>Negativo (&lt; 0.45)</td>
                                 <td>Negativo (&lt; 0.45)</td>
-                                <td>Negativo o leve (campana por reclutamiento)</td>
-                                <td>Positivo (&ge; 0.45) o caída &gt; 20% - 30%</td>
-                                <td><span class="badge-suspect">0.35 a 0.44:</span> Fatiga neural incipiente. Requiere derivación a BERA o Resonancia Magnética.</td>
+                                <td>Negativo o leve (campana suave por reclutamiento)</td>
+                                <td>Positivo (&ge; 0.45) o caída abrupta &gt; 25%</td>
+                                <td><span class="badge-suspect">0.35 a 0.44:</span> Sospecha incipiente de fatiga neural. Valora derivar a pruebas objetivas (BERA / RM).</td>
                             </tr>
                             <tr>
                                 <td><strong>Morfología Curva</strong></td>
-                                <td>S-itálica pronunciada</td>
+                                <td>S-itálica muy pronunciada</td>
                                 <td>Desplazada en paralelo a la derecha</td>
                                 <td>Curva en Meseta (Plateau) o leve campana</td>
                                 <td>Caída abrupta post-pico (Campana invertida)</td>
-                                <td><span class="badge-suspect">Verticalizada:</span> Sospecha de patología conductiva inicial de graves (Otosclerosis incipiente).</td>
+                                <td><span class="badge-suspect">Verticalizada:</span> Fuerte sospecha de patología conductiva inicial de graves (ej. Otosclerosis incipiente).</td>
                             </tr>
                             <tr>
                                 <td><strong>Brecha Aéreo-Ósea (GAP)</strong></td>
                                 <td>Sin brecha (&lt; 10 dB)</td>
-                                <td>&ge; 15 a 20 dB (VO normal / VA caída)</td>
-                                <td>Sin brecha (Ambas caídas simétricas)</td>
-                                <td>Sin brecha (Ambas caídas)</td>
-                                <td><span class="badge-suspect">10 a 14 dB:</span> Duda clínica. Error de calibración de la VO o leve componente mixto.</td>
+                                <td>&ge; 15 a 20 dB (Vía ósea normal, aérea caída)</td>
+                                <td>Sin brecha (Ambas vías caídas simétricamente)</td>
+                                <td>Sin brecha (Ambas vías caídas)</td>
+                                <td><span class="badge-suspect">10 a 14 dB:</span> Duda clínica. Posible error de calibración o componente mixto muy leve.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="guide-title-internal">📖 Desglose Detallado de Métricas y Ecuaciones del Algoritmo</div>
+                <div class="guide-title-internal">📖 Desglose Clínico de Métricas e Integración Automática</div>
                 <div class="guide-section">
                     
                     <div class="metric-explain">
                         <h3>Detección de la Voz (UDV / SDT)</h3>
-                        <p><strong>Qué mide:</strong> Intensidad acústica umbral donde el paciente detecta fonemas continuos sin requerir decodificación verbal léxica.</p>
-                        <p><strong>Filtro de coherencia:</strong> El software valida que se ubique físicamente de 7 a 10 dB por debajo del SRT matemático calculado.</p>
-                        <div class="formula-box">Valor Clínico Introducido Directamente</div>
+                        <p><strong>Significado clínico:</strong> Conciencia acústica tonal elemental de la señal hablada. El software valida la coherencia biológica confirmando que se ubique entre 7 y 10 dB por debajo del SRT matemático.</p>
+                        <div class="formula-box">Validación Cruzada Automatizada</div>
                     </div>
 
                     <div class="metric-explain">
                         <h3>URV / SRT (al 50% Absoluto)</h3>
-                        <p><strong>Qué mide:</strong> El punto de inflexión sigmoideo exacto donde la inteligibilidad alcanza el 50% del techo dinámico del paciente.</p>
-                        <p><strong>Validación cruzada:</strong> El algoritmo contrasta este valor con el PTA de la vía aérea. Desfases superiores a 15 dB bloquean el diagnóstico directo por sospecha de simulación o lesión central.</p>
+                        <p><strong>Significado clínico:</strong> Umbral crítico donde inicia la inteligibilidad. El algoritmo calcula de manera interna el promedio tonal (PTA-4) de la vía aérea en base a las frecuencias de 500, 1000, 2000 y 4000 Hz introducidas para comprobar la confiabilidad de la prueba.</p>
                         <div class="formula-box">X_SRT = X_50 - [ln(Y_max / 50 - 1) / b]</div>
                     </div>
 
                     <div class="metric-explain">
                         <h3>Discriminación Máxima (Ymax / WRS)</h3>
-                        <p><strong>Qué mide:</strong> Techo óptimo de retención fonémica del lenguaje en formato monoauricular.</p>
-                        <p><strong>Corte de daño coclear:</strong> Valores inferiores al 90% delatan distorsión biológica neural o sensorial coclear progresiva.</p>
+                        <p><strong>Significado clínico:</strong> Capacidad máxima de resolución fonémica. Caídas por debajo del 90% indican distorsión de origen coclear o neural, descartando cuadros conductivos puros.</p>
                         <div class="formula-box">Y_max = max(Y_filtrados)</div>
                     </div>
 
                     <div class="metric-explain">
-                        <h3>Pendiente (b &times; 25)</h3>
-                        <p><strong>Qué mide:</strong> Velocidad de aceleración del reconocimiento verbal expresado en porcentaje por cada decibelio de incremento (%/dB).</p>
-                        <p><strong>Significado:</strong> Pendientes aplanadas sugieren rigidez coclear difusa o neuropatía en bajas intensidades.</p>
-                        <div class="formula-box">Pendiente = b &times; 25</div>
-                    </div>
-
-                    <div class="metric-explain">
-                        <h3>Bondad de Ajuste (R²)</h3>
-                        <p><strong>Qué mide:</strong> Coeficiente matemático de dispersión que evalúa la concordancia entre los puntos experimentales y la sigmoide teórica PHI.</p>
-                        <p><strong>Umbral técnico:</strong> Un R² próximo a 1.00 confirma una ejecución biológica estable y lineal durante el test de cabina.</p>
-                        <div class="formula-box">R² = 1 - [&Sigma;(Y_real - Y_teorica)² / &Sigma;(Y_real - Y_media)²]</div>
-                    </div>
-
-                    <div class="metric-explain">
                         <h3>Fenómeno de Roll-Over / Regresión Fonémica</h3>
-                        <p><strong>Qué mide:</strong> Degradación del rendimiento de inteligibilidad a altas intensidades estimulantes.</p>
-                        <p><strong>Alerta crítica:</strong> El umbral patológico se sitúa en un índice igual o superior a 0.45 o si ocurre un colapso brusco mayor al 25% post-pico, catalogándose automáticamente como sospecha retrococlear.</p>
+                        <p><strong>Significado clínico:</strong> Colapso paradójico de la inteligibilidad a altas intensidades. Un índice igual o superior a 0.45 o caídas brutas superiores al 25% activan de inmediato la alerta de sospecha retrococlear.</p>
                         <div class="formula-box">Índice Roll-Over = (Y_max - Y_min_post_pico) / Y_max</div>
-                    </div>
-
-                    <div class="metric-explain" style="grid-column: 1 / -1;">
-                        <h3>Ecuación General de la Curva Ajustada (PHI)</h3>
-                        <p>Distribución logística asintótica implementada por el motor matemático para modelar las respuestas biológicas y proyectar la sigmoide predictiva en el canvas:</p>
-                        <div class="formula-box">Y_teorica = Y_max / (1 + e^(-b &middot; (X - X_50)))</div>
                     </div>
 
                 </div>
@@ -847,7 +846,7 @@
     }
 
     function clearAllData() {
-        if (confirm("¿Está seguro de que desea reiniciar el formulario? Se borrarán las intensidades y valores de audiometría tonal.")) {
+        if (confirm("¿Está seguro de que desea reiniciar el formulario? Se vaciarán todos los umbrales e intensidades.")) {
             dataPointsOD = [
                 { db: 10, pct: 0 }, { db: 20, pct: 0 }, { db: 30, pct: 0 },
                 { db: 40, pct: 0 }, { db: 50, pct: 0 }, { db: 60, pct: 0 }
@@ -864,10 +863,13 @@
             document.getElementById('odUCL').value = "100";
             document.getElementById('oiUCL').value = "105";
 
-            document.getElementById('odPTAVA').value = "";
-            document.getElementById('oiPTAVA').value = "";
-            document.getElementById('odPTAVO').value = "";
-            document.getElementById('oiPTAVO').value = "";
+            let freqs = ['500', '1000', '2000', '4000'];
+            freqs.forEach(f => {
+                document.getElementById('odVA' + f).value = "";
+                document.getElementById('odVO' + f).value = "";
+                document.getElementById('oiVA' + f).value = "";
+                document.getElementById('oiVO' + f).value = "";
+            });
             
             renderTable();
             calculateAndDraw();
@@ -880,10 +882,23 @@
         let x_reales = points.map(p => p.db);
         let y_reales = points.map(p => p.pct);
 
-        let ptaVA_el = document.getElementById(ear === 'OD' ? 'odPTAVA' : 'oiPTAVA');
-        let ptaVO_el = document.getElementById(ear === 'OD' ? 'odPTAVO' : 'oiPTAVO');
-        let ptaVA = ptaVA_el && ptaVA_el.value !== "" ? parseFloat(ptaVA_el.value) : null;
-        let ptaVO = ptaVO_el && ptaVO_el.value !== "" ? parseFloat(ptaVO_el.value) : null;
+        // Extracción e interpolación de la matriz tonal de frecuencias
+        let prefix = ear === 'OD' ? 'od' : 'oi';
+        let va500 = document.getElementById(prefix + 'VA500').value;
+        let va1000 = document.getElementById(prefix + 'VA1000').value;
+        let va2000 = document.getElementById(prefix + 'VA2000').value;
+        let va4000 = document.getElementById(prefix + 'VA4000').value;
+
+        let vo500 = document.getElementById(prefix + 'VO500').value;
+        let vo1000 = document.getElementById(prefix + 'VO1000').value;
+        let vo2000 = document.getElementById(prefix + 'VO2000').value;
+        let vo4000 = document.getElementById(prefix + 'VO4000').value;
+
+        let ptaVA = (va500 !== "" && va1000 !== "" && va2000 !== "" && va4000 !== "") ? 
+            (parseFloat(va500) + parseFloat(va1000) + parseFloat(va2000) + parseFloat(va4000)) / 4 : null;
+
+        let ptaVO = (vo500 !== "" && vo1000 !== "" && vo2000 !== "" && vo4000 !== "") ? 
+            (parseFloat(vo500) + parseFloat(vo1000) + parseFloat(vo2000) + parseFloat(vo4000)) / 4 : null;
 
         let pb_max = -Infinity;
         let index_pb_max = -1;
@@ -979,6 +994,7 @@
         let clasificacion = "Normal";
         let alertasSubyacentes = [];
 
+        // Validación de coherencia biológica SRT vs PTA Calculado
         if (numericSRT !== null && ptaVA !== null) {
             let diffPTA_SRT = Math.abs(ptaVA - numericSRT);
             if (diffPTA_SRT >= 15) {
@@ -1017,12 +1033,21 @@
             }
         }
 
+        // Análisis Cruzado Ponderado y Frecuencial del GAP
         if (ptaVA !== null && ptaVO !== null) {
-            let gap = ptaVA - ptaVO;
-            if (gap >= 10 && gap <= 14) {
-                alertasSubyacentes.push(`Duda clínica en GAP (${gap} dB: posible error calibración o componente mixto leve)`);
-            } else if (gap >= 15) {
-                alertasSubyacentes.push(`GAP Confirmado de ${gap} dB (Soporta componente conductivo)`);
+            let gapPromedio = ptaVA - ptaVO;
+            if (gapPromedio >= 10 && gapPromedio <= 14) {
+                alertasSubyacentes.push(`Duda en GAP promedio (${gapPromedio.toFixed(1)} dB)`);
+            } else if (gapPromedio >= 15) {
+                alertasSubyacentes.push(`GAP Promedio Confirmado de ${gapPromedio.toFixed(1)} dB`);
+            }
+        }
+
+        // Alerta específica por frecuencia: GAP aislado en graves (500 Hz)
+        if (va500 !== "" && vo500 !== "") {
+            let gap500 = parseFloat(va500) - parseFloat(vo500);
+            if (gap500 >= 15 && (ptaVA === null || (ptaVA - ptaVO) < 15)) {
+                alertasSubyacentes.push("Sospecha de rigidez inicial en graves (ej. Otosclerosis incipiente)");
             }
         }
 
