@@ -257,7 +257,9 @@
             display: block;
         }
 
-        /* CONFIGURACIÓN OPTIMIZADA PARA IMPRESIÓN (PDF A4) */
+        /* ==========================================
+           CONFIGURACIÓN OPTIMIZADA PARA IMPRESIÓN (PDF A4)
+           ========================================== */
         @media print {
             @page {
                 size: A4;
@@ -272,7 +274,6 @@
                 print-color-adjust: exact;
             }
 
-            /* Hacemos desaparecer selectores, botones y filas dinámicas de intensidad */
             .hide-on-print {
                 display: none !important;
             }
@@ -320,7 +321,6 @@
                 background-color: #f1f5f9 !important;
             }
 
-            /* Convertir los inputs clínicos a texto plano estilizado para el PDF final */
             .input-field.inline-input {
                 border: none !important;
                 background: transparent !important;
@@ -344,7 +344,7 @@
             }
 
             canvas {
-                max-width: 52% !important; /* Escala perfecta para consolidar de forma holgada en 1 hoja */
+                max-width: 75% !important; /* Incrementado al 75% para estirar la gráfica hacia los lados de forma óptima */
                 margin: 0 auto !important;
             }
         }
@@ -383,7 +383,6 @@
 
             <button type="button" class="btn btn-primary hide-on-print" onclick="addRow()">+ Añadir Fila de Intensidad</button>
             
-            <!-- NUEVA UBICACIÓN LOGÍSTICA: Tabla de Umbrales Clínicos de Entrada (Bilateral) -->
             <div style="margin-top: 25px;">
                 <h2>Umbrales Clínicos de Referencia</h2>
                 <table class="results-table">
@@ -481,13 +480,12 @@
         </div>
     </div>
 
-    <!-- GUÍA TÉCNICA INTERACTIVA EXTENDIDA Y CORREGIDA -->
+    <!-- GUÍA TÉCNICA INTERACTIVA EXTENDIDA -->
     <div class="card guide-card">
         <details>
             <summary>📖 Ver Guía Técnica: ¿Cómo se calculan e interpretan estas métricas?</summary>
             <div class="guide-section">
                 
-                <!-- NUEVO: UDV / SDT -->
                 <div class="metric-explain">
                     <h3>Detección de la Voz (UDV / SDT)</h3>
                     <p><strong>Qué mide:</strong> La intensidad mínima (dB HL) a la que el paciente capta la presencia de señal de voz humana, sin requerir discriminación de palabras.</p>
