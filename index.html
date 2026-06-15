@@ -109,7 +109,7 @@
             line-height: 1.4;
         }
 
-        /* Estilos específicos de la nueva guía con tablas */
+        /* Estilos de la guía técnica con tablas y tarjetas integradas */
         .guide-card {
             margin-top: 24px;
             border-left: 4px solid var(--primary);
@@ -128,11 +128,13 @@
         .guide-title-internal {
             font-size: 15px;
             color: var(--primary);
-            margin: 16px 0 8px 0;
+            margin: 20px 0 10px 0;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 6px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 4px;
         }
         .guide-table {
             width: 100%;
@@ -154,9 +156,7 @@
             border-bottom: 1px solid var(--border);
             line-height: 1.4;
         }
-        .guide-table tr:hover {
-            background-color: #f8fafc;
-        }
+        .guide-table tr:hover { background-color: #f8fafc; }
         .badge-rule {
             background-color: #334155;
             color: #f8fafc;
@@ -165,6 +165,39 @@
             font-family: monospace;
             font-size: 12px;
             white-space: nowrap;
+        }
+
+        /* Rejilla para las fichas de explicación detallada recuperadas */
+        .guide-section {
+            margin-top: 15px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        @media (min-width: 768px) {
+            .guide-section { grid-template-columns: 1fr 1fr; }
+        }
+        .metric-explain {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .metric-explain h3 {
+            font-size: 15px;
+            color: var(--primary);
+            margin-bottom: 8px;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 4px;
+        }
+        .metric-explain p {
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 8px;
+            line-height: 1.4;
         }
 
         .site-footer {
@@ -404,9 +437,7 @@
 
     <div class="main-grid">
         
-        <!-- ================= COLUMNA IZQUIERDA ================= -->
         <div class="left-col">
-            <!-- 1. ENTRADA DE DATOS (TABLA DE INTENSIDADES) -->
             <div class="card intensity-card hide-on-print">
                 <h2>Entrada de Datos por Oído</h2>
                  
@@ -424,8 +455,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        <!-- Dinámico -->
-                    </tbody>
+                        </tbody>
                 </table>
 
                 <button type="button" class="btn btn-primary" onclick="addRow()">+ Añadir Fila de Intensidad</button>
@@ -435,7 +465,6 @@
                 </div>
             </div>
 
-            <!-- 2. UMBRALES CLÍNICOS DE REFERENCIA -->
             <div class="card umbrales-card">
                 <h2>Umbrales Clínicos de Referencia</h2>
                 <table class="results-table">
@@ -466,7 +495,6 @@
                 </table>
             </div>
 
-            <!-- BLOQUE DE ACCIÓN INDEPENDIENTE -->
             <button type="button" class="btn btn-clear hide-on-print" onclick="clearAllData()">🗑️ Borrar y Reiniciar Formulario</button>
             
             <button type="button" class="btn btn-success hide-on-print" onclick="window.print()">
@@ -475,9 +503,7 @@
             </button>
         </div>
 
-        <!-- ================= COLUMNA DERECHA ================= -->
         <div class="right-col">
-            <!-- 3. RESULTADOS DEL AJUSTE MATEMÁTICO -->
             <div class="card resultados-card">
                 <h2>Resultados del ajuste</h2>
                 <table class="results-table">
@@ -533,7 +559,6 @@
                 </table>
             </div>
 
-            <!-- 4. GRÁFICA DE LOGOAUDIOMETRÍA -->
             <div class="card chart-card">
                 <h2>Curva Logoaudiometría Ajustada (PHI)</h2>
                 <div class="canvas-container">
@@ -544,13 +569,11 @@
         
     </div>
 
-    <!-- GUÍA TÉCNICA INTERACTIVA REESTRUCTURADA EN TABLAS -->
     <div class="card guide-card">
         <details>
-            <summary>📖 Ver Guía Técnica: Clasificación y Criterios del Algoritmo PHI</summary>
+            <summary>📖 Ver Guía Técnica Completa: Clasificación, Tablas y Modelos Matemáticos PHI</summary>
             <div class="guide-container">
                 
-                <!-- TABLA 1: CLASIFICACIONES DE LA CURVA -->
                 <div class="guide-title-internal">📊 Tabla 1: Criterios de Clasificación Automatizada de la Curva</div>
                 <table class="guide-table">
                     <thead>
@@ -564,32 +587,31 @@
                         <tr>
                             <td><strong>Normal</strong></td>
                             <td><span class="badge-rule">Ymax &ge; 92%</span> y <span class="badge-rule">SRT &le; 25 dB HL</span></td>
-                            <td>Audición periférica y procesamiento central dentro de los umbrales de normalidad. Curva sigmoide simétrica.</td>
+                            <td>Audición periférica verbal y procesamiento central dentro de rangos normales. Curva simétrica sana.</td>
                         </tr>
                         <tr>
                             <td><strong>Conductiva</strong></td>
                             <td><span class="badge-rule">Ymax &ge; 92%</span> y <span class="badge-rule">SRT &gt; 25 dB HL</span></td>
-                            <td>Pérdida por barrera física en oído medio o externo. La curva es perfecta en su forma, pero aparece <strong>desplazada en paralelo hacia la derecha</strong>.</td>
+                            <td>Pérdida por barrera física en oído medio o externo. La curva mantiene forma perfecta pero aparece <strong>desplazada en paralelo a la derecha</strong>.</td>
                         </tr>
                         <tr>
                             <td><strong>Coclear<br><small>(Techo Truncado)</small></strong></td>
                             <td><span class="badge-rule">Ymax &lt; 92%</span> y <span class="badge-rule">Roll-Over &lt; 0.40</span></td>
-                            <td>Lesión sensorial en las células ciliadas. La distorsión biológica actúa como un freno y genera una <strong>meseta prematura</strong> (el paciente no alcanza el 100%).</td>
+                            <td>Lesión sensorial en células ciliadas. La distorsión biológica actúa como freno y genera una <strong>meseta prematura</strong> (no alcanza el 100%).</td>
                         </tr>
                         <tr>
                             <td><strong>Coclear / Plana<br><small>(Baja Pendiente)</small></strong></td>
                             <td><span class="badge-rule">Ymax &ge; 92%</span> y <span class="badge-rule">Pendiente &lt; 6.5 %/dB</span></td>
-                            <td>Lesión coclear difusa (común en presbiacusias). La curva está muy "acostada"; el paciente comprende pero necesita aumentos de volumen muy grandes.</td>
+                            <td>Lesión coclear difusa (presbiacusias severas). Curva muy "acostada"; el paciente discrimina bien pero exige un gran incremento de volumen.</td>
                         </tr>
                         <tr>
                             <td><strong style="color: var(--right-ear);">⚠️ Retrococlear</strong></td>
                             <td><span class="badge-rule">Índice Roll-Over &ge; 0.40</span></td>
-                            <td><strong>Prioridad de Alerta Máxima:</strong> Caída paradójica extrema de la comprensión a altas intensidades. Sospecha de patología tumoral o neural en el VIII par.</td>
+                            <td><strong>Prioridad de Alerta Máxima:</strong> Caída paradójica extrema de la discriminación a altas intensidades. Sospecha de tumor o lesión en el VIII par craneal.</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <!-- TABLA 2: RECLUTAMIENTO GEOMÉTRICO -->
                 <div class="guide-title-internal">⚡ Tabla 2: Deducción Inteligente de Reclutamiento (Opción B)</div>
                 <table class="guide-table">
                     <thead>
@@ -603,21 +625,95 @@
                         <tr>
                             <td><strong style="color: #c2410c;">⚠️ Detectado</strong></td>
                             <td><span class="badge-rule">(Intensidad de Ymax - SRT) &le; 20 dB</span><br><small>con SRT &gt; 25 dB HL e Índice Roll-Over &lt; 0.40</small></td>
-                            <td><strong>Saturación Rápida por Reclutamiento:</strong> El paciente pasa de empezar a entender (50%) a su techo máximo en un rango de decibelios muy estrecho. Denota un incremento anormal de la sonoridad en la cóclea. Aislado de la pendiente nativa de la prueba verbal.</td>
+                            <td><strong>Saturación Rápida por Reclutamiento:</strong> El paciente pasa de empezar a entender (50%) a su techo óptimo en decibelios muy estrechos. Denota fatiga coclear y es independiente de la pendiente nativa de la prueba verbal.</td>
                         </tr>
                         <tr>
                             <td><strong>No Detectado</strong></td>
                             <td><span class="badge-rule">(Intensidad de Ymax - SRT) &gt; 20 dB</span></td>
-                            <td><strong>Crecimiento Gradual de la Sonoridad:</strong> El rango de discriminación asciende siguiendo una distribución fisiológica normal, conductiva o coclear difusa de progresión lenta.</td>
+                            <td><strong>Crecimiento Gradual de la Sonoridad:</strong> El rango útil de discriminación asciende siguiendo una distribución fisiológica o conductiva extendida normal de progresión gradual.</td>
                         </tr>
                     </tbody>
                 </table>
+
+
+                <div class="guide-title-internal">📖 Desglose Detallado de Métricas y Ecuaciones</div>
+                <div class="guide-section">
+                    
+                    <div class="metric-explain">
+                        <h3>Detección de la Voz (UDV / SDT)</h3>
+                        <p><strong>Qué mide:</strong> La intensidad mínima (dB HL) a la que el paciente capta la presencia de señal de voz humana, sin requerir discriminación de palabras.</p>
+                        <p><strong>Significado clínico:</strong> Actúa como marcador primario de conciencia acústica verbal. Clínicamente, se localiza de manera consistente entre 7 y 10 dB por debajo del SRT.</p>
+                        <div class="formula-box">Valor Clínico Introducido Directamente</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>URV / SRT (al 50% Absoluto)</h3>
+                        <p><strong>Qué mide:</strong> La intensidad exacta (dB HL) en la que el paciente comprende el 50% absoluto de las palabras presentadas.</p>
+                        <p><strong>Significado clínico:</strong> Es el umbral de inteligibilidad donde inicia la comprensión verbal; sirve para validar de forma directa el promedio tonal (PTA) de la vía aérea.</p>
+                        <div class="formula-box">X<sub>URV</sub> = X<sub>50</sub> - [ln(Y<sub>max</sub> / 50 - 1) / b]</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Discriminación Máxima (Ymax)</h3>
+                        <p><strong>Qué mide:</strong> El techo porcentual óptimo de discriminación de la palabra hablada que posee el paciente.</p>
+                        <p><strong>Significado clínico:</strong> Define la capacidad máxima de rendimiento del sistema auditivo. Valores por debajo del 100% reflejan distorsión y daño neurosensorial (coclear o neural).</p>
+                        <div class="formula-box">Y<sub>max</sub> = max(Y<sub>filtrados</sub>)</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Pendiente (b × 25)</h3>
+                        <p><strong>Qué mide:</strong> La tasa de aceleración e inclinación del reconocimiento verbal por cada dB aumentado (%/dB).</p>
+                        <p><strong>Significado clínico:</strong> Evalúa la eficiencia del rango dinámico. Una pendiente plana o de bajo porcentaje denota problemas severos de reclutamiento coclear o rigidez neural.</p>
+                        <div class="formula-box">Pendiente = b × 25</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Bondad de Ajuste (R²)</h3>
+                        <p><strong>Qué mide:</strong> Coeficiente estadístico que cuantifica la fidelidad entre el modelo matemático PHI y los datos anotados en cabina.</p>
+                        <p><strong>Significado clínico:</strong> Valores muy próximos a 1.00 garantizan que el comportamiento biológico del paciente fue consistentemente lineal y coherente.</p>
+                        <div class="formula-box">R² = 1 - [Σ(Y<sub>real</sub> - Y<sub>teórica</sub>)² / Σ(Y<sub>real</sub> - Y<sub>media</sub>)²]</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Máxima Comodidad (MCL)</h3>
+                        <p><strong>Qué mide:</strong> El nivel de intensidad (dB HL) en el cual el paciente percibe que la palabra hablada se escucha de la forma más clara, cómoda y agradable sin esfuerzo.</p>
+                        <p><strong>Significado clínico:</strong> Es la métrica de referencia directo indispensable para estimar y programar el volumen objetivo y la ganancia inicial en la adaptación de audífonos.</p>
+                        <div class="formula-box">Valor Clínico Introducido Directamente</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Umbral de Disconfort (UCL)</h3>
+                        <p><strong>Qué mide:</strong> El límite de intensidad sonora (dB HL) al cual la palabra hablada empieza a ser intolerablemente fuerte, molesta o dolorosa para el paciente.</p>
+                        <p><strong>Significado clínico:</strong> Define la tolerancia límite del oído. Imprescindible para fijar los techos de compresión de salida máxima (MPO) en audífonos para evitar traumas acústicos.</p>
+                        <div class="formula-box">Valor Clínico Introducido Directamente</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Rango Dinámico de la Palabra</h3>
+                        <p><strong>Qué mide:</strong> El espacio útil de audición cómoda para el lenguaje que posee el paciente (UCL - SRT).</p>
+                        <p><strong>Significado clínico:</strong> Un rango estrecho (menor a 40-50 dB) es un indicador matemático directo de Reclutamiento Coclear, guiando al audioprotesista a programar relaciones de compresión más estrictas.</p>
+                        <div class="formula-box">Rango Dinámico = UCL - SRT</div>
+                    </div>
+
+                    <div class="metric-explain" style="grid-column: 1 / -1;">
+                        <h3>Fenómeno de Roll-Over</h3>
+                        <p><strong>Qué mide:</strong> Cuantifica la caída paradójica de la inteligibilidad a intensidades sonoras muy evasivas.</p>
+                        <p><strong>Significado clínico:</strong> Actúa como una potente alerta diagnóstica. Si la discriminación colapsa a volúmenes altos y el índice matemático da un resultado igual o mayor a 0.40, el motor activa la etiqueta de sospecha de Patología Retrococlear.</p>
+                        <div class="formula-box">Índice de Roll-Over = (Y<sub>max</sub> - Y<sub>min_post_pico</sub>) / Y<sub>max</sub></div>
+                    </div>
+
+                    <div class="metric-explain" style="grid-column: 1 / -1;">
+                        <h3>Ecuación General de la Curva Ajustada (PHI)</h3>
+                        <p>Fórmula de distribución logística continua empleada por el algoritmo de software para proyectar de manera matemática y precisa la sigmoide en el gráfico bilateral:</p>
+                        <div class="formula-box">Y<sub>teórica</sub> = Y<sub>max</sub> / (1 + e<sup>-b · (X - X<sub>50</sub>)</sup>)</div>
+                    </div>
+
+                </div>
 
             </div>
         </details>
     </div>
 
-    <!-- PIE DE PÁGINA CORPORATIVO -->
     <footer class="site-footer">
         <p>© 2026 Zenker. Todos los derechos reservados.</p>
         <p>Contacto: <a href="mailto:zenker@clinicabarajas.com">zenker@clinicabarajas.com</a></p>
