@@ -110,9 +110,9 @@
             line-height: 1.4;
         }
 
-        /* Estilos de la guía clínica */
+        /* Estilos de las guías clínicas inferiores */
         .guide-card {
-            margin-top: 24px;
+            margin-top: 20px;
             border-left: 4px solid var(--primary);
         }
         .guide-card summary {
@@ -129,14 +129,14 @@
         .table-responsive {
             width: 100%;
             overflow-x: auto;
-            margin-bottom: 24px;
+            margin-bottom: 10px;
             border: 1px solid var(--border);
             border-radius: 8px;
         }
         .guide-title-internal {
             font-size: 15px;
             color: var(--primary);
-            margin: 20px 0 10px 0;
+            margin: 10px 0 10px 0;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -148,7 +148,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
-            min-width: 850px;
+            min-width: 900px;
         }
         .guide-table th {
             background-color: #f1f5f9;
@@ -187,7 +187,7 @@
         }
 
         .guide-section {
-            margin-top: 15px;
+            margin-top: 5px;
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
@@ -500,9 +500,9 @@
                 </div>
             </div>
 
-            <!-- MATRIZ DE FRECUENCIAS PURAS PARA AUDIOMETRÍA TONAL -->
+            <!-- MATRIZ DE FRECUENCIAS PURAS PARA AUDIOMETRÍA TONAL - INICIALIZA CERRADO -->
             <div class="card tonal-card hide-on-print">
-                <details class="tonal-details" open>
+                <details class="tonal-details">
                     <summary>📊 Vincular Audiometría Tonal Cruzada (Opcional)</summary>
                     <div style="margin-top: 12px;">
                         <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
@@ -525,31 +525,31 @@
                             <tbody>
                                 <tr>
                                     <td><strong>500 Hz</strong></td>
-                                    <td><input type="number" id="odVA500" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="odVO500" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVA500" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVO500" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="odVA500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="odVO500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVA500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVO500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
                                 </tr>
                                 <tr>
                                     <td><strong>1000 Hz</strong></td>
-                                    <td><input type="number" id="odVA1000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="odVO1000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVA1000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVO1000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="odVA1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="odVO1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVA1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVO1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
                                 </tr>
                                 <tr>
                                     <td><strong>2000 Hz</strong></td>
-                                    <td><input type="number" id="odVA2000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="odVO2000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVA2000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVO2000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="odVA2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="odVO2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVA2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVO2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
                                 </tr>
                                 <tr>
                                     <td><strong>4000 Hz</strong></td>
-                                    <td><input type="number" id="odVA4000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="odVO4000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVA4000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
-                                    <td><input type="number" id="oiVO4000" class="input-field inline-input" placeholder="dB" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="odVA4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="odVO4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVA4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
+                                    <td><input type="number" id="oiVO4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -570,18 +570,18 @@
                     <tbody>
                         <tr>
                             <td><strong>Detección de la Voz (UDV / SDT)</strong></td>
-                            <td><input type="number" id="odUDV" class="input-field inline-input" value="20" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                            <td><input type="number" id="oiUDV" class="input-field inline-input" value="30" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
+                            <td><input type="number" id="odUDV" class="input-field inline-input" value="" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
+                            <td><input type="number" id="oiUDV" class="input-field inline-input" value="" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
                         </tr>
                         <tr>
                             <td><strong>Máxima Comodidad (MCL)</strong></td>
-                            <td><input type="number" id="odMCL" class="input-field inline-input" value="45" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                            <td><input type="number" id="oiMCL" class="input-field inline-input" value="55" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
+                            <td><input type="number" id="odMCL" class="input-field inline-input" value="" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
+                            <td><input type="number" id="oiMCL" class="input-field inline-input" value="" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
                         </tr>
                         <tr>
                             <td><strong>Umbral de Disconfort (UCL)</strong></td>
-                            <td><input type="number" id="odUCL" class="input-field inline-input" value="100" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                            <td><input type="number" id="oiUCL" class="input-field inline-input" value="105" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
+                            <td><input type="number" id="odUCL" class="input-field inline-input" value="" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
+                            <td><input type="number" id="oiUCL" class="input-field inline-input" value="" placeholder="--" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
                         </tr>
                     </tbody>
                 </table>
@@ -642,8 +642,13 @@
                             <td id="odReclut">--</td>
                             <td id="oiReclut">--</td>
                         </tr>
+                        <tr>
+                            <td><strong>Concordancia Logo-Tonal:</strong></td>
+                            <td id="odConcordancia" style="font-weight: 500;">--</td>
+                            <td id="oiConcordancia" style="font-weight: 500;">--</td>
+                        </tr>
                         <tr style="background-color: #f8fafc;">
-                            <td><strong>Clasificación Avanzada de la Curva</strong></td>
+                            <td><strong>Clasificación diagnóstica:</strong></td>
                             <td id="odClasif" style="font-weight: bold; font-size: 13px; max-width: 200px; word-wrap: break-word;">--</td>
                             <td id="oiClasif" style="font-weight: bold; font-size: 13px; max-width: 200px; word-wrap: break-word;">--</td>
                         </tr>
@@ -661,13 +666,92 @@
         
     </div>
 
-    <!-- GUÍA DE INTERPRETACIÓN CLÍNICA ACTUALIZADA -->
+    <!-- DESPLEGABLE 1: GUÍA DE INTERPRETACIÓN CLÍNICA Y MÉTRICAS -->
     <div class="card guide-card">
         <details>
             <summary>📖 Criterios Diagnósticos y Guía de Interpretación Clínica</summary>
             <div class="guide-container">
-                
-                <div class="guide-title-internal">🎯 Tabla de Puntos de Corte y Zonas de Sospecha Algorítmica</div>
+                <div class="guide-title-internal">📋 Desglose Clínico de Métricas, Ecuaciones e Indicadores</div>
+                <div class="guide-section">
+                    
+                    <div class="metric-explain">
+                        <h3>Detección de la Voz (UDV / SDT)</h3>
+                        <p><strong>Qué mide:</strong> Umbral de conciencia acústica verbal elemental donde el paciente nota la presencia de fonación humana sin comprender palabras.</p>
+                        <p><strong>Significado clínico:</strong> Sirve como anclaje fisiológico basal inicial. El motor matemático comprueba que esté situado de 7 a 10 dB por debajo del SRT real.</p>
+                        <div class="formula-box">Validación Cruzada Automatizada</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>URV / SRT (al 50% Absoluto)</h3>
+                        <p><strong>Qué mide:</strong> Intensidad precisa donde el paciente decodifica y comprende exactamente la mitad (50%) del estímulo léxico.</p>
+                        <p><strong>Significado clínico:</strong> Valida de forma directa la congruencia con el PTA aéreo calculado dinámicamente mediante las frecuencias de 500 a 4000 Hz.</p>
+                        <div class="formula-box">X_SRT = X_50 - [ln(Y_max / 50 - 1) / b]</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Discriminación Máxima (Ymax / WRS)</h3>
+                        <p><strong>Qué mide:</strong> El techo máximo porcentual de discriminación de la palabra hablada que retiene el sistema auditivo.</p>
+                        <p><strong>Significado clínico:</strong> Valores inferiores al 90% delatan distorsión y lesión en las células ciliadas de la cóclea o vías neurales superiores.</p>
+                        <div class="formula-box">Y_max = max(Y_filtrados)</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Pendiente (b &times; 25)</h3>
+                        <p><strong>Qué mide:</strong> Tasa de aceleración y ganancia de inteligibilidad por cada decibelio de volumen añadido (%/dB).</p>
+                        <p><strong>Significado clínico:</strong> Una pendiente aplanada describe una pérdida de rango dinámico útil o rigidez coclear severa (común en presbiacusias severas).</p>
+                        <div class="formula-box">Pendiente = b &times; 25</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Bondad de Ajuste (R²)</h3>
+                        <p><strong>Qué mide:</strong> Coeficiente estadístico de correlación lineal que mide la fidelidad entre el modelo teórico PHI y los datos anotados en cabina.</p>
+                        <p><strong>Significado clínico:</strong> Valores cercanos a 1.00 garantizan que el comportamiento y las respuestas biológicas del paciente son consistentes, lineales y fiables.</p>
+                        <div class="formula-box">R² = 1 - [Σ(Y_real - Y_teórica)² / Σ(Y_real - Y_media)²]</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Máxima Comodidad (MCL)</h3>
+                        <p><strong>Qué mide:</strong> Nivel de intensidad en el que la palabra se percibe con máxima claridad y confort natural sin fatiga.</p>
+                        <p><strong>Significado clínico:</strong> Métrica de referencia indispensable para programar la ganancia objetiva inicial en la adaptación de audífonos.</p>
+                        <div class="formula-box">Valor Clínico Introducido Directamente</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Umbral de Disconfort (UCL)</h3>
+                        <p><strong>Qué mide:</strong> Límite superior de tolerancia donde la estimulación acústica de la palabra evoca molestia o dolor.</p>
+                        <p><strong>Significado clínico:</strong> Define el techo dinámico para programar la salida máxima (MPO) de prótesis acústicas y evitar traumas secundarios.</p>
+                        <div class="formula-box">Valor Clínico Introducido Directamente</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Rango Dinámico de la Palabra</h3>
+                        <p><strong>Qué mide:</strong> Ventana útil de audición cómoda y discriminación para el lenguaje que posee el paciente (UCL - SRT).</p>
+                        <p><strong>Significado clínico:</strong> Ventanas estrechas (menores a 40-50 dB) confirman la presencia de Reclutamiento Coclear o fatiga neural severa.</p>
+                        <div class="formula-box">Rango Dinámico = UCL - SRT</div>
+                    </div>
+
+                    <div class="metric-explain" style="grid-column: 1 / -1;">
+                        <h3>Fenómeno de Roll-Over / Regresión Fonémica</h3>
+                        <p><strong>Qué mide:</strong> Cuantifica la caída paradójica de la discriminación verbal a intensidades sonoras elevadas.</p>
+                        <p><strong>Significado clínico:</strong> Alerta diagnóstica crítica. Si el índice matemático arroja un valor &ge; 0.45 o se observa un colapso brusco mayor del 25% tras alcanzar el punto máximo, el sistema activa de inmediato la alarma de sospecha de Patología Retrococlear.</p>
+                        <div class="formula-box">Índice Roll-Over = (Y_max - Y_min_post_pico) / Y_max</div>
+                    </div>
+
+                    <div class="metric-explain" style="grid-column: 1 / -1;">
+                        <h3>Ecuación General de la Curva Ajustada (PHI)</h3>
+                        <p>Fórmula de distribución logística continua empleada por el algoritmo para proyectar de manera matemática y precisa la sigmoide en el gráfico bilateral:</p>
+                        <div class="formula-box">Y_teórica = Y_max / (1 + e^(-b &middot; (X - X_50)))</div>
+                    </div>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <!-- DESPLEGABLE 2: TABLA DE PUNTOS DE CORTE Y MATRIZ DE SOSPECHA -->
+    <div class="card guide-card">
+        <details>
+            <summary>🎛️ Tabla de Puntos de Corte y Zonas de Sospecha Algorítmica</summary>
+            <div class="guide-container">
                 <div class="table-responsive">
                     <table class="guide-table">
                         <thead>
@@ -695,7 +779,7 @@
                                 <td>25 a 60 dB HL</td>
                                 <td>Variable según grado de pérdida</td>
                                 <td>Variable (suele ser peor que el PTA)</td>
-                                <td><span class="badge-suspect">25 a 30 dB:</span> Zona gris entre conductiva y neurosensorial leve.<br><span class="badge-suspect">&gt; 60 dB:</span> Sospecha de componente mixto o neurosensorial severo.</td>
+                                <td><span class="badge-suspect">25 a 30 dB:</span> Zona gris entre conductiva y neurosensorial leve.<br><span class="badge-suspect">&gt; 60 dB:</span> Sospecha de componente mixto o neurosensorial severo (límite mecánico superado).</td>
                             </tr>
                             <tr>
                                 <td><strong>Discriminación Máxima (WRS)</strong></td>
@@ -732,36 +816,6 @@
                         </tbody>
                     </table>
                 </div>
-
-                <div class="guide-title-internal">📖 Desglose Clínico de Métricas e Integración Automática</div>
-                <div class="guide-section">
-                    
-                    <div class="metric-explain">
-                        <h3>Detección de la Voz (UDV / SDT)</h3>
-                        <p><strong>Significado clínico:</strong> Conciencia acústica tonal elemental de la señal hablada. El software valida la coherencia biológica confirmando que se ubique entre 7 y 10 dB por debajo del SRT matemático.</p>
-                        <div class="formula-box">Validación Cruzada Automatizada</div>
-                    </div>
-
-                    <div class="metric-explain">
-                        <h3>URV / SRT (al 50% Absoluto)</h3>
-                        <p><strong>Significado clínico:</strong> Umbral crítico donde inicia la inteligibilidad. El algoritmo calcula de manera interna el promedio tonal (PTA-4) de la vía aérea en base a las frecuencias de 500, 1000, 2000 y 4000 Hz introducidas para comprobar la confiabilidad de la prueba.</p>
-                        <div class="formula-box">X_SRT = X_50 - [ln(Y_max / 50 - 1) / b]</div>
-                    </div>
-
-                    <div class="metric-explain">
-                        <h3>Discriminación Máxima (Ymax / WRS)</h3>
-                        <p><strong>Significado clínico:</strong> Capacidad máxima de resolución fonémica. Caídas por debajo del 90% indican distorsión de origen coclear o neural, descartando cuadros conductivos puros.</p>
-                        <div class="formula-box">Y_max = max(Y_filtrados)</div>
-                    </div>
-
-                    <div class="metric-explain">
-                        <h3>Fenómeno de Roll-Over / Regresión Fonémica</h3>
-                        <p><strong>Significado clínico:</strong> Colapso paradójico de la inteligibilidad a altas intensidades. Un índice igual o superior a 0.45 o caídas brutas superiores al 25% activan de inmediato la alerta de sospecha retrococlear.</p>
-                        <div class="formula-box">Índice Roll-Over = (Y_max - Y_min_post_pico) / Y_max</div>
-                    </div>
-
-                </div>
-
             </div>
         </details>
     </div>
@@ -777,13 +831,13 @@
     let currentEar = 'OD';
     
     let dataPointsOD = [
-        { db: 10, pct: 0 }, { db: 20, pct: 10 }, { db: 30, pct: 45 },
-        { db: 40, pct: 85 }, { db: 50, pct: 100 }, { db: 60, pct: 100 }
+        { db: 10, pct: null }, { db: 20, pct: null }, { db: 30, pct: null },
+        { db: 40, pct: null }, { db: 50, pct: null }, { db: 60, pct: null }
     ];
 
     let dataPointsOI = [
-        { db: 10, pct: 0 }, { db: 20, pct: 10 }, { db: 30, pct: 45 },
-        { db: 40, pct: 85 }, { db: 50, pct: 100 }, { db: 60, pct: 100 }
+        { db: 10, pct: null }, { db: 20, pct: null }, { db: 30, pct: null },
+        { db: 40, pct: null }, { db: 50, pct: null }, { db: 60, pct: null }
     ];
 
     window.onload = function() {
@@ -812,8 +866,8 @@
         currentPoints.forEach((point, index) => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td><input type="number" class="input-field" value="${point.db}" onchange="updatePoint(${index}, 'db', this.value)" min="-10" max="120" step="5"></td>
-                <td><input type="number" class="input-field" value="${point.pct}" onchange="updatePoint(${index}, 'pct', this.value)" min="0" max="100" step="5"></td>
+                <td><input type="number" class="input-field" value="${point.db !== null ? point.db : ''}" onchange="updatePoint(${index}, 'db', this.value)" min="-10" max="120" step="5"></td>
+                <td><input type="number" class="input-field" value="${point.pct !== null ? point.pct : ''}" placeholder="--" onchange="updatePoint(${index}, 'pct', this.value)" min="0" max="100" step="5"></td>
                 <td class="hide-on-print"><button class="btn btn-danger" onclick="deleteRow(${index})">🗑</button></td>
             `;
             tbody.appendChild(row);
@@ -823,7 +877,7 @@
     function addRow() {
         let currentPoints = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
         let lastDb = currentPoints.length > 0 ? currentPoints[currentPoints.length - 1].db : 0;
-        currentPoints.push({ db: lastDb + 10, pct: 0 });
+        currentPoints.push({ db: lastDb + 10, pct: null });
         renderTable();
         calculateAndDraw();
     }
@@ -837,8 +891,13 @@
 
     function updatePoint(index, field, value) {
         let currentPoints = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
-        currentPoints[index][field] = parseFloat(value) || 0;
-        if (field === 'pct') {
+        if (value === "") {
+            currentPoints[index][field] = null;
+        } else {
+            currentPoints[index][field] = parseFloat(value);
+        }
+
+        if (field === 'pct' && currentPoints[index].pct !== null) {
             if (currentPoints[index].pct > 100) currentPoints[index].pct = 100;
             if (currentPoints[index].pct < 0) currentPoints[index].pct = 0;
         }
@@ -846,22 +905,22 @@
     }
 
     function clearAllData() {
-        if (confirm("¿Está seguro de que desea reiniciar el formulario? Se vaciarán todos los umbrales e intensidades.")) {
+        if (confirm("¿Está seguro de que desea reiniciar el formulario? Se vaciarán por completo todos los umbrales, gráficas e intensidades.")) {
             dataPointsOD = [
-                { db: 10, pct: 0 }, { db: 20, pct: 0 }, { db: 30, pct: 0 },
-                { db: 40, pct: 0 }, { db: 50, pct: 0 }, { db: 60, pct: 0 }
+                { db: 10, pct: null }, { db: 20, pct: null }, { db: 30, pct: null },
+                { db: 40, pct: null }, { db: 50, pct: null }, { db: 60, pct: null }
             ];
             dataPointsOI = [
-                { db: 10, pct: 0 }, { db: 20, pct: 0 }, { db: 30, pct: 0 },
-                { db: 40, pct: 0 }, { db: 50, pct: 0 }, { db: 60, pct: 0 }
+                { db: 10, pct: null }, { db: 20, pct: null }, { db: 30, pct: null },
+                { db: 40, pct: null }, { db: 50, pct: null }, { db: 60, pct: null }
             ];
             
-            document.getElementById('odUDV').value = "20";
-            document.getElementById('oiUDV').value = "30";
-            document.getElementById('odMCL').value = "45";
-            document.getElementById('oiMCL').value = "55";
-            document.getElementById('odUCL').value = "100";
-            document.getElementById('oiUCL').value = "105";
+            document.getElementById('odUDV').value = "";
+            document.getElementById('oiUDV').value = "";
+            document.getElementById('odMCL').value = "";
+            document.getElementById('oiMCL').value = "";
+            document.getElementById('odUCL').value = "";
+            document.getElementById('oiUCL').value = "";
 
             let freqs = ['500', '1000', '2000', '4000'];
             freqs.forEach(f => {
@@ -877,12 +936,12 @@
     }
 
     function procesarAjusteOido(points, ear) {
-        if (points.length < 2) return null;
+        let pointsValidos = points.filter(p => p.db !== null && p.pct !== null && !isNaN(p.db) && !isNaN(p.pct));
+        if (pointsValidos.length < 2) return null;
 
-        let x_reales = points.map(p => p.db);
-        let y_reales = points.map(p => p.pct);
+        let x_reales = pointsValidos.map(p => p.db);
+        let y_reales = pointsValidos.map(p => p.pct);
 
-        // Extracción e interpolación de la matriz tonal de frecuencias
         let prefix = ear === 'OD' ? 'od' : 'oi';
         let va500 = document.getElementById(prefix + 'VA500').value;
         let va1000 = document.getElementById(prefix + 'VA1000').value;
@@ -994,14 +1053,21 @@
         let clasificacion = "Normal";
         let alertasSubyacentes = [];
 
-        // Validación de coherencia biológica SRT vs PTA Calculado
+        // Deducción automática de la Concordancia Logo-Tonal
+        let concordanciaText = "--";
         if (numericSRT !== null && ptaVA !== null) {
             let diffPTA_SRT = Math.abs(ptaVA - numericSRT);
-            if (diffPTA_SRT >= 15) {
-                clasificacion = "⚠️ Prueba no confiable / Sospecha Retrococlear / Simulación";
+            if (diffPTA_SRT <= 10) {
+                concordanciaText = `Congruente (${diffPTA_SRT.toFixed(1)} dB)`;
             } else if (diffPTA_SRT >= 11 && diffPTA_SRT <= 14) {
+                concordanciaText = `⚠️ Duda técnica (${diffPTA_SRT.toFixed(1)} dB)`;
                 alertasSubyacentes.push("Duda técnica (verificar equipo/colaboración)");
+            } else {
+                concordanciaText = `❌ Discordante (${diffPTA_SRT.toFixed(1)} dB)`;
+                clasificacion = "⚠️ Prueba no confiable / Sospecha Retrococlear / Simulación";
             }
+        } else if (numericSRT !== null) {
+            concordanciaText = "Falta Audio Tonal";
         }
 
         if (!clasificacion.startsWith("⚠️ Prueba no confiable")) {
@@ -1033,7 +1099,6 @@
             }
         }
 
-        // Análisis Cruzado Ponderado y Frecuencial del GAP
         if (ptaVA !== null && ptaVO !== null) {
             let gapPromedio = ptaVA - ptaVO;
             if (gapPromedio >= 10 && gapPromedio <= 14) {
@@ -1043,7 +1108,6 @@
             }
         }
 
-        // Alerta específica por frecuencia: GAP aislado en graves (500 Hz)
         if (va500 !== "" && vo500 !== "") {
             let gap500 = parseFloat(va500) - parseFloat(vo500);
             if (gap500 >= 15 && (ptaVA === null || (ptaVA - ptaVO) < 15)) {
@@ -1065,6 +1129,7 @@
             esPatol: es_patologico,
             reclut: reclutamientoText,
             tieneReclut: tiene_reclutamiento,
+            concordancia: concordanciaText,
             clasif: clasificacion,
             b: bestB, x50: bestX50, yMax: y_max_fijo
         };
@@ -1085,6 +1150,12 @@
             odReclutEl.innerText = resOD.reclut;
             odReclutEl.style.color = resOD.tieneReclut ? '#c2410c' : 'var(--text-secondary)';
 
+            const odConcordEl = document.getElementById('odConcordancia');
+            odConcordEl.innerText = resOD.concordancia;
+            if (resOD.concordancia.includes("❌")) odConcordEl.style.color = 'var(--right-ear)';
+            else if (resOD.concordancia.includes("⚠️")) odConcordEl.style.color = 'var(--warning-alert)';
+            else odConcordEl.style.color = 'var(--success)';
+
             const odClasifEl = document.getElementById('odClasif');
             odClasifEl.innerText = resOD.clasif;
             if (resOD.clasif.includes("⚠️")) odClasifEl.style.color = 'var(--warning-alert)';
@@ -1097,6 +1168,19 @@
                 let rdOD = uclOD - resOD.urvVal;
                 document.getElementById('odRango').innerText = `${rdOD.toFixed(1)} dB`;
             } else { document.getElementById('odRango').innerText = "--"; }
+        } else {
+            document.getElementById('odURV').innerText = "--";
+            document.getElementById('odPBMax').innerText = "--";
+            document.getElementById('odPendiente').innerText = "--";
+            document.getElementById('odR2').innerText = "--";
+            document.getElementById('odRollover').innerText = "--";
+            document.getElementById('odRango').innerText = "--";
+            document.getElementById('odReclut').innerText = "--";
+            document.getElementById('odReclut').style.color = "var(--text-secondary)";
+            document.getElementById('odConcordancia').innerText = "--";
+            document.getElementById('odConcordancia').style.color = "var(--text-secondary)";
+            document.getElementById('odClasif').innerText = "--";
+            document.getElementById('odClasif').style.color = "var(--text-secondary)";
         }
         
         if (resOI) {
@@ -1110,6 +1194,12 @@
             oiReclutEl.innerText = resOI.reclut;
             oiReclutEl.style.color = resOI.tieneReclut ? '#c2410c' : 'var(--text-secondary)';
 
+            const oiConcordEl = document.getElementById('oiConcordancia');
+            oiConcordEl.innerText = resOI.concordancia;
+            if (resOI.concordancia.includes("❌")) oiConcordEl.style.color = 'var(--right-ear)';
+            else if (resOI.concordancia.includes("⚠️")) oiConcordEl.style.color = 'var(--warning-alert)';
+            else oiConcordEl.style.color = 'var(--success)';
+
             const oiClasifEl = document.getElementById('oiClasif');
             oiClasifEl.innerText = resOI.clasif;
             if (resOI.clasif.includes("⚠️")) oiClasifEl.style.color = 'var(--warning-alert)';
@@ -1122,6 +1212,19 @@
                 let rdOI = uclOI - resOI.urvVal;
                 document.getElementById('oiRango').innerText = `${rdOI.toFixed(1)} dB`;
             } else { document.getElementById('oiRango').innerText = "--"; }
+        } else {
+            document.getElementById('oiURV').innerText = "--";
+            document.getElementById('oiPBMax').innerText = "--";
+            document.getElementById('oiPendiente').innerText = "--";
+            document.getElementById('oiR2').innerText = "--";
+            document.getElementById('oiRollover').innerText = "--";
+            document.getElementById('oiRango').innerText = "--";
+            document.getElementById('oiReclut').innerText = "--";
+            document.getElementById('oiReclut').style.color = "var(--text-secondary)";
+            document.getElementById('oiConcordancia').innerText = "--";
+            document.getElementById('oiConcordancia').style.color = "var(--text-secondary)";
+            document.getElementById('oiClasif').innerText = "--";
+            document.getElementById('oiClasif').style.color = "var(--text-secondary)";
         }
 
         drawCanvasChart(resOD, resOI);
@@ -1176,10 +1279,12 @@
             ctx.stroke();
         }
         dataPointsOD.forEach(p => {
-            let x = getX(p.db), y = getY(p.pct);
-            ctx.beginPath(); ctx.arc(x, y, 6, 0, 2 * Math.PI);
-            ctx.fillStyle = 'white'; ctx.fill();
-            ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.stroke();
+            if (p.db !== null && p.pct !== null) {
+                let x = getX(p.db), y = getY(p.pct);
+                ctx.beginPath(); ctx.arc(x, y, 6, 0, 2 * Math.PI);
+                ctx.fillStyle = 'white'; ctx.fill();
+                ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.stroke();
+            }
         });
 
         if (resOI) {
@@ -1192,11 +1297,13 @@
         }
         ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5;
         dataPointsOI.forEach(p => {
-            let x = getX(p.db), y = getY(p.pct);
-            ctx.beginPath();
-            ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5);
-            ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5);
-            ctx.stroke();
+            if (p.db !== null && p.pct !== null) {
+                let x = getX(p.db), y = getY(p.pct);
+                ctx.beginPath();
+                ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5);
+                ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5);
+                ctx.stroke();
+            }
         });
 
         ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
