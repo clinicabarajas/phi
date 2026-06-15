@@ -34,6 +34,13 @@
         .card { background: var(--card-bg); border-radius: 12px; padding: 24px; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 24px; }
         .card h2 { font-size: 18px; margin-bottom: 16px; color: var(--text); border-bottom: 2px solid var(--border); padding-bottom: 8px; }
         
+        .ear-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .ear-btn { padding: 12px; border: 2px solid var(--border); border-radius: 8px; background: white; font-weight: bold; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .ear-btn.derecho { color: var(--right-ear); }
+        .ear-btn.derecho.active { background-color: var(--right-ear-light); border-color: var(--right-ear); }
+        .ear-btn.izquierdo { color: var(--left-ear); }
+        .ear-btn.izquierdo.active { background-color: var(--left-ear-light); border-color: var(--left-ear); }
+
         .btn { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 14px; transition: background 0.2s; text-decoration: none; text-align: center; }
         .btn-primary { background-color: var(--primary); color: white; width: 100%; margin-top: 8px; }
         .btn-primary:hover { background-color: var(--primary-hover); }
@@ -81,7 +88,7 @@
 
     <div class="main-grid">
         <div class="left-col">
-            <div class="card hide-on-print">
+            <div class="card intensity-card hide-on-print">
                 <h2>Entrada de Datos por Oído</h2>
                 <div class="ear-selector">
                     <button type="button" class="ear-btn derecho active" onclick="setEar('OD')">Oído Derecho (OD)</button>
@@ -95,19 +102,21 @@
             </div>
 
             <div class="card hide-on-print">
-                <h2>Audiometría Tonal Cruzada (PTA4)</h2>
-                <table class="results-table">
-                    <thead>
-                        <tr><th rowspan="2" style="vertical-align:middle;">kHz</th><th colspan="2" style="color:var(--right-ear);">Oído Derecho</th><th colspan="2" style="color:var(--left-ear);">Oído Izquierdo</th></tr>
-                        <tr><th>V.A.</th><th>V.O.</th><th>V.A.</th><th>V.O.</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>0.5</strong></td><td><input type="number" id="odVA500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
-                        <tr><td><strong>1.0</strong></td><td><input type="number" id="odVA1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
-                        <tr><td><strong>2.0</strong></td><td><input type="number" id="odVA2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
-                        <tr><td><strong>4.0</strong></td><td><input type="number" id="odVA4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
-                    </tbody>
-                </table>
+                <details class="tonal-details">
+                    <summary style="cursor:pointer; font-weight:600; color:var(--primary);">📊 Vincular Audiometría Tonal Cruzada (Opcional)</summary>
+                    <table class="results-table" style="margin-top:15px;">
+                        <thead>
+                            <tr><th rowspan="2" style="vertical-align:middle;">kHz</th><th colspan="2" style="color:var(--right-ear);">Oído Derecho</th><th colspan="2" style="color:var(--left-ear);">Oído Izquierdo</th></tr>
+                            <tr><th>V.A.</th><th>V.O.</th><th>V.A.</th><th>V.O.</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>0.5</strong></td><td><input type="number" id="odVA500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
+                            <tr><td><strong>1.0</strong></td><td><input type="number" id="odVA1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
+                            <tr><td><strong>2.0</strong></td><td><input type="number" id="odVA2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
+                            <tr><td><strong>4.0</strong></td><td><input type="number" id="odVA4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
+                        </tbody>
+                    </table>
+                </details>
             </div>
 
             <div class="card">
@@ -133,10 +142,10 @@
                     <tbody>
                         <tr><td><strong>SRT / URV (al 50%)</strong></td><td id="odURV">--</td><td id="oiURV">--</td></tr>
                         <tr><td><strong>Discriminación Máx. (WRS)</strong></td><td id="odPBMax">--</td><td id="oiPBMax">--</td></tr>
-                        <tr><td><strong>Simetría Interaural (WRS)</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold; background-color:#f8fafc;">--</td></tr>
+                        <tr><td><strong>Simetría Interaural (WRS)</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold; background-color:#f8fafc; text-align: center;">--</td></tr>
                         <tr><td><strong>Pendiente Máxima Real</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
                         <tr><td><strong>Bondad de Ajuste (R²)</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
-                        <tr><td><strong>Concordancia SDT vs SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
+                        <tr><td><strong>Concord. SDT vs SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
                         <tr><td><strong>Rango Dinámico (UCL-SRT)</strong></td><td id="odRangoDyn">--</td><td id="oiRangoDyn">--</td></tr>
                         <tr><td><strong>Margen Comodidad (MCL-SRT)</strong></td><td id="odMargenCom">--</td><td id="oiMargenCom">--</td></tr>
                         <tr><td><strong>Reclutamiento por Rango</strong></td><td id="odReclutamiento">--</td><td id="oiReclutamiento">--</td></tr>
@@ -160,6 +169,8 @@
     let currentEar = 'OD';
     let dataPointsOD = [{db:10, pct:null},{db:20, pct:null},{db:30, pct:null},{db:40, pct:null},{db:50, pct:null},{db:60, pct:null}];
     let dataPointsOI = [{db:10, pct:null},{db:20, pct:null},{db:30, pct:null},{db:40, pct:null},{db:50, pct:null},{db:60, pct:null}];
+
+    window.onload = function() { renderTable(); calculateAndDraw(); };
 
     function setEar(ear) {
         currentEar = ear;
@@ -304,7 +315,6 @@
             else if (es_sospecha_leve) clasificacion = "⚠️ Zona gris: Sospecha leve de fatiga neural";
             else if (numericSRT !== null) {
                 if (y_max_fijo >= 90) {
-                    // PERFECCIONAMIENTO LOGO-TONAL: FILTRADO OBLIGATORIO DE BARRERA MECÁNICA (GAP)
                     if (ptaVA !== null && ptaVO !== null) {
                         clasificacion = (ptaVA - ptaVO >= 15) ? "Compatible con perfil Conductivo" : "Hipoacusia Neurosensorial/Coclear con excelente discriminación";
                     } else {
@@ -318,7 +328,7 @@
 
         if (r2_num < 0.85) clasificacion = "⚠️ Baja fiabilidad matemática (R² < 0.85).";
 
-        return { urv: urvText, urvVal: numericSRT, pbMax: `${y_max_fijo.toFixed(0)}%`, pendiente: `${pendiente_maxima.toFixed(1)} %/dB`, r2: r2_num.toFixed(3), r2Val: r2_num, rollover: rolloverText, sdtText: sdtText, rdText: rdText, mclText: mclText, reclutText: reclutText, concordancia: concordanciaText, clasif: clasificacion, b: bestB, x50: bestX50, yMax: y_max_fijo };
+        return { urv: urvText, urvVal: numericSRT, pbMax: `${y_max_fijo.toFixed(0)}%`, pendiente: `${p_max_calc.toFixed(1)} %/dB`, r2: r2_num.toFixed(3), r2Val: r2_num, rollover: rolloverText, sdtText: sdtText, rdText: rdText, mclText: mclText, reclutText: reclutText, concordancia: concordanciaText, clasif: clasificacion, b: bestB, x50: bestX50, yMax: y_max_fijo };
     }
 
     function calculateAndDraw() {
@@ -333,6 +343,13 @@
                 document.getElementById(e.p+'Concordancia').innerText = e.res.concordancia; document.getElementById(e.p+'Clasif').innerText = e.res.clasif;
                 let r2E = document.getElementById(e.p+'R2');
                 r2E.innerHTML = e.res.r2 + (e.res.r2Val>=0.95?' <span style="color:var(--success)">[🟢]</span>':(e.res.r2Val>=0.85?' <span style="color:var(--warning-alert)">[🟡]</span>':' <span style="color:var(--right-ear)">[🔴]</span>'));
+            } else {
+                document.getElementById(e.p+'URV').innerText = "--"; document.getElementById(e.p+'PBMax').innerText = "--";
+                document.getElementById(e.p+'Pendiente').innerText = "--"; document.getElementById(e.p+'Rollover').innerHTML = "--";
+                document.getElementById(e.p+'SDT_SRT').innerHTML = "--"; document.getElementById(e.p+'RangoDyn').innerHTML = "--";
+                document.getElementById(e.p+'MargenCom').innerHTML = "--"; document.getElementById(e.p+'Reclutamiento').innerHTML = "--";
+                document.getElementById(e.p+'Concordancia').innerText = "--"; document.getElementById(e.p+'Clasif').innerText = "--";
+                document.getElementById(e.p+'R2').innerText = "--";
             }
         });
 
@@ -341,6 +358,8 @@
             let diff = Math.abs(resOD.yMax - resOI.yMax);
             simRow.innerText = diff>=20 ? `⚠️ Asimetría de ${diff.toFixed(0)}%` : `Simétrica (Dif: ${diff.toFixed(0)}%)`;
             if (diff>=20) { asAlert.innerHTML = `<strong>⚠️ Alerta de asimetría:</strong> Variación interaural de ${diff.toFixed(0)}% en discriminación máxima.`; asAlert.style.display='block'; } else asAlert.style.display='none';
+        } else {
+            simRow.innerText = "--"; asAlert.style.display='none';
         }
         drawCanvasChart(resOD, resOI);
     }
@@ -355,10 +374,28 @@
         for (let db = minDb; db <= maxDb; db += 10) { ctx.beginPath(); ctx.moveTo(getX(db), padding); ctx.lineTo(getX(db), padding + height); ctx.stroke(); ctx.fillText(db, getX(db), padding + height + 8); }
         for (let pct = 0; pct <= 100; pct += 20) { ctx.beginPath(); ctx.moveTo(padding, getY(pct)); ctx.lineTo(padding + width, getY(pct)); ctx.stroke(); ctx.fillText(pct, padding - 8, getY(pct)); }
 
-        if (resOD) { ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3; ctx.beginPath(); for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOD.yMax / (1 + Math.exp(-resOD.b * (db - resOD.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); } ctx.stroke(); }
-        dataPointsOD.forEach(p => { if (p.db!==null && p.pct!==null) { ctx.beginPath(); ctx.arc(getX(p.db), getY(p.pct), 6, 0, 2 * Math.PI); ctx.fillStyle = 'white'; ctx.fill(); ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.stroke(); } });
-        if (resOI) { ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 3; ctx.beginPath(); for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOI.yMax / (1 + Math.exp(-resOI.b * (db - resOI.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); } ctx.stroke(); }
-        dataPointsOI.forEach(p => { if (p.db!==null && p.pct!==null) { let x = getX(p.db), y = getY(p.pct); ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5); ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5); ctx.stroke(); } });
+        let empty = true;
+        if (resOD) {
+            empty = false;
+            ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3; ctx.beginPath();
+            for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOD.yMax / (1 + Math.exp(-resOD.b * (db - resOD.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); }
+            ctx.stroke();
+        }
+        dataPointsOD.forEach(p => { if (p.db!==null && p.pct!==null) { empty = false; ctx.beginPath(); ctx.arc(getX(p.db), getY(p.pct), 6, 0, 2 * Math.PI); ctx.fillStyle = 'white'; ctx.fill(); ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.stroke(); } });
+        if (resOI) {
+            empty = false;
+            ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 3; ctx.beginPath();
+            for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOI.yMax / (1 + Math.exp(-resOI.b * (db - resOI.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); }
+            ctx.stroke();
+        }
+        dataPointsOI.forEach(p => { if (p.db!==null && p.pct!==null) { empty = false; let x = getX(p.db), y = getY(p.pct); ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5); ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5); ctx.stroke(); } });
+
+        // RESTAURACIÓN DE LA LEYENDA FIJA EN EL LIENZO
+        ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
+        ctx.fillStyle = '#dc2626'; ctx.fillText('◯ Oído Derecho (OD)', padding + 15, padding + 20);
+        ctx.fillStyle = '#2563eb'; ctx.fillText('✕ Oído Izquierdo (OI)', padding + 15, padding + 38);
+
+        if (empty) { ctx.fillStyle = '#94a3b8'; ctx.font = 'italic 14px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Introduce los porcentajes en la tabla para generar la curva', padding + width / 2, padding + height / 2); }
     }
 </script>
 </body>
