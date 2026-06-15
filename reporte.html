@@ -27,7 +27,7 @@
             position: relative;
         }
 
-        /* Encabezado Médico Profesional */
+        /* Encabezado */
         .clinic-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary-report); padding-bottom: 20px; margin-bottom: 25px; }
         .logo-placeholder { width: 180px; height: 65px; border: 1px dashed var(--border-report); display: flex; align-items: center; justify-content: center; font-size: 11px; color: #64748b; text-align: center; border-radius: 4px; }
         .clinic-info { text-align: right; line-height: 1.4; }
@@ -49,7 +49,7 @@
         th { background-color: #f1f5f9; color: #1e293b; font-weight: bold; }
         .asymmetry-alert { display: none; font-size: 12px; color: #b91c1c; background-color: #fef2f2; border: 1px solid #fca5a5; padding: 10px; border-radius: 4px; margin-top: 10px; font-weight: bold; }
 
-        /* Área de Observaciones Clínicas Interactiva */
+        /* Área de Observaciones */
         .observations-section { margin-top: 15px; margin-bottom: 40px; }
         .observations-section h3 { font-size: 14px; color: var(--primary-report); margin-bottom: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; }
         .observations-area { min-height: 90px; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; font-size: 13px; line-height: 1.5; background: #fffcf5; outline: none; }
@@ -64,7 +64,7 @@
         .btn-print { background: #16a34a; color: white; border: none; padding: 14px 24px; border-radius: 50px; font-weight: bold; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(22,163,74,0.3); transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
         .btn-print:hover { background: #15803d; transform: translateY(-2px); }
 
-        footer { margin-top: 30px; text-align: center; font-size: 10px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 12px; font-weight: 500; text-transform: uppercase; line-height: 1.4; }
+        footer { margin-top: 30px; text-align: center; font-size: 10px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 12px; font-weight: bold; text-transform: uppercase; line-height: 1.4; }
 
         @media print {
             body { background: white; padding: 0; color: #000; }
@@ -77,6 +77,7 @@
 </head>
 <body>
 
+<!-- Elementos Técnicos Ocultos para que el motor matemático original funcione sin cambios -->
 <div style="display:none;">
     <input type="number" id="odVA500"><input type="number" id="odVO500"><input type="number" id="oiVA500"><input type="number" id="oiVO500">
     <input type="number" id="odVA1000"><input type="number" id="odVO1000"><input type="number" id="oiVA1000"><input type="number" id="oiVO1000">
@@ -90,6 +91,7 @@
 </div>
 
 <div class="page-report">
+    <!-- Encabezado Modificado -->
     <div class="clinic-header">
         <div class="logo-placeholder">
             [ Logotipo del Centro ]<br>Sustituir por imagen corporativa
@@ -100,6 +102,7 @@
         </div>
     </div>
 
+    <!-- Datos del Paciente (Editables) -->
     <div class="patient-box">
         <div>Paciente: <div class="patient-field" contenteditable="true">Haga clic para escribir nombre...</div></div>
         <div>Edad: <div class="patient-field" contenteditable="true">-- años</div></div>
@@ -108,6 +111,7 @@
 
     <div class="report-title">Resultados de Logoaudiometría Analítica (PHI)</div>
 
+    <!-- Resultados y Gráfica Analítica -->
     <div class="grid-results">
         <div class="results-col">
             <table>
@@ -118,7 +122,7 @@
                     <tr><td><strong>SRT / URV (al 50%)</strong></td><td id="odURV">--</td><td id="oiURV">--</td></tr>
                     <tr><td><strong>Discriminación Máx.</strong></td><td id="odPBMax">--</td><td id="oiPBMax">--</td></tr>
                     <tr><td><strong>Simetría Interaural</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold;">--</td></tr>
-                    <tr><td><strong>Pendiente Máxima</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
+                    <tr><td><strong>Pendiente Máxima Real</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
                     <tr><td><strong>Fiabilidad (R²)</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
                     <tr><td><strong>Concord. SDT vs SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
                     <tr><td><strong>Rango Dinámico</strong></td><td id="odRangoDyn">--</td><td id="oiRangoDyn">--</td></tr>
@@ -137,11 +141,13 @@
         </div>
     </div>
 
+    <!-- Área de Observaciones -->
     <div class="observations-section">
         <h3>Observaciones Clínicas y Recomendaciones</h3>
         <div class="observations-area" contenteditable="true" placeholder="Escriba aquí los comentarios detallados del estudio, recomendaciones de adaptación protésica o criterios de derivación..."></div>
     </div>
 
+    <!-- Firmas Oficiales -->
     <div class="footer-signatures">
         <div class="signature-line">
             Firma del Especialista
@@ -151,6 +157,7 @@
         </div>
     </div>
 
+    <!-- Pie de página modificado -->
     <footer>
         LOGOAUDIOMETRÍA. MODELADO ANALÍTICO PHI. © 2026 FRANZ ZENKER. LICENCIA CREATIVE COMMONS ATRIBUCIÓN-NOCOMERCIAL 4.0 INTERNACIONAL (CC BY-NC 4.0)
     </footer>
@@ -239,6 +246,16 @@
         let r2_num = sumSquaresTotal === 0 ? 1 : 1 - (finalErrorSum / sumSquaresTotal);
         let p_max_calc = (y_max_fijo * bestB) / 4;
 
+        // --- INTERPRETACIÓN CLÍNICA DE LA PENDIENTE (BISÍLABOS) ---
+        let pendienteText = "";
+        if (p_max_calc >= 5.0) {
+            pendienteText = `${p_max_calc.toFixed(1)} %/dB <span style="color:#16a34a; font-weight:bold;">[ Normal]</span>`;
+        } else if (p_max_calc >= 3.5) {
+            pendienteText = `${p_max_calc.toFixed(1)} %/dB <span style="color:#c2410c; font-weight:bold;">[ Aplanada]</span>`;
+        } else {
+            pendienteText = `${p_max_calc.toFixed(1)} %/dB <span style="color:#dc2626; font-weight:bold;">[ Patológica]</span>`;
+        }
+
         let urvText = "No Alc. (<50%)"; let numericSRT = null;
         if (y_max_fijo > 50.1) {
             numericSRT = bestX50 - Math.log((y_max_fijo / 50) - 1) / bestB; urvText = `${numericSRT.toFixed(1)} dB HL`;
@@ -283,23 +300,52 @@
             else { concordanciaText = `❌ Inconsistencia (${diffPTA_SRT.toFixed(1)} dB)`; bloqueo_SRT = true; }
         }
 
+        // --- MATRIZ CLÍNICA DIAGNÓSTICA CON FILTRO DE INTENSIDAD Y PENDIENTE ---
         let clasificacion = "Compatible con normalidad";
         if (!bloqueo_SRT) {
-            if (es_patologico) clasificacion = "⚠️ Sospecha de afectación neural (Roll-over significativo)";
-            else if (es_sospecha_leve) clasificacion = "⚠️ Zona gris: Sospecha leve de fatiga neural";
-            else if (numericSRT !== null) {
-                if (y_max_fijo >= 90) {
-                    if (ptaVA !== null && ptaVO !== null) { clasificacion = (ptaVA - ptaVO >= 15) ? "Perfil Conductivo" : "Hipoacusia Neurosensorial con excelente discriminación"; } 
-                    else { clasificacion = "Perfil desplazado con WRS óptimo"; }
-                } else if (y_max_fijo >= 80) clasificacion = "WRS discretamente reducida (Presbiacusia o lesión inicial)";
-                else if (y_max_fijo >= 50) clasificacion = "WRS reducida (Compatible con distorsión coclear)";
-                else clasificacion = "WRS muy reducida (Severidad coclear o desproporción neural)";
-            } else { clasificacion = "Discriminación insuficiente para SRT estándar."; }
-        } else { clasificacion = "⚠️ Inconsistencia logo-tonal (SRT-PTA ≥ 15 dB)."; }
+            if (es_patologico) {
+                clasificacion = "⚠️ Sospecha de afectación neural (Roll-over significativo)";
+            } else if (es_sospecha_leve) {
+                clasificacion = "⚠️ Zona gris: Sospecha leve de fatiga neural";
+            } else if (p_max_calc < 3.5 && numericSRT !== null) {
+                clasificacion = "⚠️ Curva anormalmente plana: Compatible con distorsión coclear (Lesión de CCE / Pérdida de selectividad)";
+            } else if (numericSRT !== null) {
+                
+                if (numericSRT <= 22) {
+                    if (y_max_fijo >= 90) {
+                        clasificacion = "Compatible con normalidad audiológica";
+                    } else if (y_max_fijo >= 80) {
+                        clasificacion = "Umbral normal con WRS discretamente reducida (Posible distorsión inicial)";
+                    } else {
+                        clasificacion = "Umbral normal con WRS reducida (Evaluar desproporción neural)";
+                    }
+                } 
+                else {
+                    if (y_max_fijo >= 90) {
+                        if (ptaVA !== null && ptaVO !== null) {
+                            clasificacion = (ptaVA - ptaVO >= 15) ? "Compatible con perfil Conductivo / Transmisión" : "Hipoacusia Neurosensorial/Coclear con excelente discriminación";
+                        } else {
+                            clasificacion = "Perfil desplazado con WRS óptimo (Sugerente de transmisión, requiere valorar GAP tonal)";
+                        }
+                    } else if (y_max_fijo >= 80) {
+                        clasificacion = "Hipoacusia con WRS discretamente reducida (Compatible con presbiacusia o lesión inicial)";
+                    } else if (y_max_fijo >= 50) {
+                        clasificacion = "Hipoacusia con WRS reducida (Compatible con distorsión coclear)";
+                    } else {
+                        clasificacion = "Hipoacusia con WRS muy reducida (Valorar severidad coclear o retrococlear)";
+                    }
+                }
+
+            } else {
+                clasificacion = "Discriminación máxima insuficiente para calcular SRT de forma estándar.";
+            }
+        } else { 
+            clasificacion = "⚠️ Inconsistencia logo-tonal (SRT-PTA ≥ 15 dB)."; 
+        }
 
         if (r2_num < 0.85) clasificacion = "⚠️ Baja fiabilidad matemática (R² < 0.85).";
 
-        return { urv: urvText, urvVal: numericSRT, pbMax: `${y_max_fijo.toFixed(0)}%`, pendiente: `${p_max_calc.toFixed(1)} %/dB`, r2: r2_num.toFixed(3), r2Val: r2_num, rollover: rolloverText, sdtText: sdtText, rdText: rdText, mclText: mclText, reclutText: reclutText, concordancia: concordanciaText, clasif: clasificacion, b: bestB, x50: bestX50, yMax: y_max_fijo };
+        return { urv: urvText, urvVal: numericSRT, pbMax: `${y_max_fijo.toFixed(0)}%`, pendiente: pendienteText, r2: r2_num.toFixed(3), r2Val: r2_num, rollover: rolloverText, sdtText: sdtText, rdText: rdText, mclText: mclText, reclutText: reclutText, concordancia: concordanciaText, clasif: clasificacion, b: bestB, x50: bestX50, yMax: y_max_fijo };
     }
 
     function calculateAndDraw() {
@@ -309,7 +355,7 @@
         ears.forEach(e => {
             if (e.res) {
                 document.getElementById(e.p+'URV').innerText = e.res.urv; document.getElementById(e.p+'PBMax').innerText = e.res.pbMax;
-                document.getElementById(e.p+'Pendiente').innerText = e.res.pendiente; document.getElementById(e.p+'Rollover').innerHTML = e.res.rollover;
+                document.getElementById(e.p+'Pendiente').innerHTML = e.res.pendiente; document.getElementById(e.p+'Rollover').innerHTML = e.res.rollover;
                 document.getElementById(e.p+'SDT_SRT').innerHTML = e.res.sdtText; document.getElementById(e.p+'RangoDyn').innerHTML = e.res.rdText;
                 document.getElementById(e.p+'MargenCom').innerHTML = e.res.mclText; document.getElementById(e.p+'Reclutamiento').innerHTML = e.res.reclutText;
                 document.getElementById(e.p+'Concordancia').innerText = e.res.concordancia; document.getElementById(e.p+'Clasif').innerText = e.res.clasif;
