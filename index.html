@@ -399,6 +399,7 @@
         <p>Ajuste PHI con Árbol Diagnóstico Experto</p>
     </header>
 
+    <!-- DISCLAIMER CLÍNICO -->
     <div class="recommendation-box" style="margin-bottom: 20px; border-left: 4px solid #0369a1;">
         <strong>Principio de interpretación:</strong> La logoaudiometría no diagnostica por sí sola la localización de la lesión, pero detecta patrones de congruencia, distorsión y desproporción que orientan el diagnóstico diferencial y deciden cuándo repetir, complementar o derivar.
     </div>
@@ -429,6 +430,7 @@
                 <button type="button" class="btn btn-primary" onclick="addRow()">+ Añadir Fila de Intensidad</button>
             </div>
 
+            <!-- MATRIZ DE FRECUENCIAS PURAS PARA AUDIOMETRÍA TONAL -->
             <div class="card tonal-card hide-on-print">
                 <details class="tonal-details">
                     <summary>📊 Vincular Audiometría Tonal Cruzada (Opcional)</summary>
@@ -547,17 +549,27 @@
                         </tr>
                         <tr>
                             <td><strong>Simetría Interaural (WRS)</strong></td>
-                            <td colspan="2" id="simetriaInteraural" style="font-weight: bold; background-color: #f8fafc;">--</td>
+                            <td colspan="2" id="simetriaInteraural" style="font-weight: bold; background-color: #f8fafc; text-align: center;">--</td>
                         </tr>
                         <tr>
-                            <td><strong>Pendiente Máxima</strong></td>
-                            <td id="odPendiente">--</td>
-                            <td id="oiPendiente">--</td>
+                            <td><strong>Concord. SDT vs SRT</strong></td>
+                            <td id="odSDT_SRT">--</td>
+                            <td id="oiSDT_SRT">--</td>
                         </tr>
                         <tr>
-                            <td><strong>Bondad de Ajuste (R²)</strong></td>
-                            <td id="odR2">--</td>
-                            <td id="oiR2">--</td>
+                            <td><strong>Rango Dinámico (UCL-SRT)</strong></td>
+                            <td id="odRangoDyn">--</td>
+                            <td id="oiRangoDyn">--</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Margen Comodidad (MCL-SRT)</strong></td>
+                            <td id="odMargenCom">--</td>
+                            <td id="oiMargenCom">--</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reclutamiento (UCL-SRT)</strong></td>
+                            <td id="odReclutamiento">--</td>
+                            <td id="oiReclutamiento">--</td>
                         </tr>
                         <tr>
                             <td><strong>Fenómeno de Roll-Over</strong></td>
@@ -577,6 +589,7 @@
                     </tbody>
                 </table>
                 
+                <!-- ALERTA DE ASIMETRÍA INTERAURAL FLOTANTE -->
                 <div id="asimetriaAlert" class="asymmetry-alert"></div>
             </div>
 
@@ -590,6 +603,7 @@
         
     </div>
 
+    <!-- DESPLEGABLE 1: GUÍA DE INTERPRETACIÓN CLÍNICA Y MÉTRICAS -->
     <div class="card guide-card">
         <details>
             <summary>📖 Criterios Diagnósticos y Guía de Interpretación Clínica</summary>
@@ -597,6 +611,12 @@
                 <div class="guide-title-internal">📋 Desglose Clínico de Métricas, Ecuaciones e Indicadores</div>
                 <div class="guide-section">
                     
+                    <div class="metric-explain">
+                        <h3>Concordancia SDT vs SRT</h3>
+                        <p><strong>Fiabilidad Interna:</strong> Fisiológicamente, detectar voz es más fácil que entender palabras. El SDT debe estar entre 5 y 15 dB mejor que el SRT.</p>
+                        <p><strong>Alerta:</strong> Si el SDT es igual o peor que el SRT, indica una prueba acústicamente inverosímil (simulación o error técnico). Diferencias extremas sugieren barrera idiomática o daño neural severo.</p>
+                    </div>
+
                     <div class="metric-explain">
                         <h3>URV / SRT (al 50% Absoluto)</h3>
                         <p><strong>Significado clínico:</strong> Valida de forma directa la congruencia con el PTA4 aéreo (500, 1000, 2000 y 4000 Hz). Se espera una diferencia aproximada de 5-12 dB.</p>
@@ -613,12 +633,6 @@
                         <h3>Pendiente Máxima (En el punto X50)</h3>
                         <p><strong>Importancia:</strong> La fórmula corrige la pendiente en base al techo real de discriminación. Es vital en curvas cocleares truncadas para no sobredimensionar la pendiente real.</p>
                         <div class="formula-box">Pendiente máxima = (Y_max &times; b) / 4</div>
-                    </div>
-
-                    <div class="metric-explain">
-                        <h3>Bondad de Ajuste (R²)</h3>
-                        <p><strong>Significado clínico:</strong> Mide la fiabilidad matemática del test. Un R² bajo sugiere mala colaboración, tinnitus, fatiga o presentación errática, exigiendo verificar la prueba.</p>
-                        <div class="formula-box">R² = 1 - [Σ(Y_real - Y_teórica)² / Σ(Y_real - Y_media)²]</div>
                     </div>
 
                     <div class="metric-explain" style="grid-column: 1 / -1;">
@@ -643,6 +657,7 @@
         </details>
     </div>
 
+    <!-- DESPLEGABLE 2: TABLA DE PUNTOS DE CORTE Y MATRIZ DE SOSPECHA -->
     <div class="card guide-card">
         <details>
             <summary>🎛️ Tabla de Puntos de Corte y Zonas de Sospecha Algorítmica</summary>
@@ -701,6 +716,36 @@
                                 <td>Techo reducido, pendiente aplanada o meseta precoz.</td>
                                 <td>Caída post-pico / inestable.</td>
                                 <td><span class="badge-suspect">Verticalizada:</span> Posible rigidez conductiva inicial.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="guide-title-internal">🦻 Implicaciones Protésicas (Métricas Supraliminares)</div>
+                <div class="table-responsive">
+                    <table class="guide-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 25%;">Variable Supraliminar</th>
+                                <th style="width: 35%;">Patrón de Normalidad / Linealidad</th>
+                                <th style="width: 40%;">⚠️ Patrón de Alarma (Reclutamiento y Compresión)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Rango Dinámico<br><small>(UCL - SRT)</small></strong></td>
+                                <td><strong>Amplio (&ge; 45-50 dB):</strong> Permite adoptar una estrategia más lineal (CR cercano a 1:1), preservando dinámica, nitidez y contraste fonémico natural.</td>
+                                <td><strong>Estrecho (&lt; 45 dB):</strong> Obliga a adoptar estrategia de alta compresión (WDRC con CR altos) y MPO muy estricto. Sonido más "plano" y procesado.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Reclutamiento Coclear<br><small>(Cálculo por Rango)</small></strong></td>
+                                <td><strong>Negativo:</strong> Crecimiento fisiológico o conductivo extendido de la sonoridad. Mantiene umbrales supraliminares intactos a pesar de la pérdida.</td>
+                                <td><strong>Positivo (Por rango estrecho):</strong> Ventana acústica muy comprimida. El paciente pasa rápidamente de no oír a que le resulte doloroso.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Margen de Comodidad<br><small>(MCL - SRT)</small></strong></td>
+                                <td><strong>Adecuado (&ge; 20-30 dB):</strong> Hay margen holgado para programar la ganancia objetivo (Target Gain) para intensidades conversacionales sin saturar.</td>
+                                <td><strong>Crítico (&lt; 20 dB):</strong> El nivel confortable se pega al umbral auditivo. Exige máxima precaución al ajustar ganancias de medias intensidades para evitar fatiga.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -965,15 +1010,72 @@
 
         let rolloverText = "Negativo (<0.35)";
         if (rollover_index >= 0.45) {
-            rolloverText = `⚠️ Significativo (${rollover_index.toFixed(2)})`;
+            rolloverText = `<span style="color:#dc2626; font-weight:bold;">⚠️ Significativo (${rollover_index.toFixed(2)})</span>`;
         } else if (rollover_index >= 0.35) {
-            rolloverText = `⚠️ Sospecha leve (${rollover_index.toFixed(2)})`;
+            rolloverText = `<span style="color:#c2410c; font-weight:bold;">⚠️ Sospecha leve (${rollover_index.toFixed(2)})</span>`;
         } else if (rollover_index > 0) {
             rolloverText = `Negativo (${rollover_index.toFixed(2)})`;
         }
 
         let clasificacion = "Compatible con normalidad";
         let alertasSubyacentes = [];
+
+        // NUEVAS MÉTRICAS: SDT, Rango Dinámico, Margen Comodidad y Reclutamiento
+        let sdt_val = document.getElementById(prefix + 'UDV').value;
+        let mcl_val = document.getElementById(prefix + 'MCL').value;
+        let ucl_val = document.getElementById(prefix + 'UCL').value;
+
+        let sdtText = "--";
+        let rdText = "--";
+        let mclText = "--";
+        let reclutText = "--";
+
+        if (numericSRT !== null) {
+            // Concordancia SDT vs SRT
+            if (sdt_val !== "") {
+                let sdt = parseFloat(sdt_val);
+                let diffSDT = numericSRT - sdt;
+                if (sdt >= numericSRT) {
+                    sdtText = `<span style="color:#dc2626; font-weight:bold;">❌ Incongruente (SDT &ge; SRT)</span>`;
+                    alertasSubyacentes.push("SDT incongruente (Revisar colaboración)");
+                } else if (diffSDT > 15) {
+                    sdtText = `<span style="color:#c2410c; font-weight:bold;">⚠️ Desfasado (${diffSDT.toFixed(1)} dB)</span>`;
+                } else {
+                    sdtText = `<span style="color:#16a34a; font-weight:bold;">🟢 Coherente (${diffSDT.toFixed(1)} dB)</span>`;
+                }
+            } else {
+                sdtText = "Falta SDT";
+            }
+
+            // UCL - SRT (Rango Dinámico y Reclutamiento)
+            if (ucl_val !== "") {
+                let ucl = parseFloat(ucl_val);
+                let rd = ucl - numericSRT;
+                if (rd < 45) {
+                    rdText = `<span style="color:#dc2626; font-weight:bold;">⚠️ ${rd.toFixed(1)} dB (Estrecho)</span><br><span style="font-size:11px;color:#64748b;">Exige alta compresión</span>`;
+                    reclutText = `<span style="color:#dc2626; font-weight:bold;">⚠️ Positivo</span><br><span style="font-size:11px;color:#64748b;">Ventana comprimida</span>`;
+                } else {
+                    rdText = `<span style="color:#16a34a; font-weight:bold;">🟢 ${rd.toFixed(1)} dB (Amplio)</span><br><span style="font-size:11px;color:#64748b;">Sugiere ajuste lineal</span>`;
+                    reclutText = `<span style="color:#16a34a; font-weight:bold;">🟢 Negativo</span><br><span style="font-size:11px;color:#64748b;">Supraumbrales conservados</span>`;
+                }
+            } else {
+                rdText = "Falta UCL";
+                reclutText = "Falta UCL";
+            }
+
+            // MCL - SRT (Margen Comodidad)
+            if (mcl_val !== "") {
+                let mcl = parseFloat(mcl_val);
+                let mc = mcl - numericSRT;
+                if (mc < 20) {
+                    mclText = `<span style="color:#dc2626; font-weight:bold;">⚠️ ${mc.toFixed(1)} dB (Crítico)</span><br><span style="font-size:11px;color:#64748b;">Cuidado en ganancia media</span>`;
+                } else {
+                    mclText = `<span style="color:#16a34a; font-weight:bold;">🟢 ${mc.toFixed(1)} dB (Adecuado)</span><br><span style="font-size:11px;color:#64748b;">Margen para Target Gain</span>`;
+                }
+            } else {
+                mclText = "Falta MCL";
+            }
+        }
 
         let concordanciaText = "--";
         let bloqueo_SRT = false;
@@ -1031,6 +1133,10 @@
             r2: r2_num.toFixed(3),
             r2Val: r2_num,
             rollover: rolloverText,
+            sdtText: sdtText,
+            rdText: rdText,
+            mclText: mclText,
+            reclutText: reclutText,
             esPatol: es_patologico,
             concordancia: concordanciaText,
             clasif: clasificacion,
@@ -1048,16 +1154,17 @@
             document.getElementById('odPBMax').innerText = resOD.pbMax;
             document.getElementById('odPendiente').innerText = resOD.pendiente;
             
-            const odRollEl = document.getElementById('odRollover');
-            odRollEl.innerText = resOD.rollover;
-            if(resOD.rollover.includes("Significativo")) odRollEl.style.color = '#dc2626';
-            else if(resOD.rollover.includes("leve")) odRollEl.style.color = '#c2410c';
-            else odRollEl.style.color = 'var(--text)';
-
+            document.getElementById('odRollover').innerHTML = resOD.rollover;
+            
             const odR2El = document.getElementById('odR2');
             if (resOD.r2Val >= 0.95) odR2El.innerHTML = `${resOD.r2} <span style="color:var(--success); font-weight:bold;">[🟢 Óptimo]</span>`;
             else if (resOD.r2Val >= 0.85) odR2El.innerHTML = `${resOD.r2} <span style="color:var(--warning-alert); font-weight:bold;">[🟡 Moderado]</span>`;
             else odR2El.innerHTML = `${resOD.r2} <span style="color:var(--right-ear); font-weight:bold;">[🔴 Baja fiabilidad]</span>`;
+
+            document.getElementById('odSDT_SRT').innerHTML = resOD.sdtText;
+            document.getElementById('odRangoDyn').innerHTML = resOD.rdText;
+            document.getElementById('odMargenCom').innerHTML = resOD.mclText;
+            document.getElementById('odReclutamiento').innerHTML = resOD.reclutText;
 
             const odConcordEl = document.getElementById('odConcordancia');
             odConcordEl.innerText = resOD.concordancia;
@@ -1077,6 +1184,10 @@
             document.getElementById('odPendiente').innerText = "--";
             document.getElementById('odR2').innerText = "--";
             document.getElementById('odRollover').innerText = "--";
+            document.getElementById('odSDT_SRT').innerHTML = "--";
+            document.getElementById('odRangoDyn').innerHTML = "--";
+            document.getElementById('odMargenCom').innerHTML = "--";
+            document.getElementById('odReclutamiento').innerHTML = "--";
             document.getElementById('odConcordancia').innerText = "--";
             document.getElementById('odClasif').innerText = "--";
             document.getElementById('odClasif').style.color = "var(--text-secondary)";
@@ -1088,16 +1199,17 @@
             document.getElementById('oiPBMax').innerText = resOI.pbMax;
             document.getElementById('oiPendiente').innerText = resOI.pendiente;
             
-            const oiRollEl = document.getElementById('oiRollover');
-            oiRollEl.innerText = resOI.rollover;
-            if(resOI.rollover.includes("Significativo")) oiRollEl.style.color = '#dc2626';
-            else if(resOI.rollover.includes("leve")) oiRollEl.style.color = '#c2410c';
-            else oiRollEl.style.color = 'var(--text)';
-
+            document.getElementById('oiRollover').innerHTML = resOI.rollover;
+            
             const oiR2El = document.getElementById('oiR2');
             if (resOI.r2Val >= 0.95) oiR2El.innerHTML = `${resOI.r2} <span style="color:var(--success); font-weight:bold;">[🟢 Óptimo]</span>`;
             else if (resOI.r2Val >= 0.85) oiR2El.innerHTML = `${resOI.r2} <span style="color:var(--warning-alert); font-weight:bold;">[🟡 Moderado]</span>`;
             else oiR2El.innerHTML = `${resOI.r2} <span style="color:var(--right-ear); font-weight:bold;">[🔴 Baja fiabilidad]</span>`;
+
+            document.getElementById('oiSDT_SRT').innerHTML = resOI.sdtText;
+            document.getElementById('oiRangoDyn').innerHTML = resOI.rdText;
+            document.getElementById('oiMargenCom').innerHTML = resOI.mclText;
+            document.getElementById('oiReclutamiento').innerHTML = resOI.reclutText;
 
             const oiConcordEl = document.getElementById('oiConcordancia');
             oiConcordEl.innerText = resOI.concordancia;
@@ -1117,6 +1229,10 @@
             document.getElementById('oiPendiente').innerText = "--";
             document.getElementById('oiR2').innerText = "--";
             document.getElementById('oiRollover').innerText = "--";
+            document.getElementById('oiSDT_SRT').innerHTML = "--";
+            document.getElementById('oiRangoDyn').innerHTML = "--";
+            document.getElementById('oiMargenCom').innerHTML = "--";
+            document.getElementById('oiReclutamiento').innerHTML = "--";
             document.getElementById('oiConcordancia').innerText = "--";
             document.getElementById('oiClasif').innerText = "--";
             document.getElementById('oiClasif').style.color = "var(--text-secondary)";
