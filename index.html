@@ -73,9 +73,6 @@
             .main-grid {
                 grid-template-columns: 1fr 1.2fr;
             }
-            .intensity-card {
-                grid-row: 1 / span 3;
-            }
         }
 
         .card {
@@ -313,7 +310,7 @@
                 display: none !important;
             }
 
-            .main-grid {
+            .main-grid, .left-col, .right-col {
                 display: block !important;
                 width: 100% !important;
             }
@@ -382,7 +379,7 @@
             }
 
             canvas {
-                max-width: 60% !important; /* Escalado optimizado para asegurar la hoja única con el nuevo indicador */
+                max-width: 65% !important;
                 margin: 0 auto !important;
             }
 
@@ -404,140 +401,147 @@
     </header>
 
     <div class="main-grid">
-        <!-- 1. ENTRADA DE DATOS (TABLA DE INTENSIDADES) -->
-        <div class="card intensity-card">
-            <h2 class="hide-on-print">Entrada de Datos por Oído</h2>
-             
-            <div class="ear-selector hide-on-print">
-                <button type="button" class="ear-btn derecho active" onclick="setEar('OD')">Editar Oído Derecho (OD)</button>
-                <button type="button" class="ear-btn izquierdo" onclick="setEar('OI')">Editar Oído Izquierdo (OI)</button>
+        
+        <!-- ================= COLUMNA IZQUIERDA ================= -->
+        <div class="left-col">
+            <!-- 1. ENTRADA DE DATOS (TABLA DE INTENSIDADES) -->
+            <div class="card intensity-card hide-on-print">
+                <h2>Entrada de Datos por Oído</h2>
+                 
+                <div class="ear-selector">
+                    <button type="button" class="ear-btn derecho active" onclick="setEar('OD')">Editar Oído Derecho (OD)</button>
+                    <button type="button" class="ear-btn izquierdo" onclick="setEar('OI')">Editar Oído Izquierdo (OI)</button>
+                </div>
+
+                <table id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Intensidad (dB HL)</th>
+                            <th>Discriminación (%)</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Dinámico -->
+                    </tbody>
+                </table>
+
+                <button type="button" class="btn btn-primary" onclick="addRow()">+ Añadir Fila de Intensidad</button>
+                
+                <div class="recommendation-box">
+                    💡 Se recomienda un mínimo de 6 puntos de intensidad para optimizar el ajuste de la curva PHI. Es fundamental incluir al menos 1 o 2 puntos por debajo del 50% de discriminación para servir como anclaje matemático inferior y asegurar una interpolación exacta del URV/SRT.
+                </div>
+
+                <button type="button" class="btn btn-clear" onclick="clearAllData()">🗑️ Borrar y Reiniciar Formulario</button>
             </div>
 
-            <table id="dataTable" class="hide-on-print">
-                <thead>
-                    <tr>
-                        <th>Intensidad (dB HL)</th>
-                        <th>Discriminación (%)</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <!-- Dinámico -->
-                </tbody>
-            </table>
-
-            <button type="button" class="btn btn-primary hide-on-print" onclick="addRow()">+ Añadir Fila de Intensidad</button>
-            
-            <div class="recommendation-box hide-on-print">
-                💡 Se recomienda un mínimo de 6 puntos de intensidad para optimizar el ajuste de la curva PHI. Es fundamental incluir al menos 1 o 2 puntos por debajo del 50% de discriminación para servir como anclaje matemático inferior y asegurar una interpolación exacta del URV/SRT.
-            </div>
-
-            <button type="button" class="btn btn-clear hide-on-print" onclick="clearAllData()">🗑️ Borrar y Reiniciar Formulario</button>
-        </div>
-
-        <!-- 2. UMBRALES CLÍNICOS DE REFERENCIA -->
-        <div class="card umbrales-card">
-            <h2>Umbrales Clínicos de Referencia</h2>
-            <table class="results-table">
-                <thead>
-                    <tr>
-                        <th>Umbral de Entrada</th>
-                        <th style="color: var(--right-ear);">Oído Derecho (OD)</th>
-                        <th style="color: var(--left-ear);">Oído Izquierdo (OI)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Detección de la Voz (UDV / SDT)</strong></td>
-                        <td><input type="number" id="odUDV" class="input-field inline-input" value="20" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                        <td><input type="number" id="oiUDV" class="input-field inline-input" value="30" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Máxima Comodidad (MCL)</strong></td>
-                        <td><input type="number" id="odMCL" class="input-field inline-input" value="45" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                        <td><input type="number" id="oiMCL" class="input-field inline-input" value="55" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Umbral de Disconfort (UCL)</strong></td>
-                        <td><input type="number" id="odUCL" class="input-field inline-input" value="100" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                        <td><input type="number" id="oiUCL" class="input-field inline-input" value="105" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- 3. RESULTADOS DEL AJUSTE MATEMÁTICO -->
-        <div class="card resultados-card">
-            <h2>Resultados del ajuste</h2>
-            <table class="results-table">
-                <thead>
-                    <tr>
-                        <th>Métrica Calculada</th>
-                        <th style="color: var(--right-ear);">Oído Derecho (OD)</th>
-                        <th style="color: var(--left-ear);">Oído Izquierdo (OI)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>URV / SRT (al 50% Absoluto)</strong></td>
-                        <td id="odURV">--</td>
-                        <td id="oiURV">--</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Discriminación Máxima (Ymax)</strong></td>
-                        <td id="odPBMax">--</td>
-                        <td id="oiPBMax">--</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Pendiente (b × 25)</strong></td>
-                        <td id="odPendiente">--</td>
-                        <td id="oiPendiente">--</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Bondad de Ajuste (R²)</strong></td>
-                        <td id="odR2">--</td>
-                        <td id="oiR2">--</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Fenómeno de Roll-Over</strong></td>
-                        <td id="odRollover">--</td>
-                        <td id="oiRollover">--</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Rango Dinámico (UCL - SRT)</strong></td>
-                        <td id="odRango" style="font-weight: 600;">--</td>
-                        <td id="oiRango" style="font-weight: 600;">--</td>
-                    </tr>
-                    <!-- NUEVA FILA: DEDUCCIÓN GEOMÉTRICA DE RECLUTAMIENTO -->
-                    <tr>
-                        <td><strong>Reclutamiento Geométrico</strong></td>
-                        <td id="odReclut">--</td>
-                        <td id="oiReclut">--</td>
-                    </tr>
-                    <tr style="background-color: #f8fafc;">
-                        <td><strong>Clasificación de la Curva</strong></td>
-                        <td id="odClasif" style="font-weight: bold; font-size: 13.5px;">--</td>
-                        <td id="oiClasif" style="font-weight: bold; font-size: 13.5px;">--</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <button type="button" class="btn btn-success hide-on-print" onclick="window.print()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-                Imprimir Curva Ajustada PDF (A4)
-            </button>
-        </div>
-
-        <!-- 4. GRÁFICA DE LOGOAUDIOMETRÍA -->
-        <div class="card chart-card">
-            <h2>Curva Logoaudiometría Ajustada (PHI)</h2>
-            <div class="canvas-container">
-                <canvas id="audiogramCanvas" width="520" height="420"></canvas>
+            <!-- 2. UMBRALES CLÍNICOS DE REFERENCIA (ESTRICTAMENTE DEBAJO EN LA IZQUIERDA) -->
+            <div class="card umbrales-card">
+                <h2>Umbrales Clínicos de Referencia</h2>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Umbral de Entrada</th>
+                            <th style="color: var(--right-ear);">Oído Derecho (OD)</th>
+                            <th style="color: var(--left-ear);">Oído Izquierdo (OI)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Detección de la Voz (UDV / SDT)</strong></td>
+                            <td><input type="number" id="odUDV" class="input-field inline-input" value="20" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
+                            <td><input type="number" id="oiUDV" class="input-field inline-input" value="30" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Máxima Comodidad (MCL)</strong></td>
+                            <td><input type="number" id="odMCL" class="input-field inline-input" value="45" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
+                            <td><input type="number" id="oiMCL" class="input-field inline-input" value="55" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Umbral de Disconfort (UCL)</strong></td>
+                            <td><input type="number" id="odUCL" class="input-field inline-input" value="100" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
+                            <td><input type="number" id="oiUCL" class="input-field inline-input" value="105" onchange="calculateAndDraw()" min="-10" max="120" step="5"> dB HL</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+
+        <!-- ================= COLUMNA DERECHA ================= -->
+        <div class="right-col">
+            <!-- 3. RESULTADOS DEL AJUSTE MATEMÁTICO (LO PRIMERO A LA DERECHA) -->
+            <div class="card resultados-card">
+                <h2>Resultados del ajuste</h2>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Métrica Calculada</th>
+                            <th style="color: var(--right-ear);">Oído Derecho (OD)</th>
+                            <th style="color: var(--left-ear);">Oído Izquierdo (OI)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>URV / SRT (al 50% Absoluto)</strong></td>
+                            <td id="odURV">--</td>
+                            <td id="oiURV">--</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Discriminación Máxima (Ymax)</strong></td>
+                            <td id="odPBMax">--</td>
+                            <td id="oiPBMax">--</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pendiente (b × 25)</strong></td>
+                            <td id="odPendiente">--</td>
+                            <td id="oiPendiente">--</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bondad de Ajuste (R²)</strong></td>
+                            <td id="odR2">--</td>
+                            <td id="oiR2">--</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fenómeno de Roll-Over</strong></td>
+                            <td id="odRollover">--</td>
+                            <td id="oiRollover">--</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rango Dinámico (UCL - SRT)</strong></td>
+                            <td id="odRango" style="font-weight: 600;">--</td>
+                            <td id="oiRango" style="font-weight: 600;">--</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reclutamiento Geométrico</strong></td>
+                            <td id="odReclut">--</td>
+                            <td id="oiReclut">--</td>
+                        </tr>
+                        <tr style="background-color: #f8fafc;">
+                            <td><strong>Clasificación de la Curva</strong></td>
+                            <td id="odClasif" style="font-weight: bold; font-size: 13.5px;">--</td>
+                            <td id="oiClasif" style="font-weight: bold; font-size: 13.5px;">--</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button type="button" class="btn btn-success" onclick="window.print()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                    Imprimir Curva Ajustada PDF (A4)
+                </button>
+            </div>
+
+            <!-- 4. GRÁFICA DE LOGOAUDIOMETRÍA -->
+            <div class="card chart-card">
+                <h2>Curva Logoaudiometría Ajustada (PHI)</h2>
+                <div class="canvas-container">
+                    <canvas id="audiogramCanvas" width="520" height="420"></canvas>
+                </div>
+            </div>
+        </div>
+        
     </div>
 
-    <!-- GUÍA TÉCNICA INTERACTIVA EXTENDIDA CON RECLUTAMIENTO -->
+    <!-- GUÍA TÉCNICA INTERACTIVA -->
     <div class="card guide-card">
         <details>
             <summary>📖 Ver Guía Técnica: ¿Cómo se calculan e interpretan estas métricas?</summary>
@@ -578,12 +582,12 @@
                     <div class="formula-box">R² = 1 - [Σ(Y<sub>real</sub> - Y<sub>teórica</sub>)² / Σ(Y<sub>real</sub> - Y<sub>media</sub>)²]</div>
                 </div>
 
-                <!-- NUEVO: EXPLICACIÓN CÓMO SE CALCULA EL RECLUTAMIENTO GEOMÉTRICO -->
+                <!-- EXPLICACIÓN DE RECLUTAMIENTO CORREGIDA BAJO LA OPCIÓN B -->
                 <div class="metric-explain">
                     <h3>Reclutamiento Geométrico</h3>
-                    <p><strong>Qué mide:</strong> Deducción inteligente del fenómeno de reclutamiento coclear (crecimiento anormal de la sonoridad) analizando únicamente la morfología espacial de la curva ajustada.</p>
-                    <p><strong>Significado clínico:</strong> Identifica lesiones neurosensoriales precoces. El sistema activa la alerta si el rango horizontal entre el umbral (SRT) y el techo de éxito (Ymax) se comprime velozmente o si la tasa de la pendiente es hiper-empinada.</p>
-                    <div class="formula-box">Condición: (Intensidad Ymax - SRT &le; 20 dB) o (Pendiente &ge; 12 %/dB)</div>
+                    <p><strong>Qué mide:</strong> Deducción automatizada del fenómeno de reclutamiento coclear basándose exclusivamente en el criterio de compresión horizontal (Opción B).</p>
+                    <p><strong>Significado clínico:</strong> Identifica la saturación coclear de forma aislada e independiente de la pendiente nativa de la prueba verbal. Se activa si el paciente alcanza su techo de discriminación (Ymax) en un rango muy estrecho de decibelios tras empezar a entender.</p>
+                    <div class="formula-box">Condición: Intensidad Ymax - SRT &le; 20 dB (con Hipoacusia &gt; 25 dB HL)</div>
                 </div>
 
                 <div class="metric-explain">
@@ -815,14 +819,14 @@
         let rolloverText = rollover_index > 0 ? `Leve (${rollover_index.toFixed(2)})` : "Ausente (0.00)";
         if (es_patologico) rolloverText = `⚠️ PATOLÓGICO (${rollover_index.toFixed(2)})`;
 
-        // LÓGICA DE DEDUCCIÓN DE RECLUTAMIENTO GEOMÉTRICO (SIN UCL)
+        // CORREGIDO - OPCIÓN B: DETERMINACIÓN DE RECLUTAMIENTO POR COMPRESIÓN HORIZONTAL EXCLUSIVA (SIN UCL NI b)
         let db_at_max = x_reales[index_pb_max];
         let dist_srt_max = numericSRT !== null ? (db_at_max - numericSRT) : Infinity;
         let tiene_reclutamiento = false;
         
-        if (numericSRT !== null && numericSRT > 25) { // Existe hipoacusia confirmada
-            if (dist_srt_max <= 20 || (bestB * 25) >= 12.0) {
-                if (!es_patologico) { // Se descarta perfil retrococlear prioritario
+        if (numericSRT !== null && numericSRT > 25) { 
+            if (dist_srt_max <= 20) { // Distancia estrecha comprimida entre SRT e Ymax
+                if (!es_patologico) { 
                     tiene_reclutamiento = true;
                 }
             }
@@ -864,7 +868,6 @@
             document.getElementById('odR2').innerText = resOD.r2;
             document.getElementById('odRollover').innerHTML = resOD.esPatol ? `<span class="alert-text">${resOD.rollover}</span>` : resOD.rollover;
             
-            // Render del nuevo indicador de Reclutamiento OD
             const odReclutEl = document.getElementById('odReclut');
             odReclutEl.innerText = resOD.reclut;
             odReclutEl.style.color = resOD.tieneReclut ? '#c2410c' : 'var(--text-secondary)';
@@ -900,7 +903,6 @@
             document.getElementById('oiR2').innerText = resOI.r2;
             document.getElementById('oiRollover').innerHTML = resOI.esPatol ? `<span class="alert-text">${resOI.rollover}</span>` : resOI.rollover;
             
-            // Render del nuevo indicador de Reclutamiento OI
             const oiReclutEl = document.getElementById('oiReclut');
             oiReclutEl.innerText = resOI.reclut;
             oiReclutEl.style.color = resOI.tieneReclut ? '#c2410c' : 'var(--text-secondary)';
