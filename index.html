@@ -429,7 +429,6 @@
         <p>Ajuste PHI con Árbol Diagnóstico Experto</p>
     </header>
 
-    <!-- DISCLAIMER CLÍNICO INICIAL -->
     <div class="recommendation-box" style="margin-bottom: 20px; border-left: 4px solid #0369a1;">
         <strong>Principio de interpretación:</strong> La logoaudiometría no diagnostica por sí sola la localización de la lesión, pero detecta patrones de congruencia, distorsión y desproporción que orientan el diagnóstico diferencial y deciden cuándo repetir, complementar o derivar.
     </div>
@@ -460,7 +459,6 @@
                 <button type="button" class="btn btn-primary" onclick="addRow()">+ Añadir Fila de Intensidad</button>
             </div>
 
-            <!-- MATRIZ DE FRECUENCIAS PURAS PARA AUDIOMETRÍA TONAL -->
             <div class="card tonal-card hide-on-print">
                 <details class="tonal-details">
                     <summary>📊 Vincular Audiometría Tonal Cruzada (Opcional)</summary>
@@ -629,7 +627,6 @@
                     </tbody>
                 </table>
                 
-                <!-- ALERTA DE ASIMETRÍA INTERAURAL FLOTANTE -->
                 <div id="asimetriaAlert" class="asymmetry-alert"></div>
             </div>
 
@@ -643,7 +640,6 @@
         
     </div>
 
-    <!-- DESPLEGABLE 1: GUÍA DE INTERPRETACIÓN CLÍNICA -->
     <div class="card guide-card hide-on-print">
         <details>
             <summary>📖 Criterios Diagnósticos y Guía de Interpretación Clínica</summary>
@@ -678,7 +674,6 @@
         </details>
     </div>
 
-    <!-- DESPLEGABLE 2: TABLA DE PUNTOS DE CORTE -->
     <div class="card guide-card hide-on-print">
         <details>
             <summary>🎛️ Tabla de Puntos de Corte y Zonas de Sospecha Algorítmica</summary>
@@ -727,7 +722,6 @@
         </details>
     </div>
 
-    <!-- AVISO LEGAL -->
     <div class="legal-disclaimer hide-on-print">
         <details>
             <summary>ℹ️ Acerca de este software y Aviso Legal</summary>
@@ -843,7 +837,13 @@
         let va2000 = document.getElementById(prefix + 'VA2000').value;
         let va4000 = document.getElementById(prefix + 'VA4000').value;
 
+        let vo500 = document.getElementById(prefix + 'VO500').value;
+        let vo1000 = document.getElementById(prefix + 'VO1000').value;
+        let vo2000 = document.getElementById(prefix + 'VO2000').value;
+        let vo4000 = document.getElementById(prefix + 'VO4000').value;
+
         let ptaVA = (va500 !== "" && va1000 !== "" && va2000 !== "" && va4000 !== "") ? (parseFloat(va500) + parseFloat(va1000) + parseFloat(va2000) + parseFloat(va4000)) / 4 : null;
+        let ptaVO = (vo500 !== "" && vo1000 !== "" && vo2000 !== "" && vo4000 !== "") ? (parseFloat(vo500) + parseFloat(vo1000) + parseFloat(vo2000) + parseFloat(vo4000)) / 4 : null;
 
         let pb_max = -Infinity; let index_pb_max = -1;
         for (let i = 0; i < y_reales.length; i++) {
@@ -858,7 +858,6 @@
 
         let rollover_index = pb_max > 0 ? (pb_max - pb_min) / pb_max : 0;
 
-        // CORRECCIÓN CLÍNICA DE CONDICIONALES PARA FENÓMENO DE ROLL-OVER
         let es_patologico = (rollover_index >= 0.45);
         let es_sospecha_leve = (rollover_index >= 0.35 && rollover_index < 0.45);
         
@@ -901,7 +900,7 @@
             sumSquaresTotal += Math.pow(y_filtrados[k] - meanY, 2);
         }
         let r2_num = sumSquaresTotal === 0 ? 1 : 1 - (finalErrorSum / sumSquaresTotal);
-        let pendiente_maxima = (y_max_fijo * bestB) / 4;
+        let p_max_calc = (y_max_fijo * bestB) / 4;
 
         let urvText = "No Alc. (<50%)"; let numericSRT = null;
         if (y_max_fijo >= 50) {
@@ -930,10 +929,10 @@
             if (ucl_val !== "") {
                 let ucl = parseFloat(ucl_val); let rd = ucl - numericSRT;
                 if (rd < 45) {
-                    rdText = `<span style="color:#dc2626; font-weight:bold;">⚠️ ${rd.toFixed(1)} dB (Estrecho)</span>`;
+                    rdText = `<span style="color:#dc2626; font-weight:bold;">⚠️ ${rd.toFixed(1)} dB</span>`;
                     reclutText = `<span style="color:#dc2626; font-weight:bold;">⚠️ Positivo</span>`;
                 } else {
-                    rdText = `<span style="color:#16a34a; font-weight:bold;">🟢 ${rd.toFixed(1)} dB (Amplio)</span>`;
+                    rdText = `<span style="color:#16a34a; font-weight:bold;">🟢 ${rd.toFixed(1)} dB</span>`;
                     reclutText = `<span style="color:#16a34a; font-weight:bold;">🟢 Negativo</span>`;
                 }
             }
@@ -959,7 +958,17 @@
                 clasificacion = "⚠️ Zona gris: Sospecha leve de fatiga neural (Roll-over moderado)";
             } else if (numericSRT !== null) {
                 if (y_max_fijo >= 90) {
-                    clasificacion = numericSRT <= 25 ? "Morfología sigmoidea (Normal)" : "Compatible con perfil Conductivo (techo conservado, desplazada)";
+                    // CORRECCIÓN CLÍNICA INTER-CRITERIO EXIGIDA (CRUZAR GAP REAL)
+                    if (ptaVA !== null && ptaVO !== null) {
+                        let gapReal = ptaVA - ptaVO;
+                        if (gapReal >= 15) {
+                            clasificacion = "Compatible con perfil Conductivo (techo conservado, desplazada)";
+                        } else {
+                            clasificacion = "Hipoacusia Neurosensorial/Coclear con excelente discriminación supraliminar";
+                        }
+                    } else {
+                        clasificacion = "Perfil desplazado con discriminación conservada (Se requiere valorar GAP tonal)";
+                    }
                 } else if (y_max_fijo >= 80) clasificacion = "WRS discretamente reducida (Interpretar clínica)";
                 else if (y_max_fijo >= 50) clasificacion = "WRS reducida (Compatible con distorsión coclear)";
                 else clasificacion = "WRS muy reducida (Valorar severidad coclear o desproporción neural)";
@@ -970,7 +979,7 @@
 
         if (r2_num < 0.85) clasificacion = "⚠️ Baja fiabilidad matemática (R² < 0.85).";
 
-        return { urv: urvText, urvVal: numericSRT, pbMax: `${y_max_fijo.toFixed(0)}%`, pendiente: `${pendiente_maxima.toFixed(1)} %/dB`, r2: r2_num.toFixed(3), r2Val: r2_num, rollover: rolloverText, sdtText: sdtText, rdText: rdText, mclText: mclText, reclutText: reclutText, concordancia: concordanciaText, clasif: clasificacion, b: bestB, x50: bestX50, yMax: y_max_fijo };
+        return { urv: urvText, urvVal: numericSRT, pbMax: `${y_max_fijo.toFixed(0)}%`, pendiente: `${p_max_calc.toFixed(1)} %/dB`, r2: r2_num.toFixed(3), r2Val: r2_num, rollover: rolloverText, sdtText: sdtText, rdText: rdText, mclText: mclText, reclutText: reclutText, concordancia: concordanciaText, clasif: clasificacion, b: bestB, x50: bestX50, yMax: y_max_fijo };
     }
 
     function calculateAndDraw() {
@@ -1044,19 +1053,24 @@
         for (let db = minDb; db <= maxDb; db += 10) { ctx.beginPath(); ctx.moveTo(getX(db), padding); ctx.lineTo(getX(db), padding + height); ctx.stroke(); ctx.fillText(db, getX(db), padding + height + 8); }
         for (let pct = 0; pct <= 100; pct += 20) { ctx.beginPath(); ctx.moveTo(padding, getY(pct)); ctx.lineTo(padding + width, getY(pct)); ctx.stroke(); ctx.fillText(pct, padding - 8, getY(pct)); }
 
+        let empty = true;
         if (resOD) {
+            empty = false;
             ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3; ctx.beginPath();
             for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOD.yMax / (1 + Math.exp(-resOD.b * (db - resOD.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); }
             ctx.stroke();
         }
-        dataPointsOD.forEach(p => { if (p.db !== null && p.pct !== null) { ctx.beginPath(); ctx.arc(getX(p.db), getY(p.pct), 6, 0, 2 * Math.PI); ctx.fillStyle = 'white'; ctx.fill(); ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.stroke(); } });
+        dataPointsOD.forEach(p => { if (p.db !== null && p.pct !== null) { empty = false; ctx.beginPath(); ctx.arc(getX(p.db), getY(p.pct), 6, 0, 2 * Math.PI); ctx.fillStyle = 'white'; ctx.fill(); ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.stroke(); } });
 
         if (resOI) {
+            empty = false;
             ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 3; ctx.beginPath();
             for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOI.yMax / (1 + Math.exp(-resOI.b * (db - resOI.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); }
             ctx.stroke();
         }
-        dataPointsOI.forEach(p => { if (p.db !== null && p.pct !== null) { let x = getX(p.db), y = getY(p.pct); ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5); ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5); ctx.stroke(); } });
+        dataPointsOI.forEach(p => { if (p.db !== null && p.pct !== null) { empty = false; let x = getX(p.db), y = getY(p.pct); ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5); ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5); ctx.stroke(); } });
+
+        if (empty) { ctx.fillStyle = '#94a3b8'; ctx.font = 'italic 14px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Introduce los porcentajes en la tabla para generar la curva', padding + width / 2, padding + height / 2); }
     }
 </script>
 </body>
