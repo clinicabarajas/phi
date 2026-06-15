@@ -99,17 +99,17 @@
             margin-top: 20px;
         }
 
-        /* Texto de recomendación técnica en la interfaz */
         .recommendation-box {
             font-size: 12.5px;
             color: #0369a1;
             background-color: #f0f9ff;
             border: 1px solid #bae6fd;
-            padding: 10px;
+            padding: 12px;
             border-radius: 6px;
             margin-top: 12px;
             margin-bottom: 12px;
             font-weight: 500;
+            line-height: 1.4;
         }
 
         /* Guía técnica interactiva */
@@ -382,7 +382,7 @@
             }
 
             canvas {
-                max-width: 65% !important;
+                max-width: 60% !important; /* Escalado optimizado para asegurar la hoja única con el nuevo indicador */
                 margin: 0 auto !important;
             }
 
@@ -404,6 +404,7 @@
     </header>
 
     <div class="main-grid">
+        <!-- 1. ENTRADA DE DATOS (TABLA DE INTENSIDADES) -->
         <div class="card intensity-card">
             <h2 class="hide-on-print">Entrada de Datos por Oído</h2>
              
@@ -421,18 +422,20 @@
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    </tbody>
+                    <!-- Dinámico -->
+                </tbody>
             </table>
 
             <button type="button" class="btn btn-primary hide-on-print" onclick="addRow()">+ Añadir Fila de Intensidad</button>
             
             <div class="recommendation-box hide-on-print">
-                💡 Se recomienda un mínimo de 6 puntos de intensidad para optimizar el ajuste matemático de la curva PHI.
+                💡 Se recomienda un mínimo de 6 puntos de intensidad para optimizar el ajuste de la curva PHI. Es fundamental incluir al menos 1 o 2 puntos por debajo del 50% de discriminación para servir como anclaje matemático inferior y asegurar una interpolación exacta del URV/SRT.
             </div>
 
             <button type="button" class="btn btn-clear hide-on-print" onclick="clearAllData()">🗑️ Borrar y Reiniciar Formulario</button>
         </div>
 
+        <!-- 2. UMBRALES CLÍNICOS DE REFERENCIA -->
         <div class="card umbrales-card">
             <h2>Umbrales Clínicos de Referencia</h2>
             <table class="results-table">
@@ -463,6 +466,7 @@
             </table>
         </div>
 
+        <!-- 3. RESULTADOS DEL AJUSTE MATEMÁTICO -->
         <div class="card resultados-card">
             <h2>Resultados del ajuste</h2>
             <table class="results-table">
@@ -504,6 +508,12 @@
                         <td id="odRango" style="font-weight: 600;">--</td>
                         <td id="oiRango" style="font-weight: 600;">--</td>
                     </tr>
+                    <!-- NUEVA FILA: DEDUCCIÓN GEOMÉTRICA DE RECLUTAMIENTO -->
+                    <tr>
+                        <td><strong>Reclutamiento Geométrico</strong></td>
+                        <td id="odReclut">--</td>
+                        <td id="oiReclut">--</td>
+                    </tr>
                     <tr style="background-color: #f8fafc;">
                         <td><strong>Clasificación de la Curva</strong></td>
                         <td id="odClasif" style="font-weight: bold; font-size: 13.5px;">--</td>
@@ -518,6 +528,7 @@
             </button>
         </div>
 
+        <!-- 4. GRÁFICA DE LOGOAUDIOMETRÍA -->
         <div class="card chart-card">
             <h2>Curva Logoaudiometría Ajustada (PHI)</h2>
             <div class="canvas-container">
@@ -526,6 +537,7 @@
         </div>
     </div>
 
+    <!-- GUÍA TÉCNICA INTERACTIVA EXTENDIDA CON RECLUTAMIENTO -->
     <div class="card guide-card">
         <details>
             <summary>📖 Ver Guía Técnica: ¿Cómo se calculan e interpretan estas métricas?</summary>
@@ -564,6 +576,14 @@
                     <p><strong>Qué mide:</strong> Coeficiente estadístico que cuantifica la fidelidad entre el modelo matemático PHI y los datos anotados en cabina.</p>
                     <p><strong>Significado clínico:</strong> Valores muy próximos a 1.00 garantizan que el comportamiento biológico del paciente fue consistentemente lineal y coherente.</p>
                     <div class="formula-box">R² = 1 - [Σ(Y<sub>real</sub> - Y<sub>teórica</sub>)² / Σ(Y<sub>real</sub> - Y<sub>media</sub>)²]</div>
+                </div>
+
+                <!-- NUEVO: EXPLICACIÓN CÓMO SE CALCULA EL RECLUTAMIENTO GEOMÉTRICO -->
+                <div class="metric-explain">
+                    <h3>Reclutamiento Geométrico</h3>
+                    <p><strong>Qué mide:</strong> Deducción inteligente del fenómeno de reclutamiento coclear (crecimiento anormal de la sonoridad) analizando únicamente la morfología espacial de la curva ajustada.</p>
+                    <p><strong>Significado clínico:</strong> Identifica lesiones neurosensoriales precoces. El sistema activa la alerta si el rango horizontal entre el umbral (SRT) y el techo de éxito (Ymax) se comprime velozmente o si la tasa de la pendiente es hiper-empinada.</p>
+                    <div class="formula-box">Condición: (Intensidad Ymax - SRT &le; 20 dB) o (Pendiente &ge; 12 %/dB)</div>
                 </div>
 
                 <div class="metric-explain">
@@ -610,6 +630,7 @@
         </details>
     </div>
 
+    <!-- PIE DE PÁGINA CORPORATIVO -->
     <footer class="site-footer">
         <p>© 2026 Zenker. Todos los derechos reservados.</p>
         <p>Contacto: <a href="mailto:zenker@clinicabarajas.com">zenker@clinicabarajas.com</a></p>
@@ -620,15 +641,14 @@
 <script>
     let currentEar = 'OD';
     
-    // Puntos iniciales por defecto
     let dataPointsOD = [
         { db: 10, pct: 0 }, { db: 20, pct: 10 }, { db: 30, pct: 45 },
         { db: 40, pct: 85 }, { db: 50, pct: 100 }, { db: 60, pct: 100 }
     ];
 
     let dataPointsOI = [
-        { db: 20, pct: 0 }, { db: 30, pct: 15 }, { db: 40, pct: 50 },
-        { db: 50, pct: 80 }, { db: 60, pct: 90 }, { db: 70, pct: 90 }
+        { db: 10, pct: 0 }, { db: 20, pct: 10 }, { db: 30, pct: 45 },
+        { db: 40, pct: 85 }, { db: 50, pct: 100 }, { db: 60, pct: 100 }
     ];
 
     window.onload = function() {
@@ -690,20 +710,17 @@
         calculateAndDraw();
     }
 
-    /* MODIFICADO: FUNCIÓN DE REINICIO CON CONSERVACIÓN DE 6 PUNTOS BASE A 0% */
     function clearAllData() {
-        if (confirm("¿Está seguro de que desea reiniciar el formulario? Las intensidades volverán a sus valores base con discriminación al 0%.")) {
-            // Restablecer a 6 puntos base con discriminación en 0% en lugar de vaciar la tabla
+        if (confirm("¿Está seguro de que desea reiniciar el formulario? Las intensidades de ambos oídos volverán a sus valores base (10-60 dB) con discriminación al 0%.")) {
             dataPointsOD = [
                 { db: 10, pct: 0 }, { db: 20, pct: 0 }, { db: 30, pct: 0 },
                 { db: 40, pct: 0 }, { db: 50, pct: 0 }, { db: 60, pct: 0 }
             ];
             dataPointsOI = [
-                { db: 20, pct: 0 }, { db: 30, pct: 0 }, { db: 40, pct: 0 },
-                { db: 50, pct: 0 }, { db: 60, pct: 0 }, { db: 70, pct: 0 }
+                { db: 10, pct: 0 }, { db: 20, pct: 0 }, { db: 30, pct: 0 },
+                { db: 40, pct: 0 }, { db: 50, pct: 0 }, { db: 60, pct: 0 }
             ];
             
-            // Vaciar los campos de los umbrales clínicos manuales
             document.getElementById('odUDV').value = "";
             document.getElementById('oiUDV').value = "";
             document.getElementById('odMCL').value = "";
@@ -798,6 +815,20 @@
         let rolloverText = rollover_index > 0 ? `Leve (${rollover_index.toFixed(2)})` : "Ausente (0.00)";
         if (es_patologico) rolloverText = `⚠️ PATOLÓGICO (${rollover_index.toFixed(2)})`;
 
+        // LÓGICA DE DEDUCCIÓN DE RECLUTAMIENTO GEOMÉTRICO (SIN UCL)
+        let db_at_max = x_reales[index_pb_max];
+        let dist_srt_max = numericSRT !== null ? (db_at_max - numericSRT) : Infinity;
+        let tiene_reclutamiento = false;
+        
+        if (numericSRT !== null && numericSRT > 25) { // Existe hipoacusia confirmada
+            if (dist_srt_max <= 20 || (bestB * 25) >= 12.0) {
+                if (!es_patologico) { // Se descarta perfil retrococlear prioritario
+                    tiene_reclutamiento = true;
+                }
+            }
+        }
+        let reclutamientoText = tiene_reclutamiento ? "⚠️ Detectado (Saturación Rápida)" : "No Detectado";
+
         let clasificacion = "Normal / Conductiva";
         if (es_patologico) {
             clasificacion = "⚠️ Retrococlear (Roll-Over)";
@@ -815,6 +846,8 @@
             r2: Math.max(0, r2).toFixed(3),
             rollover: rolloverText,
             esPatol: es_patologico,
+            reclut: reclutamientoText,
+            tieneReclut: tiene_reclutamiento,
             clasif: clasificacion,
             b: bestB, x50: bestX50, yMax: y_max_fijo
         };
@@ -831,6 +864,11 @@
             document.getElementById('odR2').innerText = resOD.r2;
             document.getElementById('odRollover').innerHTML = resOD.esPatol ? `<span class="alert-text">${resOD.rollover}</span>` : resOD.rollover;
             
+            // Render del nuevo indicador de Reclutamiento OD
+            const odReclutEl = document.getElementById('odReclut');
+            odReclutEl.innerText = resOD.reclut;
+            odReclutEl.style.color = resOD.tieneReclut ? '#c2410c' : 'var(--text-secondary)';
+
             const odClasifEl = document.getElementById('odClasif');
             odClasifEl.innerText = resOD.clasif;
             if (resOD.esPatol) odClasifEl.style.color = 'var(--right-ear)';
@@ -849,6 +887,8 @@
             document.getElementById('odR2').innerText = "--";
             document.getElementById('odRollover').innerText = "--";
             document.getElementById('odRango').innerText = "--";
+            document.getElementById('odReclut').innerText = "--";
+            document.getElementById('odReclut').style.color = "var(--text-secondary)";
             document.getElementById('odClasif').innerText = "--";
             document.getElementById('odClasif').style.color = "var(--text-secondary)";
         }
@@ -860,6 +900,11 @@
             document.getElementById('oiR2').innerText = resOI.r2;
             document.getElementById('oiRollover').innerHTML = resOI.esPatol ? `<span class="alert-text">${resOI.rollover}</span>` : resOI.rollover;
             
+            // Render del nuevo indicador de Reclutamiento OI
+            const oiReclutEl = document.getElementById('oiReclut');
+            oiReclutEl.innerText = resOI.reclut;
+            oiReclutEl.style.color = resOI.tieneReclut ? '#c2410c' : 'var(--text-secondary)';
+
             const oiClasifEl = document.getElementById('oiClasif');
             oiClasifEl.innerText = resOI.clasif;
             if (resOI.esPatol) oiClasifEl.style.color = 'var(--right-ear)';
@@ -878,6 +923,8 @@
             document.getElementById('oiR2').innerText = "--";
             document.getElementById('oiRollover').innerText = "--";
             document.getElementById('oiRango').innerText = "--";
+            document.getElementById('oiReclut').innerText = "--";
+            document.getElementById('oiReclut').style.color = "var(--text-secondary)";
             document.getElementById('oiClasif').innerText = "--";
             document.getElementById('oiClasif').style.color = "var(--text-secondary)";
         }
