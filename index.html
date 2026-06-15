@@ -134,7 +134,7 @@
                 </table>
             </div>
             <button type="button" class="btn btn-clear hide-on-print" onclick="clearAllData()">🗑️ Reiniciar Todo</button>
-            <button type="button" class="btn btn-success hide-on-print" onclick="window.print()">🖨️ Imprimir Perfil PDF</button>
+            <button type="button" class="btn btn-success hide-on-print" onclick="generarInforme()">📋 Generar Informe Clínico</button>
         </div>
 
         <div class="right-col">
@@ -424,6 +424,31 @@
         ctx.fillStyle = '#2563eb'; ctx.fillText('✕ Oído Izquierdo (OI)', padding + 15, padding + 38);
 
         if (empty) { ctx.fillStyle = '#94a3b8'; ctx.font = 'italic 14px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Introduce los porcentajes en la tabla para generar la curva', padding + width / 2, padding + height / 2); }
+    }
+
+    function generarInforme() {
+        const datosInforme = {
+            dataPointsOD: dataPointsOD,
+            dataPointsOI: dataPointsOI,
+            tonal: {
+                odVA500: document.getElementById('odVA500').value, odVO500: document.getElementById('odVO500').value,
+                oiVA500: document.getElementById('oiVA500').value, oiVO500: document.getElementById('oiVO500').value,
+                odVA1000: document.getElementById('odVA1000').value, odVO1000: document.getElementById('odVO1000').value,
+                oiVA1000: document.getElementById('oiVA1000').value, oiVO1000: document.getElementById('oiVO1000').value,
+                odVA2000: document.getElementById('odVA2000').value, odVO2000: document.getElementById('odVO2000').value,
+                oiVA2000: document.getElementById('oiVA2000').value, oiVO2000: document.getElementById('oiVO2000').value,
+                odVA4000: document.getElementById('odVA4000').value, odVO4000: document.getElementById('odVO4000').value,
+                oiVA4000: document.getElementById('oiVA4000').value, oiVO4000: document.getElementById('oiVO4000').value
+            },
+            umbrales: {
+                odUDV: document.getElementById('odUDV').value, oiUDV: document.getElementById('oiUDV').value,
+                odMCL: document.getElementById('odMCL').value, oiMCL: document.getElementById('oiMCL').value,
+                odUCL: document.getElementById('odUCL').value, oiUCL: document.getElementById('oiUCL').value
+            }
+        };
+
+        localStorage.setItem('datos_logoaudiometria', JSON.stringify(datosInforme));
+        window.open('reporte.html', '_blank');
     }
 </script>
 </body>
