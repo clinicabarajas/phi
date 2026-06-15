@@ -1,3 +1,10 @@
+Aquí tienes el archivo HTML completo con el sistema integrado.
+
+He configurado la lógica para que el coeficiente **$R^2$ no penalice las curvas patológicas reales**: el motor matemático realiza un pre-filtrado (por ejemplo, aislando la rampa ascendente antes del colapso por Roll-Over), protegiendo la métrica. De este modo, si el $R^2$ cae en la zona roja (caótico), se debe estrictamente a respuestas inconexas, falta de atención, simulación o fallos en el equipamiento.
+
+Cuando el sistema detecta un ajuste deficiente ($R^2 < 0.85$), la **Clasificación diagnóstica cambia automáticamente a un estado de bloqueo prioritario en color naranja de advertencia**, advirtiendo al clínico que no es seguro basar decisiones en dicho trazado.
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -704,8 +711,8 @@
 
                     <div class="metric-explain">
                         <h3>Bondad de Ajuste (R²)</h3>
-                        <p><strong>Qué mide:</strong> Coeficiente estadístico de correlación lineal que mide la fidelidad entre el modelo teórico PHI y los datos anotados en cabina.</p>
-                        <p><strong>Significado clínico:</strong> Valores cercanos a 1.00 garantizan que el comportamiento y las respuestas biológicas del paciente son consistentes, lineales y fiables.</p>
+                        <p><strong>Qué mide:</strong> Coeficiente estadístico que cuantifica la concordancia y consistencia de las respuestas frente a la sigmoide matemática PHI.</p>
+                        <p><strong>Protección biológica:</strong> El motor aísla las caídas patológicas (Roll-Over) antes del cálculo. Por tanto, un R² bajo indica dispersión caótica real (simulación, fatiga extrema o error de cabina) y activa un bloqueo visual preventivo.</p>
                         <div class="formula-box">R² = 1 - [Σ(Y_real - Y_teórica)² / Σ(Y_real - Y_media)²]</div>
                     </div>
 
@@ -752,6 +759,8 @@
         <details>
             <summary>🎛️ Tabla de Puntos de Corte y Zonas de Sospecha Algorítmica</summary>
             <div class="guide-container">
+                
+                <div class="guide-title-internal">📊 Matriz Multicriterio de Decisión en Cabina</div>
                 <div class="table-responsive">
                     <table class="guide-table">
                         <thead>
@@ -816,6 +825,37 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="guide-title-internal">🚦 Semáforo de Consistencia de Datos y Ajuste (R²)</div>
+                <div class="table-responsive">
+                    <table class="guide-table" style="min-width: 750px;">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%;">Rango del R²</th>
+                                <th style="width: 25%;">Clasificación del Ajuste</th>
+                                <th style="width: 55%;">Significado Clínico y Acción Algorítmica</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge-rule" style="background-color: #16a34a;">R² &ge; 0.95</span></td>
+                                <td style="color: #16a34a; font-weight: bold;">🟢 Óptimo / Fisiológico</td>
+                                <td>Respuestas altamente lineales y estables. Confianza máxima en la interpretación diagnóstica de las métricas.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge-rule" style="background-color: #c2410c;">0.85 &le; R² &lt; 0.94</span></td>
+                                <td style="color: #c2410c; font-weight: bold;">🟡 Moderado / Fluctuante</td>
+                                <td>Inconsistencias leves. Común ante fluctuaciones de atención, tinnitus severo o presbiacusias muy verticalizadas. Interpretar con precaución.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge-rule" style="background-color: #dc2626;">R² &lt; 0.85</span></td>
+                                <td style="color: #dc2626; font-weight: bold;">🔴 Caótico / Dispersión Alta</td>
+                                <td><strong>Bloqueo del Motor Diagnóstico:</strong> Las respuestas no siguen una lógica acústica. El algoritmo suspende el diagnóstico diferencial y prioriza la alerta de revisión técnica por sospecha de simulación, distorsión central o descalibración.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </details>
     </div>
@@ -1026,6 +1066,7 @@
             sumSquaresTotal += Math.pow(y_filtrados[k] - meanY, 2);
         }
         let r2 = sumSquaresTotal === 0 ? 1 : 1 - (finalErrorSum / sumSquaresTotal);
+        let r2_num = Math.max(0, r2);
 
         let urvText = "No Alc. (<50%)";
         let numericSRT = null;
@@ -1053,7 +1094,6 @@
         let clasificacion = "Normal";
         let alertasSubyacentes = [];
 
-        // Deducción automática de la Concordancia Logo-Tonal
         let concordanciaText = "--";
         if (numericSRT !== null && ptaVA !== null) {
             let diffPTA_SRT = Math.abs(ptaVA - numericSRT);
@@ -1115,8 +1155,13 @@
             }
         }
 
-        if (alertasSubyacentes.length > 0) {
-            clasificacion += " • [" + alertasSubyacentes.join(" | ") + "]";
+        // APLICACIÓN DEL FILTRO DE BLOQUEO DE SEMÁFORO R² (Si es caótico, invalida el árbol secundario)
+        if (r2_num < 0.85) {
+            clasificacion = "⚠️ ALTA DISPERSIÓN: No se recomienda interpretar (Revisar colaboración / Cabina)";
+        } else {
+            if (alertasSubyacentes.length > 0) {
+                clasificacion += " • [" + alertasSubyacentes.join(" | ") + "]";
+            }
         }
 
         return {
@@ -1124,7 +1169,8 @@
             urvVal: numericSRT,
             pbMax: `${y_max_fijo.toFixed(0)}%`,
             pendiente: `${(bestB * 25).toFixed(1)} %/dB`,
-            r2: Math.max(0, r2).toFixed(3),
+            r2: r2_num.toFixed(3),
+            r2Val: r2_num,
             rollover: rolloverText,
             esPatol: es_patologico,
             reclut: reclutamientoText,
@@ -1143,9 +1189,17 @@
             document.getElementById('odURV').innerText = resOD.urv;
             document.getElementById('odPBMax').innerText = resOD.pbMax;
             document.getElementById('odPendiente').innerText = resOD.pendiente;
-            document.getElementById('odR2').innerText = resOD.r2;
             document.getElementById('odRollover').innerHTML = resOD.esPatol ? `<span class="alert-text">${resOD.rollover}</span>` : resOD.rollover;
             
+            const odR2El = document.getElementById('odR2');
+            if (resOD.r2Val >= 0.95) {
+                odR2El.innerHTML = `${resOD.r2} <span style="color:var(--success); font-weight:bold;">[🟢 Óptimo]</span>`;
+            } else if (resOD.r2Val >= 0.85) {
+                odR2El.innerHTML = `${resOD.r2} <span style="color:var(--warning-alert); font-weight:bold;">[🟡 Moderado]</span>`;
+            } else {
+                odR2El.innerHTML = `${resOD.r2} <span style="color:var(--right-ear); font-weight:bold;">[🔴 Caótico]</span>`;
+            }
+
             const odReclutEl = document.getElementById('odReclut');
             odReclutEl.innerText = resOD.reclut;
             odReclutEl.style.color = resOD.tieneReclut ? '#c2410c' : 'var(--text-secondary)';
@@ -1187,9 +1241,17 @@
             document.getElementById('oiURV').innerText = resOI.urv;
             document.getElementById('oiPBMax').innerText = resOI.pbMax;
             document.getElementById('oiPendiente').innerText = resOI.pendiente;
-            document.getElementById('oiR2').innerText = resOI.r2;
             document.getElementById('oiRollover').innerHTML = resOI.esPatol ? `<span class="alert-text">${resOI.rollover}</span>` : resOI.rollover;
             
+            const oiR2El = document.getElementById('oiR2');
+            if (resOI.r2Val >= 0.95) {
+                oiR2El.innerHTML = `${resOI.r2} <span style="color:var(--success); font-weight:bold;">[🟢 Óptimo]</span>`;
+            } else if (resOI.r2Val >= 0.85) {
+                oiR2El.innerHTML = `${resOI.r2} <span style="color:var(--warning-alert); font-weight:bold;">[🟡 Moderado]</span>`;
+            } else {
+                oiR2El.innerHTML = `${resOI.r2} <span style="color:var(--right-ear); font-weight:bold;">[🔴 Caótico]</span>`;
+            }
+
             const oiReclutEl = document.getElementById('oiReclut');
             oiReclutEl.innerText = resOI.reclut;
             oiReclutEl.style.color = resOI.tieneReclut ? '#c2410c' : 'var(--text-secondary)';
@@ -1313,3 +1375,5 @@
 </script>
 </body>
 </html>
+
+```
