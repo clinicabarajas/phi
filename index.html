@@ -109,7 +109,7 @@
             line-height: 1.4;
         }
 
-        /* Guía técnica interactiva */
+        /* Estilos específicos de la nueva guía con tablas */
         .guide-card {
             margin-top: 24px;
             border-left: 4px solid var(--primary);
@@ -122,47 +122,49 @@
             outline: none;
             user-select: none;
         }
-        .guide-section {
-            margin-top: 20px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
+        .guide-container {
+            margin-top: 16px;
         }
-        @media (min-width: 768px) {
-            .guide-section { grid-template-columns: 1fr 1fr; }
-        }
-        .metric-explain {
-            background: #f8fafc;
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .metric-explain h3 {
+        .guide-title-internal {
             font-size: 15px;
             color: var(--primary);
-            margin-bottom: 8px;
-            border-bottom: 1px dashed var(--border);
-            padding-bottom: 4px;
+            margin: 16px 0 8px 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .metric-explain p {
-            font-size: 13px;
-            color: var(--text);
-            margin-bottom: 8px;
+        .guide-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+            font-size: 13.5px;
+        }
+        .guide-table th {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            text-align: left;
+            padding: 10px 12px;
+            font-weight: 600;
+            border-bottom: 2px solid #cbd5e1;
+        }
+        .guide-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
             line-height: 1.4;
         }
-        .formula-box {
-            background: #334155;
+        .guide-table tr:hover {
+            background-color: #f8fafc;
+        }
+        .badge-rule {
+            background-color: #334155;
             color: #f8fafc;
-            padding: 8px 12px;
-            border-radius: 6px;
+            padding: 2px 6px;
+            border-radius: 4px;
             font-family: monospace;
             font-size: 12px;
-            text-align: center;
-            overflow-x: auto;
-            margin-top: 6px;
+            white-space: nowrap;
         }
 
         .site-footer {
@@ -249,7 +251,6 @@
         .btn-primary:hover { background-color: var(--primary-hover); }
         .btn-danger { background-color: #fee2e2; color: #ef4444; padding: 6px 12px; }
         
-        /* Botones globales independientes */
         .btn-clear { background-color: #ef4444; color: white; width: 100%; margin-top: 8px; font-weight: 600; padding: 12px; box-shadow: var(--shadow); }
         .btn-clear:hover { background-color: #dc2626; }
         
@@ -257,7 +258,7 @@
             background-color: var(--success); 
             color: white; 
             width: 100%; 
-            margin-top: 12px; /* Ajustado a 12px para emparejar con el botón de borrar */
+            margin-top: 8px;
             font-weight: bold;
             font-size: 15px;
             padding: 12px;
@@ -403,7 +404,9 @@
 
     <div class="main-grid">
         
+        <!-- ================= COLUMNA IZQUIERDA ================= -->
         <div class="left-col">
+            <!-- 1. ENTRADA DE DATOS (TABLA DE INTENSIDADES) -->
             <div class="card intensity-card hide-on-print">
                 <h2>Entrada de Datos por Oído</h2>
                  
@@ -421,7 +424,8 @@
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        </tbody>
+                        <!-- Dinámico -->
+                    </tbody>
                 </table>
 
                 <button type="button" class="btn btn-primary" onclick="addRow()">+ Añadir Fila de Intensidad</button>
@@ -431,6 +435,7 @@
                 </div>
             </div>
 
+            <!-- 2. UMBRALES CLÍNICOS DE REFERENCIA -->
             <div class="card umbrales-card">
                 <h2>Umbrales Clínicos de Referencia</h2>
                 <table class="results-table">
@@ -461,6 +466,7 @@
                 </table>
             </div>
 
+            <!-- BLOQUE DE ACCIÓN INDEPENDIENTE -->
             <button type="button" class="btn btn-clear hide-on-print" onclick="clearAllData()">🗑️ Borrar y Reiniciar Formulario</button>
             
             <button type="button" class="btn btn-success hide-on-print" onclick="window.print()">
@@ -469,7 +475,9 @@
             </button>
         </div>
 
+        <!-- ================= COLUMNA DERECHA ================= -->
         <div class="right-col">
+            <!-- 3. RESULTADOS DEL AJUSTE MATEMÁTICO -->
             <div class="card resultados-card">
                 <h2>Resultados del ajuste</h2>
                 <table class="results-table">
@@ -525,6 +533,7 @@
                 </table>
             </div>
 
+            <!-- 4. GRÁFICA DE LOGOAUDIOMETRÍA -->
             <div class="card chart-card">
                 <h2>Curva Logoaudiometría Ajustada (PHI)</h2>
                 <div class="canvas-container">
@@ -535,97 +544,80 @@
         
     </div>
 
+    <!-- GUÍA TÉCNICA INTERACTIVA REESTRUCTURADA EN TABLAS -->
     <div class="card guide-card">
         <details>
-            <summary>📖 Ver Guía Técnica: ¿Cómo se calculan e interpretan estas métricas?</summary>
-            <div class="guide-section">
+            <summary>📖 Ver Guía Técnica: Clasificación y Criterios del Algoritmo PHI</summary>
+            <div class="guide-container">
                 
-                <div class="metric-explain">
-                    <h3>Detección de la Voz (UDV / SDT)</h3>
-                    <p><strong>Qué mide:</strong> La intensidad mínima (dB HL) a la que el paciente capta la presencia de señal de voz humana, sin requerir discriminación de palabras.</p>
-                    <p><strong>Significado clínico:</strong> Actúa como marcador primario de conciencia acústica verbal. Clínicamente, se localiza de manera consistente entre 7 y 10 dB por debajo del SRT.</p>
-                    <div class="formula-box">Valor Clínico Introducido Directamente</div>
-                </div>
+                <!-- TABLA 1: CLASIFICACIONES DE LA CURVA -->
+                <div class="guide-title-internal">📊 Tabla 1: Criterios de Clasificación Automatizada de la Curva</div>
+                <table class="guide-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">Clasificación</th>
+                            <th style="width: 35%;">Criterio Matemático (Filtro PHI)</th>
+                            <th style="width: 40%;">Interpretación Audiológica / Perfil Clínico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Normal</strong></td>
+                            <td><span class="badge-rule">Ymax &ge; 92%</span> y <span class="badge-rule">SRT &le; 25 dB HL</span></td>
+                            <td>Audición periférica y procesamiento central dentro de los umbrales de normalidad. Curva sigmoide simétrica.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Conductiva</strong></td>
+                            <td><span class="badge-rule">Ymax &ge; 92%</span> y <span class="badge-rule">SRT &gt; 25 dB HL</span></td>
+                            <td>Pérdida por barrera física en oído medio o externo. La curva es perfecta en su forma, pero aparece <strong>desplazada en paralelo hacia la derecha</strong>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Coclear<br><small>(Techo Truncado)</small></strong></td>
+                            <td><span class="badge-rule">Ymax &lt; 92%</span> y <span class="badge-rule">Roll-Over &lt; 0.40</span></td>
+                            <td>Lesión sensorial en las células ciliadas. La distorsión biológica actúa como un freno y genera una <strong>meseta prematura</strong> (el paciente no alcanza el 100%).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Coclear / Plana<br><small>(Baja Pendiente)</small></strong></td>
+                            <td><span class="badge-rule">Ymax &ge; 92%</span> y <span class="badge-rule">Pendiente &lt; 6.5 %/dB</span></td>
+                            <td>Lesión coclear difusa (común en presbiacusias). La curva está muy "acostada"; el paciente comprende pero necesita aumentos de volumen muy grandes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: var(--right-ear);">⚠️ Retrococlear</strong></td>
+                            <td><span class="badge-rule">Índice Roll-Over &ge; 0.40</span></td>
+                            <td><strong>Prioridad de Alerta Máxima:</strong> Caída paradójica extrema de la comprensión a altas intensidades. Sospecha de patología tumoral o neural en el VIII par.</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                <div class="metric-explain">
-                    <h3>URV / SRT (al 50% Absoluto)</h3>
-                    <p><strong>Qué mide:</strong> La intensidad exacta (dB HL) en la que el paciente comprende el 50% absoluto de las palabras presentadas.</p>
-                    <p><strong>Significado clínico:</strong> Es el umbral de inteligibilidad donde inicia la comprensión verbal; sirve para validar de forma directa el promedio tonal (PTA) de la vía aérea.</p>
-                    <div class="formula-box">X<sub>URV</sub> = X<sub>50</sub> - [ln(Y<sub>max</sub> / 50 - 1) / b]</div>
-                </div>
-
-                <div class="metric-explain">
-                    <h3>Discriminación Máxima (Ymax)</h3>
-                    <p><strong>Qué mide:</strong> El techo porcentual óptimo de discriminación de la palabra hablada que posee el paciente.</p>
-                    <p><strong>Significado clínico:</strong> Define la capacidad máxima de rendimiento del sistema auditivo. Valores por debajo del 100% reflejan distorsión y daño neurosensorial (coclear o neural).</p>
-                    <div class="formula-box">Y<sub>max</sub> = max(Y<sub>filtrados</sub>)</div>
-                </div>
-
-                <div class="metric-explain">
-                    <h3>Pendiente (b × 25)</h3>
-                    <p><strong>Qué mide:</strong> La tasa de aceleración e inclinación del reconocimiento verbal por cada dB aumentado (%/dB).</p>
-                    <p><strong>Significado clínico:</strong> Evalúa la eficiencia del rango dinámico. Una pendiente plana o de bajo porcentaje denota problemas severos de reclutamiento coclear o rigidez neural.</p>
-                    <div class="formula-box">Pendiente = b × 25</div>
-                </div>
-
-                <div class="metric-explain">
-                    <h3>Bondad de Ajuste (R²)</h3>
-                    <p><strong>Qué mide:</strong> Coeficiente estadístico que cuantifica la fidelidad entre el modelo matemático PHI y los datos anotados en cabina.</p>
-                    <p><strong>Significado clínico:</strong> Valores muy próximos a 1.00 garantizan que el comportamiento biológico del paciente fue consistentemente lineal y coherente.</p>
-                    <div class="formula-box">R² = 1 - [Σ(Y<sub>real</sub> - Y<sub>teórica</sub>)² / Σ(Y<sub>real</sub> - Y<sub>media</sub>)²]</div>
-                </div>
-
-                <div class="metric-explain">
-                    <h3>Reclutamiento Geométrico</h3>
-                    <p><strong>Qué mide:</strong> Deducción automatizada del fenómeno de reclutamiento coclear basándose exclusivamente en el criterio de compresión horizontal (Opción B).</p>
-                    <p><strong>Significado clínico:</strong> Identifica la saturación coclear de forma aislada e independiente de la pendiente nativa de la prueba verbal. Se activa si el paciente alcanza su techo de discriminación (Ymax) en un rango muy estrecho de decibelios tras empezar a entender.</p>
-                    <div class="formula-box">Condición: Intensidad Ymax - SRT &le; 20 dB (con Hipoacusia &gt; 25 dB HL)</div>
-                </div>
-
-                <div class="metric-explain">
-                    <h3>Máxima Comodidad (MCL)</h3>
-                    <p><strong>Qué mide:</strong> El nivel de intensidad (dB HL) en el cual el paciente percibe que la palabra hablada se escucha de la forma más clara, cómoda y agradable sin esfuerzo.</p>
-                    <p><strong>Significado clínico:</strong> Es la métrica de referencia directa indispensable para estimar y programar el volumen objetivo y la ganancia inicial en la adaptación de audífonos.</p>
-                    <div class="formula-box">Valor Clínico Introducido Directamente</div>
-                </div>
-
-                <div class="metric-explain">
-                    <h3>Umbral de Disconfort (UCL)</h3>
-                    <p><strong>Qué mide:</strong> El límite de intensidad sonora (dB HL) al cual la palabra hablada empieza a ser intolerablemente fuerte, molesta o dolorosa para el paciente.</p>
-                    <p><strong>Significado clínico:</strong> Define la tolerancia límite del oído. Imprescindible para fijar los techos de compresión de salida máxima (MPO) en audífonos para evitar traumas acústicos.</p>
-                    <div class="formula-box">Valor Clínico Introducido Directamente</div>
-                </div>
-
-                <div class="metric-explain">
-                    <h3>Rango Dinámico de la Palabra</h3>
-                    <p><strong>Qué mide:</strong> El espacio útil de audición cómoda para el lenguaje que posee el paciente (UCL - SRT).</p>
-                    <p><strong>Significado clínico:</strong> Un rango estrecho (menor a 40-50 dB) es un indicador matemático directo de <em>Reclutamiento Coclear</em>, guiando al audioprotesista a programar relaciones de compresión más estrictas.</p>
-                    <div class="formula-box">Rango Dinámico = UCL - SRT</div>
-                </div>
-
-                <div class="metric-explain" style="grid-column: 1 / -1;">
-                    <h3>Clasificación Cualitativa Automatizada</h3>
-                    <p><strong>Qué mide:</strong> Categorización automática del perfil de la curva (Normal/Conductiva, Coclear de Techo Truncado, Coclear Plana o Retrococlear) computada según la combinación geométrica de los parámetros de optimización logísticos.</p>
-                    <div class="formula-box">Algoritmo Lógico de Decisión PHI</div>
-                </div>
-
-                <div class="metric-explain" style="grid-column: 1 / -1;">
-                    <h3>Fenómeno de Roll-Over</h3>
-                    <p><strong>Qué mide:</strong> Cuantifica la caída paradójica de la inteligibilidad a intensidades sonoras muy evasivas.</p>
-                    <p><strong>Significado clínico:</strong> Actúa como una potente alerta diagnóstica. Si la discriminación colapsa a volúmenes altos y el índice matemático da un resultado igual o mayor a 0.40, el motor activa la etiqueta de sospecha de <strong>Patología Retrococlear</strong>.</p>
-                    <div class="formula-box">Índice de Roll-Over = (Y<sub>max</sub> - Y<sub>min_post_pico</sub>) / Y<sub>max</sub></div>
-                </div>
-
-                <div class="metric-explain" style="grid-column: 1 / -1;">
-                    <h3>Ecuación General de la Curva Ajustada (PHI)</h3>
-                    <p>Fórmula de distribución logística continua empleada por el algoritmo de software para proyectar de manera matemática y precisa la sigmoide en el gráfico bilateral:</p>
-                    <div class="formula-box">Y<sub>teórica</sub> = Y<sub>max</sub> / (1 + e<sup>-b · (X - X<sub>50</sub>)</sup>)</div>
-                </div>
+                <!-- TABLA 2: RECLUTAMIENTO GEOMÉTRICO -->
+                <div class="guide-title-internal">⚡ Tabla 2: Deducción Inteligente de Reclutamiento (Opción B)</div>
+                <table class="guide-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">Estado del Indicador</th>
+                            <th style="width: 35%;">Criterio de Compresión Horizontal</th>
+                            <th style="width: 40%;">Significado Clínico</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: #c2410c;">⚠️ Detectado</strong></td>
+                            <td><span class="badge-rule">(Intensidad de Ymax - SRT) &le; 20 dB</span><br><small>con SRT &gt; 25 dB HL e Índice Roll-Over &lt; 0.40</small></td>
+                            <td><strong>Saturación Rápida por Reclutamiento:</strong> El paciente pasa de empezar a entender (50%) a su techo máximo en un rango de decibelios muy estrecho. Denota un incremento anormal de la sonoridad en la cóclea. Aislado de la pendiente nativa de la prueba verbal.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>No Detectado</strong></td>
+                            <td><span class="badge-rule">(Intensidad de Ymax - SRT) &gt; 20 dB</span></td>
+                            <td><strong>Crecimiento Gradual de la Sonoridad:</strong> El rango de discriminación asciende siguiendo una distribución fisiológica normal, conductiva o coclear difusa de progresión lenta.</td>
+                        </tr>
+                    </tbody>
+                </table>
 
             </div>
         </details>
     </div>
 
+    <!-- PIE DE PÁGINA CORPORATIVO -->
     <footer class="site-footer">
         <p>© 2026 Zenker. Todos los derechos reservados.</p>
         <p>Contacto: <a href="mailto:zenker@clinicabarajas.com">zenker@clinicabarajas.com</a></p>
@@ -674,7 +666,7 @@
             row.innerHTML = `
                 <td><input type="number" class="input-field" value="${point.db}" onchange="updatePoint(${index}, 'db', this.value)" min="-10" max="120" step="5"></td>
                 <td><input type="number" class="input-field" value="${point.pct}" onchange="updatePoint(${index}, 'pct', this.value)" min="0" max="100" step="5"></td>
-                <td class="hide-on-print"><button class="btn btn-danger" onclick="deleteRow(${index})">🗑️</button></td>
+                <td class="hide-on-print"><button class="btn btn-danger" onclick="deleteRow(${index})">🗑</button></td>
             `;
             tbody.appendChild(row);
         });
@@ -823,13 +815,15 @@
         }
         let reclutamientoText = tiene_reclutamiento ? "⚠️ Detectado (Saturación Rápida)" : "No Detectado";
 
-        let clasificacion = "Normal / Conductiva";
+        let clasificacion = "Normal";
         if (es_patologico) {
             clasificacion = "⚠️ Retrococlear (Roll-Over)";
         } else if (y_max_fijo < 92) {
             clasificacion = "Coclear (Techo Truncado)";
         } else if (bestB * 25 < 6.5) {
             clasificacion = "Coclear / Plana (Baja Pendiente)";
+        } else if (numericSRT !== null && numericSRT > 25) {
+            clasificacion = "Conductiva (Desplazamiento Paralelo)";
         }
 
         return {
@@ -866,6 +860,7 @@
             odClasifEl.innerText = resOD.clasif;
             if (resOD.esPatol) odClasifEl.style.color = 'var(--right-ear)';
             else if (resOD.yMax < 92) odClasifEl.style.color = '#c2410c';
+            else if (resOD.clasif.startsWith("Conductiva")) odClasifEl.style.color = '#1e3a8a';
             else odClasifEl.style.color = 'var(--primary)';
 
             if (resOD.urvVal !== null) {
@@ -901,6 +896,7 @@
             oiClasifEl.innerText = resOI.clasif;
             if (resOI.esPatol) oiClasifEl.style.color = 'var(--right-ear)';
             else if (resOI.yMax < 92) oiClasifEl.style.color = '#c2410c';
+            else if (resOI.clasif.startsWith("Conductiva")) oiClasifEl.style.color = '#1e3a8a';
             else oiClasifEl.style.color = 'var(--primary)';
 
             if (resOI.urvVal !== null) {
