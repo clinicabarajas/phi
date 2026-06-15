@@ -96,7 +96,7 @@
             margin-top: 45px;
         }
 
-        /* Estilos de la guía técnica interactiva con significado clínico */
+        /* Estilos de la guía técnica interactiva */
         .guide-card {
             margin-top: 24px;
             border-left: 4px solid var(--primary);
@@ -139,9 +139,6 @@
             color: var(--text);
             margin-bottom: 8px;
             line-height: 1.4;
-        }
-        .metric-explain p strong {
-            color: var(--primary);
         }
         .formula-box {
             background: #334155;
@@ -205,6 +202,14 @@
             text-align: center;
             font-size: 15px;
         }
+        
+        /* Variación estilizada para inputs embutidos en la tabla de resultados */
+        .input-field.inline-input {
+            max-width: 90px;
+            padding: 5px;
+            font-size: 14px;
+            background-color: #fafafa;
+        }
 
         .btn {
             padding: 10px 16px;
@@ -237,7 +242,7 @@
         .btn-success:hover { background-color: var(--success-hover); }
 
         .results-table th { background-color: #f1f5f9; color: #334155; }
-        .results-table td { font-size: 15px; font-weight: 500; }
+        .results-table td { font-size: 14px; font-weight: 500; padding: 8px 10px; }
         .alert-text { color: #c2410c; font-weight: bold; }
 
         .canvas-container {
@@ -253,11 +258,13 @@
             display: block;
         }
 
-        /* CONFIGURACIÓN OPTIMIZADA PARA IMPRESIÓN (PDF A4) */
+        /* ==========================================
+           CONFIGURACIÓN OPTIMIZADA PARA IMPRESIÓN (PDF A4)
+           ========================================== */
         @media print {
             @page {
                 size: A4;
-                margin: 12mm 15mm 12mm 15mm;
+                margin: 10mm 15mm 10mm 15mm;
             }
             
             body {
@@ -285,7 +292,7 @@
                 box-shadow: none !important;
                 border-left: 6px solid var(--primary) !important;
                 padding: 0 0 0 12px !important;
-                margin-bottom: 20px !important;
+                margin-bottom: 15px !important;
                 border-radius: 0 !important;
                 background: transparent !important;
             }
@@ -300,34 +307,50 @@
             }
 
             .card h2 {
-                font-size: 15px !important;
-                margin-bottom: 10px !important;
+                font-size: 14px !important;
+                margin-bottom: 8px !important;
                 border-bottom: 1px solid #cbd5e1 !important;
-                padding-bottom: 4px !important;
+                padding-bottom: 2px !important;
             }
 
             .chart-card {
-                margin-top: 50px !important;
+                margin-top: 35px !important;
             }
 
             .results-table th, .results-table td {
-                padding: 8px !important;
-                font-size: 13px !important;
+                padding: 6px 8px !important;
+                font-size: 12.5px !important;
             }
 
             .results-table th {
                 background-color: #f1f5f9 !important;
             }
 
+            /* Transformación estética de los inputs a texto plano para el PDF */
+            .input-field.inline-input {
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                font-size: 12.5px !important;
+                font-weight: 500 !important;
+                color: #000 !important;
+                text-align: center !important;
+                appearance: none;
+                -webkit-appearance: none;
+            }
+            .input-field.inline-input::after {
+                content: " dB HL";
+            }
+
             .canvas-container {
                 padding: 0 !important;
                 text-align: center !important;
-                margin-top: 10px !important;
+                margin-top: 5px !important;
                 page-break-inside: avoid;
             }
 
             canvas {
-                max-width: 68% !important;
+                max-width: 55% !important; /* Ajuste micrométrico de escala para asegurar 1 sola hoja */
                 margin: 0 auto !important;
             }
         }
@@ -342,7 +365,6 @@
     </header>
 
     <div class="main-grid">
-        <!-- Panel Izquierdo: Formulario de entrada por oído -->
         <div class="card">
             <h2>Entrada de Datos por Oído</h2>
              
@@ -360,21 +382,19 @@
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <!-- Dinámico -->
-                </tbody>
+                    </tbody>
             </table>
 
             <button type="button" class="btn btn-primary" onclick="addRow()">+ Añadir Fila de Intensidad</button>
         </div>
 
-        <!-- Panel Derecho: Resultados Simultáneos y Gráfica Unificada -->
         <div>
             <div class="card">
                 <h2>Resultados del ajuste</h2>
                 <table class="results-table">
                     <thead>
                         <tr>
-                            <th>Métrica Calculada</th>
+                            <th>Métrica Calculada / Parámetro</th>
                             <th style="color: var(--right-ear);">Oído Derecho (OD)</th>
                             <th style="color: var(--left-ear);">Oído Izquierdo (OI)</th>
                         </tr>
@@ -405,6 +425,26 @@
                             <td id="odRollover">--</td>
                             <td id="oiRollover">--</td>
                         </tr>
+                        <tr>
+                            <td><strong>Máxima Comodidad (MCL)</strong></td>
+                            <td><input type="number" id="odMCL" class="input-field inline-input" value="45" onchange="calculateAndDraw()" min="0" max="120" step="5"> dB HL</td>
+                            <td><input type="number" id="oiMCL" class="input-field inline-input" value="55" onchange="calculateAndDraw()" min="0" max="120" step="5"> dB HL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Umbral de Disconfort (UCL)</strong></td>
+                            <td><input type="number" id="odUCL" class="input-field inline-input" value="100" onchange="calculateAndDraw()" min="0" max="120" step="5"> dB HL</td>
+                            <td><input type="number" id="oiUCL" class="input-field inline-input" value="105" onchange="calculateAndDraw()" min="0" max="120" step="5"> dB HL</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rango Dinámico (UCL - SRT)</strong></td>
+                            <td id="odRango" style="font-weight: 600;">--</td>
+                            <td id="oiRango" style="font-weight: 600;">--</td>
+                        </tr>
+                        <tr style="background-color: #f8fafc;">
+                            <td><strong>Clasificación de la Curva</strong></td>
+                            <td id="odClasif" style="font-weight: bold; font-size: 13.5px;">--</td>
+                            <td id="oiClasif" style="font-weight: bold; font-size: 13.5px;">--</td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -423,7 +463,6 @@
         </div>
     </div>
 
-    <!-- GUÍA TÉCNICA INTERACTIVA COMPLETA CON SIGNIFICADO CLÍNICO -->
     <div class="card guide-card">
         <details>
             <summary>📖 Ver Guía Técnica: ¿Cómo se calculan e interpretan estas métricas?</summary>
@@ -431,42 +470,56 @@
                 
                 <div class="metric-explain">
                     <h3>URV / SRT (al 50% Absoluto)</h3>
-                    <p><strong>Qué mide:</strong> La intensidad exacta (dB HL) en la que el paciente comprende el 50% absoluto de las palabras presentadas[cite: 1, 2].</p>
-                    <p><strong>Significado clínico:</strong> Es el umbral de inteligibilidad donde inicia la comprensión verbal; sirve para validar de forma directa el promedio tonal (PTA) de la vía aérea[cite: 1, 2].</p>
+                    <p><strong>Qué mide:</strong> La intensidad exacta (dB HL) en la que el paciente comprende el 50% absoluto de las palabras presentadas.</p>
+                    <p><strong>Significado clínico:</strong> Es el umbral de inteligibilidad donde inicia la comprensión verbal; sirve para validar de forma directa el promedio tonal (PTA) de la vía aérea.</p>
                     <div class="formula-box">X<sub>URV</sub> = X<sub>50</sub> - [ln(Y<sub>max</sub> / 50 - 1) / b]</div>
                 </div>
 
                 <div class="metric-explain">
                     <h3>Discriminación Máxima (Ymax)</h3>
-                    <p><strong>Qué mide:</strong> El techo porcentual óptimo de discriminación de la palabra hablada que posee el paciente[cite: 1, 2].</p>
-                    <p><strong>Significado clínico:</strong> Define la capacidad máxima de rendimiento del sistema auditivo. Valores por debajo del 100% reflejan distorsión y daño neurosensorial (coclear o neural)[cite: 1, 2].</p>
+                    <p><strong>Qué mide:</strong> El techo porcentual óptimo de discriminación de la palabra hablada que posee el paciente.</p>
+                    <p><strong>Significado clínico:</strong> Define la capacidad máxima de rendimiento del sistema auditivo. Valores por debajo del 100% reflejan distorsión y daño neurosensorial (coclear o neural).</p>
                     <div class="formula-box">Y<sub>max</sub> = max(Y<sub>filtrados</sub>)</div>
                 </div>
 
                 <div class="metric-explain">
                     <h3>Pendiente (b × 25)</h3>
-                    <p><strong>Qué mide:</strong> La tasa de aceleración e inclinación del reconocimiento verbal por cada dB aumentado (%/dB)[cite: 1, 2].</p>
-                    <p><strong>Significado clínico:</strong> Evalúa la eficiencia del rango dinámico. Una pendiente plana o de bajo porcentaje denota problemas severos de reclutamiento coclear o rigidez neural[cite: 1, 2].</p>
+                    <p><strong>Qué mide:</strong> La tasa de aceleración e inclinación del reconocimiento verbal por cada dB aumentado (%/dB).</p>
+                    <p><strong>Significado clínico:</strong> Evalúa la eficiencia del rango dinámico. Una pendiente plana o de bajo porcentaje denota problemas severos de reclutamiento coclear o rigidez neural.</p>
                     <div class="formula-box">Pendiente = b × 25</div>
                 </div>
 
                 <div class="metric-explain">
                     <h3>Bondad de Ajuste (R²)</h3>
-                    <p><strong>Qué mide:</strong> Coeficiente estadístico que cuantifica la fidelidad entre el modelo matemático matemático PHI y los datos anotados en cabina[cite: 1, 2].</p>
-                    <p><strong>Significado clínico:</strong> Valores muy próximos a 1.00 garantizan que el comportamiento biológico del paciente fue consistente y que los umbrales calculados son altamente confiables[cite: 1, 2].</p>
+                    <p><strong>Qué mide:</strong> Coeficiente estadístico que cuantifica la fidelidad entre el modelo matemático PHI y los datos anotados en cabina.</p>
+                    <p><strong>Significado clínico:</strong> Valores muy próximos a 1.00 garantizan que el comportamiento biológico del paciente fue consistente y que los umbrales calculados son altamente confiables.</p>
                     <div class="formula-box">R² = 1 - [Σ(Y<sub>real</sub> - Y<sub>teórica</sub>)² / Σ(Y<sub>real</sub> - Y<sub>media</sub>)²]</div>
+                </div>
+
+                <div class="metric-explain">
+                    <h3>Rango Dinámico de la Palabra</h3>
+                    <p><strong>Qué mide:</strong> El espacio útil de audición cómoda para el lenguaje que posee el paciente ($UCL - SRT$).</p>
+                    <p><strong>Significado clínico:</strong> Un rango muy estrecho (menor a 40-50 dB) es un indicador directo de <em>Reclutamiento Coclear</em>, un dato crucial para programar los límites de compresión de salida en audífonos.</p>
+                    <div class="formula-box">Rango Dinámico = UCL - SRT</div>
+                </div>
+
+                <div class="metric-explain">
+                    <h3>Clasificación Cualitativa Automatizada</h3>
+                    <p><strong>Qué mide:</strong> Diagnóstico algorítmico computado según la geometría tridimensional de la curva resultante.</p>
+                    <p><strong>Significado clínico:</strong> Clasifica automáticamente el perfil de la curva en: <em>Normal/Conductiva</em> (mantiene pendientes y techos sanos), <em>Coclear</em> (exhibe techos truncados por daño de células ciliadas) o <em>Retrococlear</em> (activada por colapso neural de Roll-Over).</p>
+                    <div class="formula-box">Algoritmo Lógico de Decisión PHI</div>
                 </div>
 
                 <div class="metric-explain" style="grid-column: 1 / -1;">
                     <h3>Fenómeno de Roll-Over</h3>
-                    <p><strong>Qué mide:</strong> Cuantifica la caída paradójica de la inteligibilidad a intensidades sonoras muy elevadas[cite: 1, 2].</p>
-                    <p><strong>Significado clínico:</strong> Actúa como una potente alerta diagnóstica. Si la discriminación colapsa a volúmenes altos y el índice matemático da un resultado igual o mayor a 0.40, el motor activa la etiqueta crítica de sospecha de <strong>Patología Retrococlear</strong> (ej. fatiga del nervio auditivo o neurinoma)[cite: 1, 2].</p>
+                    <p><strong>Qué mide:</strong> Cuantifica la caída paradójica de la inteligibilidad a intensidades sonoras muy elevadas.</p>
+                    <p><strong>Significado clínico:</strong> Actúa como una potente alerta diagnóstica. Si la discriminación colapsa a volúmenes altos y el índice matemático da un resultado igual o mayor a 0.40, el motor activa la etiqueta de sospecha de <strong>Patología Retrococlear</strong>.</p>
                     <div class="formula-box">Índice de Roll-Over = (Y<sub>max</sub> - Y<sub>min_post_pico</sub>) / Y<sub>max</sub></div>
                 </div>
 
                 <div class="metric-explain" style="grid-column: 1 / -1;">
                     <h3>Ecuación General de la Curva Ajustada (PHI)</h3>
-                    <p>Fórmula de distribución logística continua empleada por el algoritmo de software para proyectar de manera matemática y precisa la sigmoide en el gráfico bilateral[cite: 2]:</p>
+                    <p>Fórmula de distribución logística continua empleada por el algoritmo de software para proyectar de manera matemática y precisa la sigmoide en el gráfico bilateral:</p>
                     <div class="formula-box">Y<sub>teórica</sub> = Y<sub>max</sub> / (1 + e<sup>-b · (X - X<sub>50</sub>)</sup>)</div>
                 </div>
 
@@ -619,22 +672,36 @@
         let r2 = sumSquaresTotal === 0 ? 1 : 1 - (finalErrorSum / sumSquaresTotal);
 
         let urvText = "No Alc. (<50%)";
+        let numericSRT = null;
         if (y_max_fijo >= 50) {
             let urvVal = bestX50;
             if (y_max_fijo > 50) urvVal = bestX50 - Math.log((y_max_fijo / 50) - 1) / bestB;
             urvText = `${urvVal.toFixed(1)} dB HL`;
+            numericSRT = urvVal;
         }
 
         let rolloverText = rollover_index > 0 ? `Leve (${rollover_index.toFixed(2)})` : "Ausente (0.00)";
         if (es_patologico) rolloverText = `⚠️ PATOLÓGICO (${rollover_index.toFixed(2)})`;
 
+        // LÓGICA DE CLASIFICACIÓN CUALITATIVA AUTOMATIZADA
+        let clasificacion = "Normal / Conductiva";
+        if (es_patologico) {
+            clasificacion = "⚠️ Retrococlear (Roll-Over)";
+        } else if (y_max_fijo < 92) {
+            clasificacion = "Coclear (Techo Truncado)";
+        } else if (bestB * 25 < 6.5) {
+            clasificacion = "Coclear / Plana (Baja Pendiente)";
+        }
+
         return {
             urv: urvText,
+            urvVal: numericSRT,
             pbMax: `${y_max_fijo.toFixed(0)}%`,
             pendiente: `${(bestB * 25).toFixed(1)} %/dB`,
             r2: Math.max(0, r2).toFixed(3),
             rollover: rolloverText,
             esPatol: es_patologico,
+            clasif: clasificacion,
             b: bestB, x50: bestX50, yMax: y_max_fijo
         };
     }
@@ -649,13 +716,42 @@
             document.getElementById('odPendiente').innerText = resOD.pendiente;
             document.getElementById('odR2').innerText = resOD.r2;
             document.getElementById('odRollover').innerHTML = resOD.esPatol ? `<span class="alert-text">${resOD.rollover}</span>` : resOD.rollover;
+            
+            // Render de Clasificación Cualitativa OD
+            const odClasifEl = document.getElementById('odClasif');
+            odClasifEl.innerText = resOD.clasif;
+            if (resOD.esPatol) odClasifEl.style.color = 'var(--right-ear)';
+            else if (resOD.yMax < 92) odClasifEl.style.color = '#c2410c';
+            else odClasifEl.style.color = 'var(--primary)';
+
+            // Cálculo de Rango Dinámico OD
+            if (resOD.urvVal !== null) {
+                let uclOD = parseFloat(document.getElementById('odUCL').value) || 0;
+                let rdOD = uclOD - resOD.urvVal;
+                document.getElementById('odRango').innerText = `${rdOD.toFixed(1)} dB`;
+            } else { document.getElementById('odRango').innerText = "--"; }
         }
+        
         if (resOI) {
             document.getElementById('oiURV').innerText = resOI.urv;
             document.getElementById('oiPBMax').innerText = resOI.pbMax;
             document.getElementById('oiPendiente').innerText = resOI.pendiente;
             document.getElementById('oiR2').innerText = resOI.r2;
             document.getElementById('oiRollover').innerHTML = resOI.esPatol ? `<span class="alert-text">${resOI.rollover}</span>` : resOI.rollover;
+            
+            // Render de Clasificación Cualitativa OI
+            const oiClasifEl = document.getElementById('oiClasif');
+            oiClasifEl.innerText = resOI.clasif;
+            if (resOI.esPatol) oiClasifEl.style.color = 'var(--right-ear)';
+            else if (resOI.yMax < 92) oiClasifEl.style.color = '#c2410c';
+            else oiClasifEl.style.color = 'var(--primary)';
+
+            // Cálculo de Rango Dinámico OI
+            if (resOI.urvVal !== null) {
+                let uclOI = parseFloat(document.getElementById('oiUCL').value) || 0;
+                let rdOI = uclOI - resOI.urvVal;
+                document.getElementById('oiRango').innerText = `${rdOI.toFixed(1)} dB`;
+            } else { document.getElementById('oiRango').innerText = "--"; }
         }
 
         drawCanvasChart(resOD, resOI);
