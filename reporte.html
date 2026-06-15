@@ -30,8 +30,9 @@
         /* Encabezado Médico Profesional */
         .clinic-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary-report); padding-bottom: 20px; margin-bottom: 25px; }
         .logo-placeholder { width: 180px; height: 65px; border: 1px dashed var(--border-report); display: flex; align-items: center; justify-content: center; font-size: 11px; color: #64748b; text-align: center; border-radius: 4px; }
-        .clinic-info { text-align: right; font-size: 12px; color: #64748b; line-height: 1.4; }
-        .clinic-info h2 { font-size: 18px; color: var(--primary-report); margin-bottom: 4px; }
+        .clinic-info { text-align: right; line-height: 1.4; }
+        .clinic-info h2 { font-size: 22px; color: var(--primary-report); letter-spacing: 0.5px; margin-bottom: 4px; }
+        .clinic-info p { font-size: 13px; color: #64748b; font-weight: 500; }
 
         /* Ficha del Paciente */
         .patient-box { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 15px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; margin-bottom: 25px; font-size: 13px; }
@@ -54,7 +55,7 @@
         .observations-area { min-height: 90px; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; font-size: 13px; line-height: 1.5; background: #fffcf5; outline: none; }
         .observations-area:focus { border-color: #0284c7; background: #fff; }
 
-        /* Área de Firmas fijada al final */
+        /* Área de Firmas */
         .footer-signatures { display: flex; justify-content: space-between; margin-top: 50px; font-size: 12px; padding-top: 20px; }
         .signature-line { width: 220px; border-top: 1px solid #000; text-align: center; padding-top: 5px; margin-top: 45px; }
 
@@ -63,15 +64,14 @@
         .btn-print { background: #16a34a; color: white; border: none; padding: 14px 24px; border-radius: 50px; font-weight: bold; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(22,163,74,0.3); transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
         .btn-print:hover { background: #15803d; transform: translateY(-2px); }
 
-        footer { margin-top: 30px; text-align: center; font-size: 10px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 10px; }
+        footer { margin-top: 30px; text-align: center; font-size: 10px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 12px; font-weight: 500; text-transform: uppercase; line-height: 1.4; }
 
-        /* Configuración de Impresión A4 Exacta */
         @media print {
             body { background: white; padding: 0; color: #000; }
             .page-report { box-shadow: none; padding: 0; max-width: 100%; margin: 0; }
             .floating-actions { display: none !important; }
             .observations-area { border: none; background: transparent; padding: 0; min-height: auto; }
-            [contenteditable="true"]:empty:before { content: ""; } /* Ocultar placeholders al imprimir */
+            [contenteditable="true"]:empty:before { content: ""; }
         }
     </style>
 </head>
@@ -92,12 +92,11 @@
 <div class="page-report">
     <div class="clinic-header">
         <div class="logo-placeholder">
-            [ Logotipo de la Clínica ]<br>Sustituir por imagen corporativa
+            [ Logotipo del Centro ]<br>Sustituir por imagen corporativa
         </div>
         <div class="clinic-info">
-            <h2>CENTRO AUDIOLÓGICO AVANZADO</h2>
-            <p>Unidad de Diagnóstico Otoneurológico</p>
-            <p>Tel: +34 900 000 000 | info@clinica.com</p>
+            <h2>LOGOAUDIOMETRÍA</h2>
+            <p>Informe de Modelado Analítico PHI</p>
         </div>
     </div>
 
@@ -153,7 +152,7 @@
     </div>
 
     <footer>
-        © 2026 Franz Zenker. Licencia Creative Commons Atribución-NoComercial 4.0 Internacional (CC BY-NC 4.0)
+        LOGOAUDIOMETRÍA. MODELADO ANALÍTICO PHI. © 2026 FRANZ ZENKER. LICENCIA CREATIVE COMMONS ATRIBUCIÓN-NOCOMERCIAL 4.0 INTERNACIONAL (CC BY-NC 4.0)
     </footer>
 </div>
 
@@ -161,11 +160,9 @@
     let dataPointsOD = [], dataPointsOI = [];
 
     window.onload = function() {
-        // Establecer fecha de hoy de forma automática
         const hoy = new Date();
         document.getElementById('reportDate').innerText = hoy.toLocaleDateString('es-ES');
 
-        // Leer datos desde localStorage
         const json = localStorage.getItem('datos_logoaudiometria');
         if(!json) { alert("No se encontraron datos clínicos. Cierre esta ventana y pulse 'Generar Informe' en la pantalla de datos."); return; }
         
@@ -173,15 +170,12 @@
         dataPointsOD = datos.dataPointsOD;
         dataPointsOI = datos.dataPointsOI;
 
-        // Volcar los datos tonales y basales en el DOM oculto para mantener compatibilidad con el algoritmo matemático
         Object.keys(datos.tonal).forEach(id => { document.getElementById(id).value = datos.tonal[id]; });
         Object.keys(datos.umbrales).forEach(id => { document.getElementById(id).value = datos.umbrales[id]; });
 
-        // Procesar, calcular y renderizar la gráfica automáticamente
         calculateAndDraw();
     };
 
-    // EL ALGORITMO CLÍNICO MATEMÁTICO EXACTO (CON LAS CORRECCIONES PHI)
     function procesarAjusteOido(points, ear) {
         let validos = points.filter(p => p.db !== null && p.pct !== null && !isNaN(p.db) && !isNaN(p.pct));
         if (validos.length < 2) return null;
