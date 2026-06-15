@@ -198,7 +198,7 @@
             <li><a href="#sec-variables">Descripción de cada variable de entrada</a></li>
             <li><a href="#sec-salidas">Significación clínica de cada métrica de salida</a></li>
             <li><a href="#sec-matriz">Matriz multicriterio de decisión y puntos de corte</a></li>
-            <li><a href="#sec-protetica">Implicaciones protésicas (métricas supraliminares)</a></li>
+            <li><a href="#sec-protetica">Implicaciones audioprotésicas (métricas supraliminares)</a></li>
             <li><a href="#sec-r2">Semáforo de fiabilidad del ajuste (R²)</a></li>
             <li><a href="#sec-casos">Ejemplos clínicos tipo</a></li>
             <li><a href="#sec-limitaciones">Limitaciones de entrada y advertencias de uso</a></li>
@@ -229,7 +229,7 @@
         </li>
         <li>
             <strong>Introducir los pares intensidad–discriminación</strong>
-            Por cada nivel de presentación utilizado en la logoaudiometría, introducir la intensidad en dB HL y el porcentaje de palabras correctas. Se recomienda al menos 4–6 puntos que cubran la transición de 0% a máximo. Usar "Añadir fila" si se necesitan más niveles.
+            Por cada nivel de presentación utilizado en la logoaudiometría, introducir la intensidad en dB HL y el porcentaje de palabras correctas. Se recomienda al menos <strong>6 puntos</strong> que cubran la transición de 0% a máximo. Usar "Añadir fila" si se necesitan más niveles.
         </li>
         <li>
             <strong>Introducir los umbrales supraliminares (SDT, MCL, UCL)</strong>
@@ -285,7 +285,7 @@
 
     <div class="callout callout-info">
         <strong>Número mínimo de puntos y cobertura de la curva</strong>
-        El algoritmo requiere al menos <strong>2 puntos</strong> para trazar la curva, pero con 2 puntos el ajuste no es clínicamente útil. Se recomienda obtener datos en al menos <strong>4–6 intensidades</strong> diferentes que incluyan: un nivel por debajo del umbral verbal, la zona de transición rápida (donde la curva sube de 20% a 80%) y el nivel de máxima discriminación. Si todos los puntos se concentran en el plateau superior, el SRT calculado tendrá muy poca precisión.
+        El algoritmo requiere al menos <strong>2 puntos</strong> para trazar la curva, pero con menos de 6 el ajuste sigmoide puede ser geométricamente indeterminado. Se recomienda obtener datos en al menos <strong>6 intensidades</strong> diferentes que incluyan: un nivel por debajo del umbral verbal, la zona de transición rápida (donde la curva sube de 20% a 80%) y el nivel de máxima discriminación. Si todos los puntos se concentran en el plateau superior, el SRT calculado tendrá muy poca precisión.
     </div>
 
     <h3>3.2 Audiometría Tonal Cruzada (V.A. / V.O.)</h3>
@@ -414,7 +414,7 @@
     <p>Espacio en decibelios disponible entre el umbral verbal y el nivel de disconfort. Determina directamente la estrategia de amplificación. Un rango estrecho obliga a ajustar con alta compresión y MPO (Maximum Power Output) muy controlado para evitar que el audífono amplifique hasta el dolor.</p>
 
     <h3>4.8 Margen de Comodidad (MCL − SRT)</h3>
-    <p>Diferencia entre el nivel de comodidad subjetiva y el umbral verbal. Indica cuánto "espacio" tiene el audioprotesista para configurar la ganancia de la conversación ordinaria sin que el paciente la perciba como incómoda.</p>
+    <p>Diferencia entre el nivel de comodidad subjetiva y el umbral verbal. Indica cuánto "espacio" tiene el audioprotesista para configurar la ganancia para una entrada de habla conversacional (convencionalmente 65 dB SPL) sin que el paciente la perciba como incómoda.</p>
 
     <h3>4.9 Reclutamiento por Rango</h3>
     <p>El algoritmo lo estima indirectamente: si el Rango Dinámico es inferior a 45 dB, se considera positivo. El reclutamiento coclear refleja un crecimiento anormalmente rápido de la sensación de volumen tras superar el umbral auditivo, característico de la lesión de células ciliadas externas. Tiene implicaciones directas en la tolerancia al audífono.</p>
@@ -431,8 +431,8 @@
         <thead><tr><th>Índice</th><th>Clasificación</th><th>Acción clínica</th></tr></thead>
         <tbody>
             <tr><td><span class="badge-ok">&lt; 0.35</span></td><td>Negativo</td><td>Sin sospecha de patología retrococlear por este criterio</td></tr>
-            <tr><td><span class="badge-warn">0.35–0.44</span></td><td>Zona gris / Sospecha leve</td><td>Considerar BERA o prueba de adaptación tonal (Tone Decay)</td></tr>
-            <tr><td><span class="badge-danger">≥ 0.45</span></td><td>Significativo</td><td>Alta sospecha retrococlear. Derivar para BERA y/o RM con gadolinio</td></tr>
+            <tr><td><span class="badge-warn">0.35–0.44</span></td><td>Zona gris / Sospecha leve</td><td>Considerar PEATC o prueba de adaptación tonal (Tone Decay)</td></tr>
+            <tr><td><span class="badge-danger">≥ 0.45</span></td><td>Significativo</td><td>Alta sospecha retrococlear. Derivar para PEATC y/o RM</td></tr>
         </tbody>
     </table>
 
@@ -482,7 +482,7 @@
                 <td>Negativo</td>
                 <td>Negativo o campana leve</td>
                 <td>≥ 0.45</td>
-                <td><span class="badge-warn">0.35–0.44:</span> Zona gris. Corroborar con BERA o RM.</td>
+                <td><span class="badge-warn">0.35–0.44:</span> Zona gris. Corroborar con PEATC o RM.</td>
             </tr>
             <tr>
                 <td><strong>Morfología curva</strong></td>
@@ -503,19 +503,16 @@
         </tbody>
     </table>
 
-    <!-- ===== 6. PROTÉSICA ===== -->
-    <h2 id="sec-protetica">6. Implicaciones protésicas (métricas supraliminares)</h2>
-    <p>La logoaudiometría aporta información que va más allá del diagnóstico: es la base para planificar la estrategia de adaptación protésica. Las métricas se agrupan en tres niveles según el origen de los datos necesarios para calcularlas.</p>
-
-    <h3>6.1 Métricas directas del programa (calculadas automáticamente)</h3>
-    <p>Estas variables se obtienen directamente de los datos ya introducidos en el programa, sin ninguna exploración adicional.</p>
+    <!-- ===== 6. AUDIOPROTÉSICA ===== -->
+    <h2 id="sec-protetica">6. Implicaciones audioprotésicas (métricas supraliminares)</h2>
+    <p>La logoaudiometría aporta información que va más allá del diagnóstico: es la base para planificar la estrategia de adaptación audioprotésica. Las siguientes variables se obtienen directamente de los datos ya introducidos en el programa, sin ninguna exploración adicional.</p>
 
     <table>
         <thead>
             <tr>
                 <th>Variable</th>
                 <th>Patrón de Normalidad</th>
-                <th>⚠️ Patrón de Alarma — Implicación protésica</th>
+                <th>⚠️ Patrón de Alarma — Implicación audioprotésica</th>
             </tr>
         </thead>
         <tbody>
@@ -531,13 +528,13 @@
             </tr>
             <tr>
                 <td><strong>Margen de Comodidad (MCL − SRT)</strong></td>
-                <td><strong>Adecuado (≥ 20–30 dB):</strong> Margen holgado para configurar la ganancia conversacional (target gain) sin saturar de inmediato.</td>
-                <td><strong>Crítico (&lt; 20 dB):</strong> Hipersensibilidad marcada. Exige ajuste milimétrico en las curvas de ganancia de entradas medias para evitar fatiga cognitiva y rechazo.</td>
+                <td><strong>Adecuado (≥ 20–30 dB):</strong> Margen holgado para configurar la ganancia objetivo para una entrada de habla conversacional (convencionalmente 65 dB SPL) sin saturar de inmediato.</td>
+                <td><strong>Crítico (&lt; 20 dB):</strong> Hipersensibilidad marcada. Exige ajuste milimétrico en las curvas de ganancia de entradas medias (65 dB SPL) para evitar fatiga cognitiva y rechazo del audífono.</td>
             </tr>
             <tr>
                 <td><strong>WRS máximo como predictor de beneficio</strong></td>
                 <td><strong>WRS ≥ 90%:</strong> El sistema auditivo conserva una capacidad de discriminación óptima. La amplificación puede recuperar prácticamente toda la inteligibilidad perdida por la atenuación.</td>
-                <td><strong>WRS &lt; 80%:</strong> El techo de discriminación del oído está limitado internamente. Por muy bien ajustado que esté el audífono, la inteligibilidad máxima alcanzable quedará por debajo del 100%. Es fundamental informar al paciente de este límite antes de la adaptación para gestionar expectativas realistas.<br><br><span class="badge-danger">WRS &lt; 50%:</span> El beneficio protésico en entornos ruidosos será muy limitado. Valorar tecnología de procesamiento de señal avanzada (beamforming, reducción de ruido adaptativa) o sistemas FM/Roger.</td>
+                <td><strong>WRS &lt; 80%:</strong> El techo de discriminación del oído está limitado internamente. Por muy bien ajustado que esté el audífono, la inteligibilidad máxima alcanzable quedará por debajo del 100%. Es fundamental informar al paciente de este límite antes de la adaptación audioprotésica para gestionar expectativas realistas.<br><br><span class="badge-danger">WRS &lt; 50%:</span> El beneficio audioprotésico en entornos ruidosos será muy limitado. Valorar tecnología de procesamiento de señal avanzada (beamforming, reducción de ruido adaptativa) o sistemas FM/Roger.</td>
             </tr>
             <tr>
                 <td><strong>Pendiente de la curva como orientación de ganancia</strong></td>
@@ -547,79 +544,9 @@
         </tbody>
     </table>
 
-    <h3>6.2 Métricas complementarias recomendadas (requieren dato adicional)</h3>
-    <p>Estas métricas no las calcula el programa porque requieren un paso de exploración adicional, pero son el complemento natural de los datos logoaudiométricos para completar el perfil protésico.</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Métrica</th>
-                <th>Dato adicional necesario</th>
-                <th>Implicación protésica</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Ganancia Funcional Estimada (GFE)</strong></td>
-                <td>SRT en campo libre con audífono puesto (logoaudiometría en campo libre)</td>
-                <td>Diferencia entre el SRT sin y con audífono. Es el indicador más directo y ecológico del beneficio real aportado por la prótesis. Un GFE &lt; 15 dB en una hipoacusia moderada indica que el ajuste es insuficiente o que el paciente no está tolerando la ganancia prescriptiva.</td>
-            </tr>
-            <tr>
-                <td><strong>Índice de Articulación / SII<br><em>(Speech Intelligibility Index)</em></strong></td>
-                <td>Audiograma completo de 0.25 a 8 kHz</td>
-                <td>Calcula el porcentaje del espectro del habla que el paciente puede escuchar con una ganancia determinada. Es la base de las fórmulas de prescripción NAL-NL2 y DSL v5. Un SII &lt; 0.45 sin audífono predice beneficio protésico elevado; un SII cercano a 1.0 con audífono confirma que el fitting es adecuado en papel (debe verificarse con medidas en oído real).</td>
-            </tr>
-            <tr>
-                <td><strong>Curva de Preferencia de Ganancia</strong></td>
-                <td>Ajuste subjetivo del paciente durante la sesión de fitting</td>
-                <td>Diferencia entre la ganancia prescriptiva (NAL-NL2 / DSL) y la ganancia que el paciente selecciona espontáneamente. Discrepancias superiores a 10 dB son un predictor de abandono del audífono. La combinación con el WRS y el rango dinámico ayuda a decidir si la discrepancia se corrige con adaptación progresiva o requiere revisar la prescripción.</td>
-            </tr>
-            <tr>
-                <td><strong>UCL con Ruido (LDLN)</strong></td>
-                <td>Medida de disconfort con ruido de banda ancha en lugar de voz</td>
-                <td>Más representativo que el UCL con voz para calcular el MPO en entornos ruidosos cotidianos. En pacientes con reclutamiento positivo, el LDLN suele ser 5–10 dB inferior al UCL con voz, lo que obliga a ajustar el MPO aún más conservadoramente de lo que indica el programa.</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h3>6.3 Métricas de verificación (fuera del alcance de la logoaudiometría)</h3>
-    <p>Estas medidas no pueden obtenerse ni estimarse con datos logoaudiométricos. Se mencionan aquí para delimitar con claridad qué puede y qué no puede aportar este programa al proceso de adaptación.</p>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Métrica</th>
-                <th>Por qué no la calcula este programa</th>
-                <th>Herramienta necesaria</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Ganancia Real en Oído (REM / REG)</strong></td>
-                <td>Requiere micrófono de sonda en el canal auditivo con y sin audífono</td>
-                <td>Sistema de medidas en oído real (Probe Microphone Measurement)</td>
-            </tr>
-            <tr>
-                <td><strong>Verificación de targets NAL-NL2 / DSL</strong></td>
-                <td>Requiere software de fitting del fabricante y medidas REM simultáneas</td>
-                <td>Software de fitting + audiómetro de campo libre o REM</td>
-            </tr>
-            <tr>
-                <td><strong>Compresión de Ataque y Relajación óptimas</strong></td>
-                <td>Requiere tests de procesamiento temporal (GDT, gaps in noise, TMTF)</td>
-                <td>Audiómetro con módulo de procesamiento temporal</td>
-            </tr>
-            <tr>
-                <td><strong>Beneficio subjetivo en vida real (APHAB / IOI-HA)</strong></td>
-                <td>Requiere seguimiento post-adaptación mínimo de 4–6 semanas</td>
-                <td>Cuestionario validado en español (APHAB-S o similar)</td>
-            </tr>
-        </tbody>
-    </table>
-
     <div class="callout callout-info">
-        <strong>ℹ️ Posición de la logoaudiometría en el proceso de adaptación</strong>
-        Los datos de este programa son <strong>la fase de planificación preprotésica</strong>: permiten elegir la estrategia de compresión, estimar el beneficio esperable y definir las expectativas del paciente antes de seleccionar el dispositivo. La verificación real del ajuste siempre requiere medidas en oído real (REM) o en campo libre con el audífono puesto.
+        <strong>ℹ️ Posición de la logoaudiometría en el proceso de adaptación audioprotésica</strong>
+        Los datos de este programa corresponden a la <strong>fase de planificación previa</strong>: permiten elegir la estrategia de compresión, estimar el beneficio esperable y definir las expectativas del paciente antes de seleccionar el dispositivo. La verificación real del ajuste siempre requiere medidas en oído real (REM) o en campo libre con el audífono puesto.
     </div>
 
     <!-- ===== 7. R2 ===== -->
@@ -676,7 +603,7 @@
             <div class="case-row"><span class="case-label">SRT vs PTA4</span><span class="case-value">18 dB ❌ Inconsistente</span></div>
             <div class="case-row"><span class="case-label">Simetría OD/OI</span><span class="case-value">⚠️ Asimetría 28%</span></div>
             <div class="case-row"><span class="case-label">R²</span><span class="case-value">0.87</span></div>
-            <p style="margin-top:10px; font-size:12.5px; color:#b91c1c;">Roll-over significativo con asimetría interaural marcada. El WRS cae al aumentar la intensidad. La discriminación es desproporcionadamente peor que el umbral tonal. Indicación de BERA y/o RM con gadolinio para descartar neurinoma del acústico.</p>
+            <p style="margin-top:10px; font-size:12.5px; color:#b91c1c;">Roll-over significativo con asimetría interaural marcada. El WRS cae al aumentar la intensidad. La discriminación es desproporcionadamente peor que el umbral tonal. Indicación de PEATC y/o RM para descartar neurinoma del acústico.</p>
         </div>
     </div>
 
@@ -685,7 +612,7 @@
 
     <div class="callout callout-warn">
         <strong>⚠️ Mínimo de puntos y distribución</strong>
-        El algoritmo requiere al menos 2 puntos por oído, pero con menos de 4 el ajuste sigmoide es geométricamente indeterminado. Es imprescindible que los puntos cubran la zona de transición de la curva (entre aproximadamente 20% y 80% de discriminación). Puntos concentrados solo en el plateau alto generarán un SRT irreal y un R² artificialmente elevado.
+        El algoritmo requiere al menos 2 puntos por oído, pero con menos de 6 el ajuste sigmoide puede ser geométricamente indeterminado. Es imprescindible que los puntos cubran la zona de transición de la curva (entre aproximadamente 20% y 80% de discriminación). Puntos concentrados solo en el plateau alto generarán un SRT irreal y un R² artificialmente elevado.
     </div>
 
     <div class="callout callout-warn">
@@ -695,12 +622,12 @@
 
     <div class="callout callout-danger">
         <strong>❌ El algoritmo no diagnostica patología central</strong>
-        Los patrones de lesión central (corteza auditiva, cuerpo calloso, tronco del encéfalo) pueden producir curvas logoaudiométricas completamente normales en condiciones de escucha dióptica. Este software no incorpora pruebas dióticas ni dicóticas. Un resultado "compatible con normalidad" no descarta afectación central.
+        Los patrones de lesión central (corteza auditiva, cuerpo calloso, tronco del encéfalo) pueden producir curvas logoaudiométricas completamente normales en condiciones de escucha monoótica. Un resultado "compatible con normalidad" no descarta afectación central.
     </div>
 
     <div class="callout callout-info">
-        <strong>ℹ️ Validez del material logoaudiométrico</strong>
-        Los puntos de corte y clasificaciones de este manual se basan en pruebas con material logoaudiométrico calibrado y listas de palabras balanceadas fonémicamente en español. El uso de listas no calibradas, material en otros idiomas sin adaptación o palabras con distinta dificultad fonémica puede producir resultados atípicos que no deben interpretarse literalmente.
+        <strong>ℹ️ Validez del material logoaudiométrico y referencia normativa</strong>
+        Los puntos de corte y clasificaciones de este manual están establecidos para su uso con las listas de palabras de <strong>De Cárdenas, M.R. y Marrero-Aguilar, V. (1994). <em>Cuaderno de Logoaudiometría</em>. Madrid: UNED. ISBN 84-362-3009-4</strong>. El uso de listas no calibradas, material en otros idiomas sin adaptación o palabras con distinta dificultad fonémica puede producir resultados atípicos que no deben interpretarse con los mismos criterios.
     </div>
 
     <!-- ===== 10. ECUACIONES ===== -->
