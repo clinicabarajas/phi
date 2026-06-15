@@ -338,22 +338,48 @@
             else { concordanciaText = `❌ Inconsistencia (${diffPTA_SRT.toFixed(1)} dB)`; bloqueo_SRT = true; }
         }
 
+        // --- MATRIZ CLÍNICA DIAGNÓSTICA MEJORADA CON FILTRO DE INTENSIDAD ---
         let clasificacion = "Compatible con normalidad";
         if (!bloqueo_SRT) {
-            if (es_patologico) clasificacion = "⚠️ Sospecha de afectación neural (Roll-over significativo)";
-            else if (es_sospecha_leve) clasificacion = "⚠️ Zona gris: Sospecha leve de fatiga neural";
-            else if (numericSRT !== null) {
-                if (y_max_fijo >= 90) {
-                    if (ptaVA !== null && ptaVO !== null) {
-                        clasificacion = (ptaVA - ptaVO >= 15) ? "Compatible con perfil Conductivo" : "Hipoacusia Neurosensorial/Coclear con excelente discriminación";
-                    } else { clasificacion = "Perfil desplazado con WRS óptimo (Requiere valorar GAP tonal)"; }
-                } else if (y_max_fijo >= 80) clasificacion = "WRS discretamente reducida (Compatible con presbiacusia o lesión inicial)";
-                else if (y_max_fijo >= 50) clasificacion = "WRS reducida (Compatible con distorsión coclear)";
-                else clasificacion = "WRS muy reducida (Valorar severidad coclear o desproporción neural)";
+            if (es_patologico) {
+                clasificacion = "⚠️ Sospecha de afectación neural (Roll-over significativo)";
+            } else if (es_sospecha_leve) {
+                clasificacion = "⚠️ Zona gris: Sospecha leve de fatiga neural";
+            } else if (numericSRT !== null) {
+                
+                // Si el umbral de palabra (SRT) es normal (menor o igual a 22 dB HL)
+                if (numericSRT <= 22) {
+                    if (y_max_fijo >= 90) {
+                        clasificacion = "Compatible con normalidad audiológica";
+                    } else if (y_max_fijo >= 80) {
+                        clasificacion = "Umbral normal con WRS discretamente reducida (Posible distorsión inicial)";
+                    } else {
+                        clasificacion = "Umbral normal con WRS reducida (Evaluar desproporción neural)";
+                    }
+                } 
+                // Si el umbral está desplazado (> 22 dB HL), es una alteración/hipoacusia
+                else {
+                    if (y_max_fijo >= 90) {
+                        if (ptaVA !== null && ptaVO !== null) {
+                            clasificacion = (ptaVA - ptaVO >= 15) ? "Compatible con perfil Conductivo / Transmisión" : "Hipoacusia Neurosensorial/Coclear con excelente discriminación";
+                        } else {
+                            clasificacion = "Perfil desplazado con WRS óptimo (Sugerente de transmisión, requiere valorar GAP tonal)";
+                        }
+                    } else if (y_max_fijo >= 80) {
+                        clasificacion = "Hipoacusia con WRS discretamente reducida (Compatible con presbiacusia o lesión inicial)";
+                    } else if (y_max_fijo >= 50) {
+                        clasificacion = "Hipoacusia con WRS reducida (Compatible con distorsión coclear)";
+                    } else {
+                        clasificacion = "Hipoacusia con WRS muy reducida (Valorar severidad coclear o retrococlear)";
+                    }
+                }
+
             } else {
                 clasificacion = "Discriminación máxima insuficiente para calcular SRT de forma estándar.";
             }
-        } else { clasificacion = "⚠️ Inconsistencia logo-tonal significativa (SRT-PTA ≥ 15 dB)."; }
+        } else { 
+            clasificacion = "⚠️ Inconsistencia logo-tonal significativa (SRT-PTA ≥ 15 dB)."; 
+        }
 
         if (r2_num < 0.85) clasificacion = "⚠️ Baja fiabilidad matemática (R² < 0.85).";
 
