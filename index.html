@@ -152,6 +152,27 @@
             margin-top: 6px;
         }
 
+        /* ESTILOS DEL NUEVO PIE DE PÁGINA CORPORATIVO */
+        .site-footer {
+            text-align: center;
+            padding: 20px 0 10px 0;
+            margin-top: 40px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+        }
+        .site-footer p {
+            margin-bottom: 4px;
+        }
+        .site-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .site-footer a:hover {
+            text-decoration: underline;
+        }
+
         .ear-selector {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -344,8 +365,16 @@
             }
 
             canvas {
-                max-width: 75% !important; /* Incrementado al 75% para estirar la gráfica hacia los lados de forma óptima */
+                max-width: 72% !important; /* Ajustado sutilmente al 72% para absorber el pie de página perfectamente en la misma hoja */
                 margin: 0 auto !important;
+            }
+
+            /* Pie de página adaptado para la impresión limpia */
+            .site-footer {
+                margin-top: 25px !important;
+                padding-top: 10px !important;
+                font-size: 11px !important;
+                border-top: 1px solid #cbd5e1 !important;
             }
         }
     </style>
@@ -517,7 +546,7 @@
                 <div class="metric-explain">
                     <h3>Bondad de Ajuste (R²)</h3>
                     <p><strong>Qué mide:</strong> Coeficiente estadístico que cuantifica la fidelidad entre el modelo matemático PHI y los datos anotados en cabina.</p>
-                    <p><strong>Significado clínico:</strong> Valores muy próximos a 1.00 garantizan que el comportamiento biológico del paciente fue consistente y que los umbrales calculados son altamente confiables.</p>
+                    <p><strong>Significado clínico:</strong> Valores muy próximos a 1.00 garantizan que el comportamiento biológico del paciente fue consistentemente lineal y coherente.</p>
                     <div class="formula-box">R² = 1 - [Σ(Y<sub>real</sub> - Y<sub>teórica</sub>)² / Σ(Y<sub>real</sub> - Y<sub>media</sub>)²]</div>
                 </div>
 
@@ -564,6 +593,12 @@
             </div>
         </details>
     </div>
+
+    <!-- NUEVO PIE DE PÁGINA CORPORATIVO -->
+    <footer class="site-footer">
+        <p>© 2026 Zenker. Todos los derechos reservados.</p>
+        <p>Contacto: <a href="mailto:info@zenkerclinicabarajas.com">info@zenkerclinicabarajas.com</a></p>
+    </footer>
 
 </div>
 
