@@ -580,6 +580,16 @@
                             <td colspan="2" id="simetriaInteraural" style="font-weight: bold; background-color: #f8fafc; text-align: center;">--</td>
                         </tr>
                         <tr>
+                            <td><strong>Pendiente Máxima</strong></td>
+                            <td id="odPendiente">--</td>
+                            <td id="oiPendiente">--</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bondad de Ajuste (R²)</strong></td>
+                            <td id="odR2">--</td>
+                            <td id="oiR2">--</td>
+                        </tr>
+                        <tr>
                             <td><strong>Concord. SDT vs SRT</strong></td>
                             <td id="odSDT_SRT">--</td>
                             <td id="oiSDT_SRT">--</td>
@@ -1094,7 +1104,6 @@
         let clasificacion = "Compatible con normalidad";
         let alertasSubyacentes = [];
 
-        // NUEVAS MÉTRICAS: SDT, Rango Dinámico, Margen Comodidad y Reclutamiento
         let sdt_val = document.getElementById(prefix + 'UDV').value;
         let mcl_val = document.getElementById(prefix + 'MCL').value;
         let ucl_val = document.getElementById(prefix + 'UCL').value;
@@ -1105,7 +1114,6 @@
         let reclutText = "--";
 
         if (numericSRT !== null) {
-            // Concordancia SDT vs SRT
             if (sdt_val !== "") {
                 let sdt = parseFloat(sdt_val);
                 let diffSDT = numericSRT - sdt;
@@ -1121,7 +1129,6 @@
                 sdtText = "Falta SDT";
             }
 
-            // UCL - SRT (Rango Dinámico y Reclutamiento)
             if (ucl_val !== "") {
                 let ucl = parseFloat(ucl_val);
                 let rd = ucl - numericSRT;
@@ -1137,7 +1144,6 @@
                 reclutText = "Falta UCL";
             }
 
-            // MCL - SRT (Margen Comodidad)
             if (mcl_val !== "") {
                 let mcl = parseFloat(mcl_val);
                 let mc = mcl - numericSRT;
@@ -1376,7 +1382,10 @@
         ctx.fillText('Reconocimiento (%)', 0, 0);
         ctx.restore();
 
+        let empty = true;
+
         if (resOD) {
+            empty = false;
             ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3; ctx.beginPath();
             for (let db = minDb; db <= maxDb; db += 0.5) {
                 let pred = resOD.yMax / (1 + Math.exp(-resOD.b * (db - resOD.x50)));
@@ -1386,6 +1395,7 @@
         }
         dataPointsOD.forEach(p => {
             if (p.db !== null && p.pct !== null) {
+                empty = false;
                 let x = getX(p.db), y = getY(p.pct);
                 ctx.beginPath(); ctx.arc(x, y, 6, 0, 2 * Math.PI);
                 ctx.fillStyle = 'white'; ctx.fill();
@@ -1394,6 +1404,7 @@
         });
 
         if (resOI) {
+            empty = false;
             ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 3; ctx.beginPath();
             for (let db = minDb; db <= maxDb; db += 0.5) {
                 let pred = resOI.yMax / (1 + Math.exp(-resOI.b * (db - resOI.x50)));
@@ -1404,6 +1415,7 @@
         ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5;
         dataPointsOI.forEach(p => {
             if (p.db !== null && p.pct !== null) {
+                empty = false;
                 let x = getX(p.db), y = getY(p.pct);
                 ctx.beginPath();
                 ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5);
@@ -1411,6 +1423,13 @@
                 ctx.stroke();
             }
         });
+
+        if (empty) {
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = 'italic 14px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Introduce los porcentajes en la tabla para generar la curva', padding + width / 2, padding + height / 2);
+        }
 
         ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
         ctx.fillStyle = '#dc2626'; ctx.fillText('◯ Oído Derecho (OD)', padding + 15, padding + 20);
