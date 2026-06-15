@@ -66,13 +66,13 @@
 
         .main-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 1.2fr;
             gap: 24px;
         }
 
-        @media (min-width: 900px) {
+        @media (max-width: 900px) {
             .main-grid {
-                grid-template-columns: 1fr 1.2fr;
+                grid-template-columns: 1fr;
             }
         }
 
@@ -243,10 +243,40 @@
             border: 1px solid #e2e8f0;
         }
 
+        /* Aviso Legal */
+        .legal-disclaimer {
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 30px;
+        }
+        .legal-disclaimer summary {
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            outline: none;
+            user-select: none;
+        }
+        .legal-content {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.5;
+        }
+        .legal-content ul {
+            margin-top: 8px;
+            margin-left: 20px;
+        }
+        .legal-content li {
+            margin-bottom: 6px;
+        }
+
         .site-footer {
             text-align: center;
             padding: 20px 0 10px 0;
-            margin-top: 40px;
+            margin-top: 20px;
             font-size: 13px;
             color: var(--text-secondary);
             border-top: 1px solid var(--border);
@@ -374,7 +404,7 @@
         @media print {
             @page { size: A4; margin: 8mm 12mm 8mm 12mm; }
             body { background: white !important; color: #000 !important; padding: 0 !important; font-size: 11px !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            .hide-on-print, .btn, .guide-card, .recommendation-box { display: none !important; }
+            .hide-on-print, .btn, .guide-card, .recommendation-box, .legal-disclaimer { display: none !important; }
             .main-grid, .left-col, .right-col { display: block !important; width: 100% !important; }
             header { box-shadow: none !important; border-left: 5px solid var(--primary) !important; padding: 0 0 0 10px !important; margin-bottom: 12px !important; border-radius: 0 !important; background: transparent !important; }
             header h1 { font-size: 18px !important; }
@@ -399,7 +429,6 @@
         <p>Ajuste PHI con Árbol Diagnóstico Experto</p>
     </header>
 
-    <!-- DISCLAIMER CLÍNICO -->
     <div class="recommendation-box" style="margin-bottom: 20px; border-left: 4px solid #0369a1;">
         <strong>Principio de interpretación:</strong> La logoaudiometría no diagnostica por sí sola la localización de la lesión, pero detecta patrones de congruencia, distorsión y desproporción que orientan el diagnóstico diferencial y deciden cuándo repetir, complementar o derivar.
     </div>
@@ -430,7 +459,6 @@
                 <button type="button" class="btn btn-primary" onclick="addRow()">+ Añadir Fila de Intensidad</button>
             </div>
 
-            <!-- MATRIZ DE FRECUENCIAS PURAS PARA AUDIOMETRÍA TONAL -->
             <div class="card tonal-card hide-on-print">
                 <details class="tonal-details">
                     <summary>📊 Vincular Audiometría Tonal Cruzada (Opcional)</summary>
@@ -589,7 +617,6 @@
                     </tbody>
                 </table>
                 
-                <!-- ALERTA DE ASIMETRÍA INTERAURAL FLOTANTE -->
                 <div id="asimetriaAlert" class="asymmetry-alert"></div>
             </div>
 
@@ -603,8 +630,7 @@
         
     </div>
 
-    <!-- DESPLEGABLE 1: GUÍA DE INTERPRETACIÓN CLÍNICA Y MÉTRICAS -->
-    <div class="card guide-card">
+    <div class="card guide-card hide-on-print">
         <details>
             <summary>📖 Criterios Diagnósticos y Guía de Interpretación Clínica</summary>
             <div class="guide-container">
@@ -630,9 +656,36 @@
                     </div>
 
                     <div class="metric-explain">
+                        <h3>Rango Dinámico (UCL - SRT)</h3>
+                        <p><strong>Qué mide:</strong> El espacio acústico total (ventana de audición útil) entre el umbral de inteligibilidad y el umbral de molestia.</p>
+                        <p><strong>Significado clínico:</strong> Mapa de ruta para la compresión (WDRC). Rangos amplios permiten estrategias lineales; rangos estrechos exigen alta compresión y MPO estricto.</p>
+                        <div class="formula-box">Rango Dinámico = UCL - SRT</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Margen de Comodidad (MCL - SRT)</h3>
+                        <p><strong>Qué mide:</strong> La distancia entre el nivel donde apenas se entiende la voz y el nivel de escucha preferido o confortable.</p>
+                        <p><strong>Significado clínico:</strong> Define el "punto dulce" para la ganancia conversacional. Márgenes muy estrechos alertan de hipersensibilidad y exigen precaución en intensidades medias.</p>
+                        <div class="formula-box">Margen Comodidad = MCL - SRT</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Reclutamiento (Cálculo por UCL - SRT)</h3>
+                        <p><strong>Qué mide:</strong> El crecimiento anormal y acelerado de la sonoridad basado en el estrechamiento del rango dinámico útil.</p>
+                        <p><strong>Significado clínico:</strong> Se activa la alerta automática si el rango dinámico es inferior a 45 dB, indicando que el paciente pasa rápidamente de no oír a sentir molestia acústica.</p>
+                        <div class="formula-box">Positivo si (UCL - SRT) &lt; 45 dB</div>
+                    </div>
+
+                    <div class="metric-explain">
                         <h3>Pendiente Máxima (En el punto X50)</h3>
                         <p><strong>Importancia:</strong> La fórmula corrige la pendiente en base al techo real de discriminación. Es vital en curvas cocleares truncadas para no sobredimensionar la pendiente real.</p>
                         <div class="formula-box">Pendiente máxima = (Y_max &times; b) / 4</div>
+                    </div>
+
+                    <div class="metric-explain">
+                        <h3>Bondad de Ajuste (R²)</h3>
+                        <p><strong>Significado clínico:</strong> Mide la fiabilidad matemática del test. Un R² bajo sugiere mala colaboración, tinnitus, fatiga o presentación errática, exigiendo verificar la prueba.</p>
+                        <div class="formula-box">R² = 1 - [Σ(Y_real - Y_teórica)² / Σ(Y_real - Y_media)²]</div>
                     </div>
 
                     <div class="metric-explain" style="grid-column: 1 / -1;">
@@ -657,8 +710,7 @@
         </details>
     </div>
 
-    <!-- DESPLEGABLE 2: TABLA DE PUNTOS DE CORTE Y MATRIZ DE SOSPECHA -->
-    <div class="card guide-card">
+    <div class="card guide-card hide-on-print">
         <details>
             <summary>🎛️ Tabla de Puntos de Corte y Zonas de Sospecha Algorítmica</summary>
             <div class="guide-container">
@@ -677,6 +729,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td><strong>Concordancia SDT vs SRT</strong></td>
+                                <td>SDT 5 a 15 dB mejor que SRT</td>
+                                <td>Coherente</td>
+                                <td>Coherente</td>
+                                <td>Desfasado (&gt; 15 dB)</td>
+                                <td><span class="badge-suspect">SDT &ge; SRT:</span> Incongruente. Sospecha de simulación o error de cabina.</td>
+                            </tr>
                             <tr>
                                 <td><strong>Diferencia SRT vs PTA4</strong></td>
                                 <td>5 a 12 dB de diferencia</td>
@@ -781,6 +841,20 @@
                     </table>
                 </div>
 
+            </div>
+        </details>
+    </div>
+
+    <div class="legal-disclaimer hide-on-print">
+        <details>
+            <summary>ℹ️ Acerca de este software y Aviso Legal</summary>
+            <div class="legal-content">
+                <p>Esta herramienta web ha sido desarrollada de forma independiente por <strong>Franz Zenker</strong> con fines estrictamente <strong>didácticos, formativos y de investigación académica</strong>.</p>
+                <ul>
+                    <li><strong>Sin validación clínica oficial:</strong> Los algoritmos de ajuste matemático PHI y el árbol de decisiones integrado no cuentan con validación clínica oficial ni certificación regulatoria como producto sanitario (marcaje CE o FDA).</li>
+                    <li><strong>Apoyo, no sustituto:</strong> Las clasificaciones, alertas y métricas emitidas son modelos predictivos teóricos. Tienen como objetivo ilustrar y orientar el análisis logoaudiométrico, pero <strong>en ningún caso sustituyen el criterio médico</strong>, la experiencia del audiólogo/profesional o la realización de pruebas diagnósticas complementarias.</li>
+                    <li><strong>Uso bajo responsabilidad:</strong> Su utilización directa en la práctica o tratamiento de pacientes reales debe realizarse con extrema cautela. El profesional asume la responsabilidad exclusiva de la validación e interpretación final de los resultados.</li>
+                </ul>
             </div>
         </details>
     </div>
@@ -1248,7 +1322,7 @@
             if (diffWRS >= 20) {
                 simetriaRow.innerText = `⚠️ Asimetría de ${diffWRS.toFixed(0)}%`;
                 simetriaRow.style.color = '#b91c1c';
-                asimetriaBox.innerText = `⚠️ Asimetría interaural significativa: Diferencia de WRS de ${diffWRS.toFixed(0)} puntos. Valorar afectación neural o severidad asimétrica si no se explica por la vía tonal.`;
+                asimetriaBox.innerHTML = `<strong>⚠️ Asimetría interaural significativa:</strong> Diferencia de WRS de ${diffWRS.toFixed(0)} puntos. Valorar afectación neural o severidad asimétrica si no se explica por la vía tonal.`;
                 asimetriaBox.style.display = 'block';
             } else {
                 simetriaRow.innerText = `Simétrica (Dif: ${diffWRS.toFixed(0)}%)`;
