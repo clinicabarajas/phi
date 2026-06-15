@@ -429,6 +429,7 @@
         <p>Ajuste PHI con Árbol Diagnóstico Experto</p>
     </header>
 
+    <!-- DISCLAIMER CLÍNICO INICIAL -->
     <div class="recommendation-box" style="margin-bottom: 20px; border-left: 4px solid #0369a1;">
         <strong>Principio de interpretación:</strong> La logoaudiometría no diagnostica por sí sola la localización de la lesión, pero detecta patrones de congruencia, distorsión y desproporción que orientan el diagnóstico diferencial y deciden cuándo repetir, complementar o derivar.
     </div>
@@ -459,6 +460,7 @@
                 <button type="button" class="btn btn-primary" onclick="addRow()">+ Añadir Fila de Intensidad</button>
             </div>
 
+            <!-- MATRIZ DE FRECUENCIAS PURAS PARA AUDIOMETRÍA TONAL -->
             <div class="card tonal-card hide-on-print">
                 <details class="tonal-details">
                     <summary>📊 Vincular Audiometría Tonal Cruzada (Opcional)</summary>
@@ -627,6 +629,7 @@
                     </tbody>
                 </table>
                 
+                <!-- ALERTA DE ASIMETRÍA INTERAURAL FLOTANTE -->
                 <div id="asimetriaAlert" class="asymmetry-alert"></div>
             </div>
 
@@ -640,6 +643,7 @@
         
     </div>
 
+    <!-- DESPLEGABLE 1: GUÍA DE INTERPRETACIÓN CLÍNICA -->
     <div class="card guide-card hide-on-print">
         <details>
             <summary>📖 Criterios Diagnósticos y Guía de Interpretación Clínica</summary>
@@ -649,83 +653,36 @@
                     
                     <div class="metric-explain">
                         <h3>Concordancia SDT vs SRT</h3>
-                        <p><strong>Fiabilidad Interna:</strong> Fisiológicamente, detectar voz es más fácil que entender palabras. El SDT debe estar entre 5 y 15 dB mejor que el SRT.</p>
-                        <p><strong>Alerta:</strong> Si el SDT es igual o peor que el SRT, indica una prueba acústicamente inverosímil (simulación o error técnico). Diferencias extremas sugieren barrera idiomática o daño neural severo.</p>
+                        <p><strong>Fiabilidad Interna:</strong> El SDT debe estar entre 5 y 15 dB mejor que el SRT. Si es igual o peor, indica incongruencia acústica verbal.</p>
                     </div>
 
                     <div class="metric-explain">
                         <h3>URV / SRT (al 50% Absoluto)</h3>
-                        <p><strong>Significado clínico:</strong> Valida de forma directa la congruencia con el PTA4 aéreo (500, 1000, 2000 y 4000 Hz). Se espera una diferencia aproximada de 5-12 dB.</p>
+                        <p><strong>Significado clínico:</strong> Valida la congruencia logo-tonal frente al PTA4 aéreo, esperándose un desfase normal de 5-12 dB.</p>
                         <div class="formula-box">X_SRT = X_50 - [ln(Y_max / 50 - 1) / b]</div>
                     </div>
 
                     <div class="metric-explain">
                         <h3>Discriminación Máxima (Ymax / WRS)</h3>
-                        <p><strong>Significado clínico:</strong> Su reducción documenta distorsión coclear o mala audibilidad supraliminar. Un WRS desproporcionadamente bajo para el PTA orienta a sospecha neural.</p>
+                        <p><strong>Significado clínico:</strong> Su reducción documenta distorsión biológica periférica. Caídas muy agudas y desproporcionadas orientan a sospecha neural.</p>
                         <div class="formula-box">Y_max = max(Y_filtrados)</div>
                     </div>
 
                     <div class="metric-explain">
-                        <h3>Rango Dinámico (UCL - SRT)</h3>
-                        <p><strong>Qué mide:</strong> El espacio acústico total (ventana de audición útil) entre el umbral de inteligibilidad y el umbral de molestia.</p>
-                        <p><strong>Significado clínico:</strong> Mapa de ruta para la compresión (WDRC). Rangos amplios permiten estrategias lineales; rangos estrechos exigen alta compresión y MPO estricto.</p>
-                        <div class="formula-box">Rango Dinámico = UCL - SRT</div>
-                    </div>
-
-                    <div class="metric-explain">
-                        <h3>Margen de Comodidad (MCL - SRT)</h3>
-                        <p><strong>Qué mide:</strong> La distancia entre el nivel donde apenas se entiende la voz y el nivel de escucha preferido o confortable.</p>
-                        <p><strong>Significado clínico:</strong> Define el "punto dulce" para la ganancia conversacional. Márgenes muy estrechos alertan de hipersensibilidad y exigen precaución en intensidades medias.</p>
-                        <div class="formula-box">Margen Comodidad = MCL - SRT</div>
-                    </div>
-
-                    <div class="metric-explain">
-                        <h3>Reclutamiento (Cálculo por UCL - SRT)</h3>
-                        <p><strong>Qué mide:</strong> El crecimiento anormal y acelerado de la sonoridad basado en el estrechamiento del rango dinámico útil.</p>
-                        <p><strong>Significado clínico:</strong> Se activa la alerta automática si el rango dinámico es inferior a 45 dB, indicando que el paciente pasa rápidamente de no oír a sentir molestia acústica.</p>
-                        <div class="formula-box">Positivo si (UCL - SRT) &lt; 45 dB</div>
-                    </div>
-
-                    <div class="metric-explain">
                         <h3>Pendiente Máxima (En el punto X50)</h3>
-                        <p><strong>Importancia:</strong> La fórmula corrige la pendiente en base al techo real de discriminación. Es vital en curvas cocleares truncadas para no sobredimensionar la pendiente real.</p>
+                        <p><strong>Importancia:</strong> Ajusta la inclinación real corrigiéndola según el techo efectivo (Ymax) alcanzado en la prueba verbal.</p>
                         <div class="formula-box">Pendiente máxima = (Y_max &times; b) / 4</div>
-                    </div>
-
-                    <div class="metric-explain">
-                        <h3>Bondad de Ajuste (R²)</h3>
-                        <p><strong>Significado clínico:</strong> Mide la fiabilidad matemática del test. Un R² bajo sugiere mala colaboración, tinnitus, fatiga o presentación errática, exigiendo verificar la prueba.</p>
-                        <div class="formula-box">R² = 1 - [Σ(Y_real - Y_teórica)² / Σ(Y_real - Y_media)²]</div>
-                    </div>
-
-                    <div class="metric-explain" style="grid-column: 1 / -1;">
-                        <h3>Fenómeno de Roll-Over / Regresión Fonémica</h3>
-                        <p><strong>Significado clínico:</strong> Alerta diagnóstica retrococlear. Se considera sospecha significativa a partir de 0.45, especialmente si la caída post-pico es mayor al 25%.</p>
-                        <div class="formula-box">Índice Roll-Over = (Y_max - Y_min_post_pico) / Y_max</div>
-                    </div>
-                </div>
-                
-                <div class="guide-title-internal">⚖️ Consideraciones Especiales</div>
-                <div class="guide-section">
-                    <div class="metric-explain">
-                        <h3>Intervalo de confianza del WRS</h3>
-                        <p>No interprete un cambio de 8-10 puntos como necesariamente real. El WRS depende del número de palabras usadas (listas cortas tienen alta variabilidad). Interprete los cambios según el tamaño de la lista y la diferencia interaural crítica.</p>
-                    </div>
-                    <div class="metric-explain">
-                        <h3>Asimetría Interaural (OD vs OI)</h3>
-                        <p>Diferencias de WRS entre oídos <strong>&ge; 20-24 puntos</strong> levantan una alerta de asimetría funcional automática, especialmente si no se justifica por una asimetría tonal subyacente.</p>
                     </div>
                 </div>
             </div>
         </details>
     </div>
 
+    <!-- DESPLEGABLE 2: TABLA DE PUNTOS DE CORTE -->
     <div class="card guide-card hide-on-print">
         <details>
             <summary>🎛️ Tabla de Puntos de Corte y Zonas de Sospecha Algorítmica</summary>
             <div class="guide-container">
-                
-                <div class="guide-title-internal">📊 Matriz Multicriterio de Decisión en Cabina</div>
                 <div class="table-responsive">
                     <table class="guide-table">
                         <thead>
@@ -745,7 +702,7 @@
                                 <td>Coherente</td>
                                 <td>Coherente</td>
                                 <td>Desfasado (&gt; 15 dB)</td>
-                                <td><span class="badge-suspect">SDT &ge; SRT:</span> Incongruente. Sospecha de simulación o error de cabina.</td>
+                                <td><span class="badge-suspect">SDT &ge; SRT:</span> Incongruente. Sospecha de simulación o error técnico.</td>
                             </tr>
                             <tr>
                                 <td><strong>Diferencia SRT vs PTA4</strong></td>
@@ -753,23 +710,7 @@
                                 <td>Congruente</td>
                                 <td>Congruente</td>
                                 <td>Discordante / Peor de lo esperado</td>
-                                <td><span class="badge-suspect">11-14 dB:</span> Discrepancia leve. Revisar técnica.<br><span class="badge-suspect">&ge; 15 dB:</span> Inconsistencia significativa. No clasificar auto.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Umbral Verbal (SRT)</strong></td>
-                                <td>0 a 25 dB HL</td>
-                                <td>Elevado, pero congruente con Vía Aérea.</td>
-                                <td>Congruente con PTA, pero WRS puede caer.</td>
-                                <td>Peor de lo esperado para el PTA.</td>
-                                <td>El SRT no diagnostica por sí solo simulación ni lesión central.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Discriminación Máx. (WRS)</strong></td>
-                                <td>90-100%: Excelente / Conservada</td>
-                                <td>Conservada si se da suficiente intensidad.</td>
-                                <td>80-89%: Disc. reducida.<br>50-79%: Reducida.<br>&lt;50%: Muy reducida.</td>
-                                <td>Muy baja o desproporcionada respecto al PTA.</td>
-                                <td>La severidad coclear también puede dar WRS muy bajos. Buscar asimetría.</td>
+                                <td><span class="badge-suspect">11-14 dB:</span> Discrepancia leve.<br><span class="badge-suspect">&ge; 15 dB:</span> Inconsistencia significativa.</td>
                             </tr>
                             <tr>
                                 <td><strong>Índice de Rollover</strong></td>
@@ -779,92 +720,19 @@
                                 <td>&ge; 0.45 (Sospecha significativa)</td>
                                 <td><span class="badge-suspect">0.35 a 0.44:</span> Sospecha leve / Zona gris clínica.</td>
                             </tr>
-                            <tr>
-                                <td><strong>Morfología Curva</strong></td>
-                                <td>Sigmoidea, pendiente adecuada y techo alto.</td>
-                                <td>Desplazada a la derecha, techo conservado.</td>
-                                <td>Techo reducido, pendiente aplanada o meseta precoz.</td>
-                                <td>Caída post-pico / inestable.</td>
-                                <td><span class="badge-suspect">Verticalizada:</span> Posible rigidez conductiva inicial.</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
-
-                <div class="guide-title-internal">🦻 Implicaciones Protésicas (Métricas Supraliminares)</div>
-                <div class="table-responsive">
-                    <table class="guide-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 25%;">Variable Supraliminar</th>
-                                <th style="width: 35%;">Patrón de Normalidad / Linealidad</th>
-                                <th style="width: 40%;">⚠️ Patrón de Alarma (Reclutamiento y Compresión)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Rango Dinámico<br><small>(UCL - SRT)</small></strong></td>
-                                <td><strong>Amplio (&ge; 45-50 dB):</strong> Permite adoptar una estrategia más lineal (CR cercano a 1:1), preservando dinámica, nitidez y contraste fonémico natural.</td>
-                                <td><strong>Estrecho (&lt; 45 dB):</strong> Obliga a adoptar estrategia de alta compresión (WDRC con CR altos) y MPO muy estricto. Sonido más "plano" y procesado.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Reclutamiento Coclear<br><small>(Cálculo por Rango)</small></strong></td>
-                                <td><strong>Negativo:</strong> Crecimiento fisiológico o conductivo extendido de la sonoridad. Mantiene umbrales supraliminares intactos a pesar de la pérdida.</td>
-                                <td><strong>Positivo (Por rango estrecho):</strong> Ventana acústica muy comprimida. El paciente pasa rápidamente de no oír a que le resulte doloroso.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Margen de Comodidad<br><small>(MCL - SRT)</small></strong></td>
-                                <td><strong>Adecuado (&ge; 20-30 dB):</strong> Hay margen holgado para programar la ganancia objetivo (Target Gain) para intensidades conversacionales sin saturar.</td>
-                                <td><strong>Crítico (&lt; 20 dB):</strong> El nivel confortable se pega al umbral auditivo. Exige máxima precaución al ajustar ganancias de medias intensidades para evitar fatiga.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="guide-title-internal">🚦 Semáforo de Fiabilidad de Ajuste (R²)</div>
-                <div class="table-responsive">
-                    <table class="guide-table" style="min-width: 750px;">
-                        <thead>
-                            <tr>
-                                <th style="width: 20%;">Rango del R²</th>
-                                <th style="width: 25%;">Clasificación del Ajuste</th>
-                                <th style="width: 55%;">Acción Algorítmica</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="badge-rule" style="background-color: #16a34a;">R² &ge; 0.95</span></td>
-                                <td style="color: #16a34a; font-weight: bold;">🟢 Óptimo / Fisiológico</td>
-                                <td>Ajuste matemático altamente fiable.</td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge-rule" style="background-color: #c2410c;">0.85 &le; R² &lt; 0.94</span></td>
-                                <td style="color: #c2410c; font-weight: bold;">🟡 Moderado / Fluctuante</td>
-                                <td>Interpretar con precaución (posible fatiga o presbiacusia verticalizada).</td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge-rule" style="background-color: #dc2626;">R² &lt; 0.85</span></td>
-                                <td style="color: #dc2626; font-weight: bold;">🔴 Baja Fiabilidad</td>
-                                <td><strong>Bloqueo del Motor:</strong> El sistema no emite clasificación automática y recomienda repetir/verificar la prueba antes de interpretar el patrón.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
             </div>
         </details>
     </div>
 
+    <!-- AVISO LEGAL -->
     <div class="legal-disclaimer hide-on-print">
         <details>
             <summary>ℹ️ Acerca de este software y Aviso Legal</summary>
             <div class="legal-content">
-                <p>Esta herramienta web ha sido desarrollada de forma independiente por <strong>Franz Zenker</strong> con fines estrictamente <strong>didácticos, formativos y de investigación académica</strong>.</p>
-                <ul>
-                    <li><strong>Sin validación clínica oficial:</strong> Los algoritmos de ajuste matemático PHI y el árbol de decisiones integrado no cuentan con validación clínica oficial ni certificación regulatoria como producto sanitario (marcaje CE o FDA).</li>
-                    <li><strong>Apoyo, no sustituto:</strong> Las clasificaciones, alertas y métricas emitidas son modelos predictivos teóricos. Tienen como objetivo ilustrar y orientar el análisis logoaudiométrico, pero <strong>en ningún caso sustituyen el criterio médico</strong>, la experiencia del audiólogo/profesional o la realización de pruebas diagnósticas complementarias.</li>
-                    <li><strong>Uso bajo responsabilidad:</strong> Su utilización directa en la práctica o tratamiento de pacientes reales debe realizarse con extrema cautela. El profesional asume la responsabilidad exclusiva de la validación e interpretación final de los resultados.</li>
-                </ul>
+                <p>Esta herramienta web ha sido desarrollada de forma independiente por <strong>Franz Zenker</strong> con fines didácticos y de investigación académica, careciendo de validación clínica oficial.</p>
             </div>
         </details>
     </div>
@@ -879,7 +747,6 @@
 <script>
     let currentEar = 'OD';
     
-    // Inicialización limpia en null
     let dataPointsOD = [
         { db: 10, pct: null }, { db: 20, pct: null }, { db: 30, pct: null },
         { db: 40, pct: null }, { db: 50, pct: null }, { db: 60, pct: null }
@@ -909,7 +776,6 @@
     function renderTable() {
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
-        
         let currentPoints = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
         currentPoints.sort((a, b) => a.db - b.db);
 
@@ -946,7 +812,6 @@
         } else {
             currentPoints[index][field] = parseFloat(value);
         }
-
         if (field === 'pct' && currentPoints[index].pct !== null) {
             if (currentPoints[index].pct > 100) currentPoints[index].pct = 100;
             if (currentPoints[index].pct < 0) currentPoints[index].pct = 0;
@@ -955,36 +820,13 @@
     }
 
     function clearAllData() {
-        if (confirm("¿Está seguro de que desea reiniciar el formulario? Se vaciarán por completo todos los umbrales, gráficas e intensidades.")) {
-            dataPointsOD = [
-                { db: 10, pct: null }, { db: 20, pct: null }, { db: 30, pct: null },
-                { db: 40, pct: null }, { db: 50, pct: null }, { db: 60, pct: null }
-            ];
-            dataPointsOI = [
-                { db: 10, pct: null }, { db: 20, pct: null }, { db: 30, pct: null },
-                { db: 40, pct: null }, { db: 50, pct: null }, { db: 60, pct: null }
-            ];
-            
-            document.getElementById('odUDV').value = "";
-            document.getElementById('oiUDV').value = "";
-            document.getElementById('odMCL').value = "";
-            document.getElementById('oiMCL').value = "";
-            document.getElementById('odUCL').value = "";
-            document.getElementById('oiUCL').value = "";
-
-            let freqs = ['500', '1000', '2000', '4000'];
-            freqs.forEach(f => {
-                document.getElementById('odVA' + f).value = "";
-                document.getElementById('odVO' + f).value = "";
-                document.getElementById('oiVA' + f).value = "";
-                document.getElementById('oiVO' + f).value = "";
-            });
-            
-            document.getElementById('asimetriaAlert').style.display = 'none';
-            document.getElementById('simetriaInteraural').innerText = "--";
-            
-            renderTable();
-            calculateAndDraw();
+        if (confirm("¿Está seguro?")) {
+            dataPointsOD = [{ db: 10, pct: null }, { db: 20, pct: null }, { db: 30, pct: null }, { db: 40, pct: null }, { db: 50, pct: null }, { db: 60, pct: null }];
+            dataPointsOI = [{ db: 10, pct: null }, { db: 20, pct: null }, { db: 30, pct: null }, { db: 40, pct: null }, { db: 50, pct: null }, { db: 60, pct: null }];
+            document.getElementById('odUDV').value = ""; document.getElementById('oiUDV').value = "";
+            document.getElementById('odMCL').value = ""; document.getElementById('oiMCL').value = "";
+            document.getElementById('odUCL').value = ""; document.getElementById('oiUCL').value = "";
+            renderTable(); calculateAndDraw();
         }
     }
 
@@ -1001,19 +843,9 @@
         let va2000 = document.getElementById(prefix + 'VA2000').value;
         let va4000 = document.getElementById(prefix + 'VA4000').value;
 
-        let vo500 = document.getElementById(prefix + 'VO500').value;
-        let vo1000 = document.getElementById(prefix + 'VO1000').value;
-        let vo2000 = document.getElementById(prefix + 'VO2000').value;
-        let vo4000 = document.getElementById(prefix + 'VO4000').value;
+        let ptaVA = (va500 !== "" && va1000 !== "" && va2000 !== "" && va4000 !== "") ? (parseFloat(va500) + parseFloat(va1000) + parseFloat(va2000) + parseFloat(va4000)) / 4 : null;
 
-        let ptaVA = (va500 !== "" && va1000 !== "" && va2000 !== "" && va4000 !== "") ? 
-            (parseFloat(va500) + parseFloat(va1000) + parseFloat(va2000) + parseFloat(va4000)) / 4 : null;
-
-        let ptaVO = (vo500 !== "" && vo1000 !== "" && vo2000 !== "" && vo4000 !== "") ? 
-            (parseFloat(vo500) + parseFloat(vo1000) + parseFloat(vo2000) + parseFloat(vo4000)) / 4 : null;
-
-        let pb_max = -Infinity;
-        let index_pb_max = -1;
+        let pb_max = -Infinity; let index_pb_max = -1;
         for (let i = 0; i < y_reales.length; i++) {
             if (y_reales[i] > pb_max) { pb_max = y_reales[i]; index_pb_max = i; }
         }
@@ -1025,12 +857,13 @@
         }
 
         let rollover_index = pb_max > 0 ? (pb_max - pb_min) / pb_max : 0;
-        let caida_absoluta = pb_max - pb_min;
 
-        let es_patologico = (rollover_index >= 0.45 || caida_absoluta >= 25);
+        // CORRECCIÓN CLÍNICA DE CONDICIONALES PARA FENÓMENO DE ROLL-OVER
+        let es_patologico = (rollover_index >= 0.45);
+        let es_sospecha_leve = (rollover_index >= 0.35 && rollover_index < 0.45);
         
         let indice_corte = x_reales.length;
-        if (es_patologico) {
+        if (es_patologico || es_sospecha_leve) {
              for (let i = index_pb_max + 1; i < y_reales.length; i++) {
                 if (y_reales[i] < (pb_max * 0.8)) { indice_corte = i; break; }
             }
@@ -1038,287 +871,148 @@
 
         let x_filtrados = x_reales.slice(0, indice_corte);
         let y_filtrados = y_reales.slice(0, indice_corte);
-
         if (x_filtrados.length < 2) return null;
 
         let y_max_fijo = -Infinity;
         for (let val of y_filtrados) { if (val > y_max_fijo) y_max_fijo = val; }
         if (y_max_fijo === -Infinity || y_max_fijo < 20) y_max_fijo = 100;
 
-        let mejorError = Infinity;
-        let bestB = 0.1, bestX50 = 0;
-
+        let mejorError = Infinity; let bestB = 0.1, bestX50 = 0;
         for (let b = 0.05; b <= 2.5; b += 0.05) {
             for (let x50 = -10; x50 <= 110; x50 += 0.5) {
                 let sumaError_WEIGHTED = 0;
                 for (let k = 0; k < x_filtrados.length; k++) {
                     let y_teorica = y_max_fijo / (1 + Math.exp(-b * (x_filtrados[k] - x50)));
                     let dif = y_filtrados[k] - y_teorica;
-                    
                     let peso = 1;
                     if (y_filtrados[k] >= 40 && y_filtrados[k] <= 60) peso = 5000;
                     else if (y_filtrados[k] >= (y_max_fijo - 5)) peso = 10000;
-                    else if (y_filtrados[k] >= 15) peso = 50;
-                    else if (y_filtrados[k] < 10) peso = 0;
-                    
                     sumaError_WEIGHTED += (dif * dif) * peso;
                 }
-                if (sumaError_WEIGHTED < mejorError) {
-                    mejorError = sumaError_WEIGHTED; bestB = b; bestX50 = x50;
-                }
+                if (sumaError_WEIGHTED < mejorError) { mejorError = sumaError_WEIGHTED; bestB = b; bestX50 = x50; }
             }
         }
 
-        let finalErrorSum = 0; 
-        let meanY = y_filtrados.reduce((a, b) => a + b, 0) / y_filtrados.length;
-        let sumSquaresTotal = 0; 
-
+        let finalErrorSum = 0; let meanY = y_filtrados.reduce((a, b) => a + b, 0) / y_filtrados.length;
+        let sumSquaresTotal = 0;
         for (let k = 0; k < x_filtrados.length; k++) {
             let y_teorica = y_max_fijo / (1 + Math.exp(-bestB * (x_filtrados[k] - bestX50)));
             finalErrorSum += Math.pow(y_filtrados[k] - y_teorica, 2); 
             sumSquaresTotal += Math.pow(y_filtrados[k] - meanY, 2);
         }
-        let r2 = sumSquaresTotal === 0 ? 1 : 1 - (finalErrorSum / sumSquaresTotal);
-        let r2_num = Math.max(0, r2);
-
+        let r2_num = sumSquaresTotal === 0 ? 1 : 1 - (finalErrorSum / sumSquaresTotal);
         let pendiente_maxima = (y_max_fijo * bestB) / 4;
 
-        let urvText = "No Alc. (<50%)";
-        let numericSRT = null;
+        let urvText = "No Alc. (<50%)"; let numericSRT = null;
         if (y_max_fijo >= 50) {
             let urvVal = bestX50;
             if (y_max_fijo > 50) urvVal = bestX50 - Math.log((y_max_fijo / 50) - 1) / bestB;
-            urvText = `${urvVal.toFixed(1)} dB HL`;
-            numericSRT = urvVal;
+            urvText = `${urvVal.toFixed(1)} dB HL`; numericSRT = urvVal;
         }
 
         let rolloverText = "Negativo (<0.35)";
-        if (rollover_index >= 0.45) {
-            rolloverText = `<span style="color:#dc2626; font-weight:bold;">⚠️ Significativo (${rollover_index.toFixed(2)})</span>`;
-        } else if (rollover_index >= 0.35) {
-            rolloverText = `<span style="color:#c2410c; font-weight:bold;">⚠️ Sospecha leve (${rollover_index.toFixed(2)})</span>`;
-        } else if (rollover_index > 0) {
-            rolloverText = `Negativo (${rollover_index.toFixed(2)})`;
-        }
-
-        let clasificacion = "Compatible con normalidad";
-        let alertasSubyacentes = [];
+        if (rollover_index >= 0.45) rolloverText = `<span style="color:#dc2626; font-weight:bold;">⚠️ Significativo (${rollover_index.toFixed(2)})</span>`;
+        else if (rollover_index >= 0.35) rolloverText = `<span style="color:#c2410c; font-weight:bold;">⚠️ Sospecha leve (${rollover_index.toFixed(2)})</span>`;
+        else if (rollover_index > 0) rolloverText = `Negativo (${rollover_index.toFixed(2)})`;
 
         let sdt_val = document.getElementById(prefix + 'UDV').value;
         let mcl_val = document.getElementById(prefix + 'MCL').value;
         let ucl_val = document.getElementById(prefix + 'UCL').value;
-
-        let sdtText = "--";
-        let rdText = "--";
-        let mclText = "--";
-        let reclutText = "--";
+        let sdtText = "--"; let rdText = "--"; let mclText = "--"; let reclutText = "--";
 
         if (numericSRT !== null) {
             if (sdt_val !== "") {
-                let sdt = parseFloat(sdt_val);
-                let diffSDT = numericSRT - sdt;
-                if (sdt >= numericSRT) {
-                    sdtText = `<span style="color:#dc2626; font-weight:bold;">❌ Incongruente (SDT &ge; SRT)</span>`;
-                    alertasSubyacentes.push("SDT incongruente (Revisar colaboración)");
-                } else if (diffSDT > 15) {
-                    sdtText = `<span style="color:#c2410c; font-weight:bold;">⚠️ Desfasado (${diffSDT.toFixed(1)} dB)</span>`;
-                } else {
-                    sdtText = `<span style="color:#16a34a; font-weight:bold;">🟢 Coherente (${diffSDT.toFixed(1)} dB)</span>`;
-                }
-            } else {
-                sdtText = "Falta SDT";
+                let sdt = parseFloat(sdt_val); let diffSDT = numericSRT - sdt;
+                if (sdt >= numericSRT) sdtText = `<span style="color:#dc2626; font-weight:bold;">❌ Incongruente</span>`;
+                else if (diffSDT > 15) sdtText = `<span style="color:#c2410c; font-weight:bold;">⚠️ Desfasado (${diffSDT.toFixed(1)} dB)</span>`;
+                else sdtText = `<span style="color:#16a34a; font-weight:bold;">🟢 Coherente (${diffSDT.toFixed(1)} dB)</span>`;
             }
-
             if (ucl_val !== "") {
-                let ucl = parseFloat(ucl_val);
-                let rd = ucl - numericSRT;
+                let ucl = parseFloat(ucl_val); let rd = ucl - numericSRT;
                 if (rd < 45) {
-                    rdText = `<span style="color:#dc2626; font-weight:bold;">⚠️ ${rd.toFixed(1)} dB (Estrecho)</span><br><span style="font-size:11px;color:#64748b;">Exige alta compresión</span>`;
-                    reclutText = `<span style="color:#dc2626; font-weight:bold;">⚠️ Positivo</span><br><span style="font-size:11px;color:#64748b;">Ventana comprimida</span>`;
+                    rdText = `<span style="color:#dc2626; font-weight:bold;">⚠️ ${rd.toFixed(1)} dB (Estrecho)</span>`;
+                    reclutText = `<span style="color:#dc2626; font-weight:bold;">⚠️ Positivo</span>`;
                 } else {
-                    rdText = `<span style="color:#16a34a; font-weight:bold;">🟢 ${rd.toFixed(1)} dB (Amplio)</span><br><span style="font-size:11px;color:#64748b;">Sugiere ajuste lineal</span>`;
-                    reclutText = `<span style="color:#16a34a; font-weight:bold;">🟢 Negativo</span><br><span style="font-size:11px;color:#64748b;">Supraumbrales conservados</span>`;
+                    rdText = `<span style="color:#16a34a; font-weight:bold;">🟢 ${rd.toFixed(1)} dB (Amplio)</span>`;
+                    reclutText = `<span style="color:#16a34a; font-weight:bold;">🟢 Negativo</span>`;
                 }
-            } else {
-                rdText = "Falta UCL";
-                reclutText = "Falta UCL";
             }
-
             if (mcl_val !== "") {
-                let mcl = parseFloat(mcl_val);
-                let mc = mcl - numericSRT;
-                if (mc < 20) {
-                    mclText = `<span style="color:#dc2626; font-weight:bold;">⚠️ ${mc.toFixed(1)} dB (Crítico)</span><br><span style="font-size:11px;color:#64748b;">Cuidado en ganancia media</span>`;
-                } else {
-                    mclText = `<span style="color:#16a34a; font-weight:bold;">🟢 ${mc.toFixed(1)} dB (Adecuado)</span><br><span style="font-size:11px;color:#64748b;">Margen para Target Gain</span>`;
-                }
-            } else {
-                mclText = "Falta MCL";
+                let mcl = parseFloat(mcl_val); let mc = mcl - numericSRT;
+                mclText = mc < 20 ? `<span style="color:#dc2626; font-weight:bold;">⚠️ ${mc.toFixed(1)} dB</span>` : `<span style="color:#16a34a; font-weight:bold;">🟢 ${mc.toFixed(1)} dB</span>`;
             }
         }
 
-        let concordanciaText = "--";
-        let bloqueo_SRT = false;
-
+        let concordanciaText = "--"; let bloqueo_SRT = false;
         if (numericSRT !== null && ptaVA !== null) {
             let diffPTA_SRT = Math.abs(ptaVA - numericSRT);
-            if (diffPTA_SRT <= 10) {
-                concordanciaText = `Congruente (${diffPTA_SRT.toFixed(1)} dB)`;
-            } else if (diffPTA_SRT >= 11 && diffPTA_SRT <= 14) {
-                concordanciaText = `⚠️ Discrepancia leve (${diffPTA_SRT.toFixed(1)} dB)`;
-                alertasSubyacentes.push("Revisar técnica, instrucciones y PTA elegido");
-            } else {
-                concordanciaText = `❌ Inconsistencia (${diffPTA_SRT.toFixed(1)} dB)`;
-                bloqueo_SRT = true;
-            }
-        } else if (numericSRT !== null) {
-            concordanciaText = "Falta PTA4";
+            if (diffPTA_SRT <= 10) concordanciaText = `Congruente (${diffPTA_SRT.toFixed(1)} dB)`;
+            else if (diffPTA_SRT <= 14) concordanciaText = `⚠️ Discrepancia leve (${diffPTA_SRT.toFixed(1)} dB)`;
+            else { concordanciaText = `❌ Inconsistencia (${diffPTA_SRT.toFixed(1)} dB)`; bloqueo_SRT = true; }
         }
 
+        let clasificacion = "Compatible con normalidad";
         if (!bloqueo_SRT) {
             if (es_patologico) {
                 clasificacion = "⚠️ Sospecha de afectación neural (Roll-over significativo)";
+            } else if (es_sospecha_leve) {
+                clasificacion = "⚠️ Zona gris: Sospecha leve de fatiga neural (Roll-over moderado)";
             } else if (numericSRT !== null) {
                 if (y_max_fijo >= 90) {
-                    if (numericSRT <= 25) {
-                        clasificacion = "Morfología sigmoidea (Normal)";
-                    } else {
-                        clasificacion = "Compatible con perfil Conductivo (techo conservado, desplazada)";
-                    }
-                } else if (y_max_fijo >= 80) {
-                    clasificacion = "WRS discretamente reducida (Interpretar clínica)";
-                } else if (y_max_fijo >= 50) {
-                    clasificacion = "WRS reducida (Compatible con distorsión coclear)";
-                } else {
-                    clasificacion = "WRS muy reducida (Valorar severidad coclear o desproporción neural)";
-                }
+                    clasificacion = numericSRT <= 25 ? "Morfología sigmoidea (Normal)" : "Compatible con perfil Conductivo (techo conservado, desplazada)";
+                } else if (y_max_fijo >= 80) clasificacion = "WRS discretamente reducida (Interpretar clínica)";
+                else if (y_max_fijo >= 50) clasificacion = "WRS reducida (Compatible con distorsión coclear)";
+                else clasificacion = "WRS muy reducida (Valorar severidad coclear o desproporción neural)";
             }
         } else {
-            clasificacion = "⚠️ Inconsistencia significativa (SRT-PTA ≥ 15 dB). No se clasifica automáticamente.";
+            clasificacion = "⚠️ Inconsistencia significativa (SRT-PTA ≥ 15 dB).";
         }
 
-        if (r2_num < 0.85) {
-            clasificacion = "⚠️ Baja fiabilidad matemática (R² < 0.85). Repetir/verificar prueba antes de interpretar.";
-        } else {
-            if (alertasSubyacentes.length > 0 && !bloqueo_SRT) {
-                clasificacion += " • [" + alertasSubyacentes.join(" | ") + "]";
-            }
-        }
+        if (r2_num < 0.85) clasificacion = "⚠️ Baja fiabilidad matemática (R² < 0.85).";
 
-        return {
-            urv: urvText,
-            urvVal: numericSRT,
-            pbMax: `${y_max_fijo.toFixed(0)}%`,
-            pendiente: `${pendiente_maxima.toFixed(1)} %/dB`,
-            r2: r2_num.toFixed(3),
-            r2Val: r2_num,
-            rollover: rolloverText,
-            sdtText: sdtText,
-            rdText: rdText,
-            mclText: mclText,
-            reclutText: reclutText,
-            esPatol: es_patologico,
-            concordancia: concordanciaText,
-            clasif: clasificacion,
-            b: bestB, x50: bestX50, yMax: y_max_fijo
-        };
+        return { urv: urvText, urvVal: numericSRT, pbMax: `${y_max_fijo.toFixed(0)}%`, pendiente: `${pendiente_maxima.toFixed(1)} %/dB`, r2: r2_num.toFixed(3), r2Val: r2_num, rollover: rolloverText, sdtText: sdtText, rdText: rdText, mclText: mclText, reclutText: reclutText, concordancia: concordanciaText, clasif: clasificacion, b: bestB, x50: bestX50, yMax: y_max_fijo };
     }
 
     function calculateAndDraw() {
         let resOD = procesarAjusteOido(dataPointsOD, 'OD');
         let resOI = procesarAjusteOido(dataPointsOI, 'OI');
 
-        // Renderizado OD
         if (resOD) {
             document.getElementById('odURV').innerText = resOD.urv;
             document.getElementById('odPBMax').innerText = resOD.pbMax;
             document.getElementById('odPendiente').innerText = resOD.pendiente;
-            
             document.getElementById('odRollover').innerHTML = resOD.rollover;
+            document.getElementById('odSDT_SRT').innerHTML = resOD.sdtText;
+            document.getElementById('odRangoDyn').innerHTML = resOD.rdText;
+            document.getElementById('odMargenCom').innerHTML = resOD.mclText;
+            document.getElementById('odReclutamiento').innerHTML = resOD.reclutText;
+            document.getElementById('odConcordancia').innerText = resOD.concordancia;
+            document.getElementById('odClasif').innerText = resOD.clasif;
             
             const odR2El = document.getElementById('odR2');
             if (resOD.r2Val >= 0.95) odR2El.innerHTML = `${resOD.r2} <span style="color:var(--success); font-weight:bold;">[🟢 Óptimo]</span>`;
             else if (resOD.r2Val >= 0.85) odR2El.innerHTML = `${resOD.r2} <span style="color:var(--warning-alert); font-weight:bold;">[🟡 Moderado]</span>`;
             else odR2El.innerHTML = `${resOD.r2} <span style="color:var(--right-ear); font-weight:bold;">[🔴 Baja fiabilidad]</span>`;
-
-            document.getElementById('odSDT_SRT').innerHTML = resOD.sdtText;
-            document.getElementById('odRangoDyn').innerHTML = resOD.rdText;
-            document.getElementById('odMargenCom').innerHTML = resOD.mclText;
-            document.getElementById('odReclutamiento').innerHTML = resOD.reclutText;
-
-            const odConcordEl = document.getElementById('odConcordancia');
-            odConcordEl.innerText = resOD.concordancia;
-            if (resOD.concordancia.includes("❌")) odConcordEl.style.color = 'var(--right-ear)';
-            else if (resOD.concordancia.includes("⚠️")) odConcordEl.style.color = 'var(--warning-alert)';
-            else odConcordEl.style.color = 'var(--success)';
-
-            const odClasifEl = document.getElementById('odClasif');
-            odClasifEl.innerText = resOD.clasif;
-            if (resOD.clasif.includes("⚠️")) odClasifEl.style.color = 'var(--warning-alert)';
-            else if (resOD.clasif.includes("Normal") || resOD.clasif.includes("Morfología sigmoidea")) odClasifEl.style.color = 'var(--success)';
-            else if (resOD.clasif.includes("Conductivo")) odClasifEl.style.color = '#1e3a8a';
-            else odClasifEl.style.color = 'var(--primary)';
-        } else {
-            document.getElementById('odURV').innerText = "--";
-            document.getElementById('odPBMax').innerText = "--";
-            document.getElementById('odPendiente').innerText = "--";
-            document.getElementById('odR2').innerText = "--";
-            document.getElementById('odRollover').innerText = "--";
-            document.getElementById('odSDT_SRT').innerHTML = "--";
-            document.getElementById('odRangoDyn').innerHTML = "--";
-            document.getElementById('odMargenCom').innerHTML = "--";
-            document.getElementById('odReclutamiento').innerHTML = "--";
-            document.getElementById('odConcordancia').innerText = "--";
-            document.getElementById('odClasif').innerText = "--";
-            document.getElementById('odClasif').style.color = "var(--text-secondary)";
         }
         
-        // Renderizado OI
         if (resOI) {
             document.getElementById('oiURV').innerText = resOI.urv;
             document.getElementById('oiPBMax').innerText = resOI.pbMax;
             document.getElementById('oiPendiente').innerText = resOI.pendiente;
-            
             document.getElementById('oiRollover').innerHTML = resOI.rollover;
+            document.getElementById('oiSDT_SRT').innerHTML = resOI.sdtText;
+            document.getElementById('oiRangoDyn').innerHTML = resOI.rdText;
+            document.getElementById('oiMargenCom').innerHTML = resOI.mclText;
+            document.getElementById('oiReclutamiento').innerHTML = resOI.reclutText;
+            document.getElementById('oiConcordancia').innerText = resOI.concordancia;
+            document.getElementById('oiClasif').innerText = resOI.clasif;
             
             const oiR2El = document.getElementById('oiR2');
             if (resOI.r2Val >= 0.95) oiR2El.innerHTML = `${resOI.r2} <span style="color:var(--success); font-weight:bold;">[🟢 Óptimo]</span>`;
             else if (resOI.r2Val >= 0.85) oiR2El.innerHTML = `${resOI.r2} <span style="color:var(--warning-alert); font-weight:bold;">[🟡 Moderado]</span>`;
             else oiR2El.innerHTML = `${resOI.r2} <span style="color:var(--right-ear); font-weight:bold;">[🔴 Baja fiabilidad]</span>`;
-
-            document.getElementById('oiSDT_SRT').innerHTML = resOI.sdtText;
-            document.getElementById('oiRangoDyn').innerHTML = resOI.rdText;
-            document.getElementById('oiMargenCom').innerHTML = resOI.mclText;
-            document.getElementById('oiReclutamiento').innerHTML = resOI.reclutText;
-
-            const oiConcordEl = document.getElementById('oiConcordancia');
-            oiConcordEl.innerText = resOI.concordancia;
-            if (resOI.concordancia.includes("❌")) oiConcordEl.style.color = 'var(--right-ear)';
-            else if (resOI.concordancia.includes("⚠️")) oiConcordEl.style.color = 'var(--warning-alert)';
-            else oiConcordEl.style.color = 'var(--success)';
-
-            const oiClasifEl = document.getElementById('oiClasif');
-            oiClasifEl.innerText = resOI.clasif;
-            if (resOI.clasif.includes("⚠️")) oiClasifEl.style.color = 'var(--warning-alert)';
-            else if (resOI.clasif.includes("Normal") || resOI.clasif.includes("Morfología sigmoidea")) oiClasifEl.style.color = 'var(--success)';
-            else if (resOI.clasif.includes("Conductivo")) oiClasifEl.style.color = '#1e3a8a';
-            else oiClasifEl.style.color = 'var(--primary)';
-        } else {
-            document.getElementById('oiURV').innerText = "--";
-            document.getElementById('oiPBMax').innerText = "--";
-            document.getElementById('oiPendiente').innerText = "--";
-            document.getElementById('oiR2').innerText = "--";
-            document.getElementById('oiRollover').innerText = "--";
-            document.getElementById('oiSDT_SRT').innerHTML = "--";
-            document.getElementById('oiRangoDyn').innerHTML = "--";
-            document.getElementById('oiMargenCom').innerHTML = "--";
-            document.getElementById('oiReclutamiento').innerHTML = "--";
-            document.getElementById('oiConcordancia').innerText = "--";
-            document.getElementById('oiClasif').innerText = "--";
-            document.getElementById('oiClasif').style.color = "var(--text-secondary)";
         }
 
-        // CHEQUEO DE ASIMETRÍA INTERAURAL
         let asimetriaBox = document.getElementById('asimetriaAlert');
         let simetriaRow = document.getElementById('simetriaInteraural');
         asimetriaBox.style.display = 'none';
@@ -1328,112 +1022,41 @@
             if (diffWRS >= 20) {
                 simetriaRow.innerText = `⚠️ Asimetría de ${diffWRS.toFixed(0)}%`;
                 simetriaRow.style.color = '#b91c1c';
-                asimetriaBox.innerHTML = `<strong>⚠️ Asimetría interaural significativa:</strong> Diferencia de WRS de ${diffWRS.toFixed(0)} puntos. Valorar afectación neural o severidad asimétrica si no se explica por la vía tonal.`;
+                asimetriaBox.innerHTML = `<strong>⚠️ Asimetría interaural significativa:</strong> Diferencia de WRS de ${diffWRS.toFixed(0)} puntos.`;
                 asimetriaBox.style.display = 'block';
             } else {
                 simetriaRow.innerText = `Simétrica (Dif: ${diffWRS.toFixed(0)}%)`;
                 simetriaRow.style.color = 'var(--text)';
             }
-        } else {
-            simetriaRow.innerText = "--";
-            simetriaRow.style.color = "var(--text-secondary)";
         }
-
         drawCanvasChart(resOD, resOI);
     }
 
     function drawCanvasChart(resOD, resOI) {
-        const canvas = document.getElementById('audiogramCanvas');
-        const ctx = canvas.getContext('2d');
+        const canvas = document.getElementById('audiogramCanvas'); const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const padding = 50;
-        const width = canvas.width - 2 * padding;
-        const height = canvas.height - 2 * padding;
+        const padding = 50; const width = canvas.width - 2 * padding; const height = canvas.height - 2 * padding;
         const maxDb = 110, minDb = -10;
-
         function getX(db) { return padding + ((db - minDb) / (maxDb - minDb)) * width; }
         function getY(pct) { return padding + (1 - (pct / 100)) * height; }
 
-        ctx.strokeStyle = '#e2e8f0';
-        ctx.lineWidth = 1;
-        ctx.fillStyle = '#64748b';
-        ctx.font = '11px sans-serif';
-
-        for (let db = minDb; db <= maxDb; db += 10) {
-            ctx.beginPath(); ctx.moveTo(getX(db), padding); ctx.lineTo(getX(db), padding + height); ctx.stroke();
-            ctx.fillText(db, getX(db), padding + height + 8);
-        }
-        for (let pct = 0; pct <= 100; pct += 20) {
-            ctx.beginPath(); ctx.moveTo(padding, getY(pct)); ctx.lineTo(padding + width, getY(pct)); ctx.stroke();
-            ctx.fillText(pct, padding - 8, getY(pct));
-        }
-
-        ctx.strokeStyle = '#cbd5e1'; ctx.setLineDash([4, 4]);
-        ctx.beginPath(); ctx.moveTo(padding, getY(50)); ctx.lineTo(padding + width, getY(50)); ctx.stroke();
-        ctx.setLineDash([]);
-
-        ctx.fillStyle = '#1e293b'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
-        ctx.fillText('Intensidad (dB HL)', padding + width / 2, padding + height + 28);
-
-        ctx.save();
-        ctx.translate(padding - 35, padding + height / 2);
-        ctx.rotate(-Math.PI / 2);
-        ctx.fillText('Reconocimiento (%)', 0, 0);
-        ctx.restore();
-
-        let empty = true;
+        ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1; ctx.fillStyle = '#64748b'; ctx.font = '11px sans-serif';
+        for (let db = minDb; db <= maxDb; db += 10) { ctx.beginPath(); ctx.moveTo(getX(db), padding); ctx.lineTo(getX(db), padding + height); ctx.stroke(); ctx.fillText(db, getX(db), padding + height + 8); }
+        for (let pct = 0; pct <= 100; pct += 20) { ctx.beginPath(); ctx.moveTo(padding, getY(pct)); ctx.lineTo(padding + width, getY(pct)); ctx.stroke(); ctx.fillText(pct, padding - 8, getY(pct)); }
 
         if (resOD) {
-            empty = false;
             ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3; ctx.beginPath();
-            for (let db = minDb; db <= maxDb; db += 0.5) {
-                let pred = resOD.yMax / (1 + Math.exp(-resOD.b * (db - resOD.x50)));
-                if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred));
-            }
+            for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOD.yMax / (1 + Math.exp(-resOD.b * (db - resOD.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); }
             ctx.stroke();
         }
-        dataPointsOD.forEach(p => {
-            if (p.db !== null && p.pct !== null) {
-                empty = false;
-                let x = getX(p.db), y = getY(p.pct);
-                ctx.beginPath(); ctx.arc(x, y, 6, 0, 2 * Math.PI);
-                ctx.fillStyle = 'white'; ctx.fill();
-                ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.stroke();
-            }
-        });
+        dataPointsOD.forEach(p => { if (p.db !== null && p.pct !== null) { ctx.beginPath(); ctx.arc(getX(p.db), getY(p.pct), 6, 0, 2 * Math.PI); ctx.fillStyle = 'white'; ctx.fill(); ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.stroke(); } });
 
         if (resOI) {
-            empty = false;
             ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 3; ctx.beginPath();
-            for (let db = minDb; db <= maxDb; db += 0.5) {
-                let pred = resOI.yMax / (1 + Math.exp(-resOI.b * (db - resOI.x50)));
-                if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred));
-            }
+            for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOI.yMax / (1 + Math.exp(-resOI.b * (db - resOI.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); }
             ctx.stroke();
         }
-        ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5;
-        dataPointsOI.forEach(p => {
-            if (p.db !== null && p.pct !== null) {
-                empty = false;
-                let x = getX(p.db), y = getY(p.pct);
-                ctx.beginPath();
-                ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5);
-                ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5);
-                ctx.stroke();
-            }
-        });
-
-        if (empty) {
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = 'italic 14px sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText('Introduce los porcentajes en la tabla para generar la curva', padding + width / 2, padding + height / 2);
-        }
-
-        ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
-        ctx.fillStyle = '#dc2626'; ctx.fillText('◯ Oído Derecho (OD)', padding + 15, padding + 20);
-        ctx.fillStyle = '#2563eb'; ctx.fillText('✕ Oído Izquierdo (OI)', padding + 15, padding + 38);
+        dataPointsOI.forEach(p => { if (p.db !== null && p.pct !== null) { let x = getX(p.db), y = getY(p.pct); ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5); ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5); ctx.stroke(); } });
     }
 </script>
 </body>
