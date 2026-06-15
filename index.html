@@ -249,14 +249,15 @@
         .btn-primary:hover { background-color: var(--primary-hover); }
         .btn-danger { background-color: #fee2e2; color: #ef4444; padding: 6px 12px; }
         
-        .btn-clear { background-color: #ef4444; color: white; width: 100%; margin-top: 12px; font-weight: 600; }
+        /* Botones globales independientes */
+        .btn-clear { background-color: #ef4444; color: white; width: 100%; margin-top: 8px; font-weight: 600; padding: 12px; box-shadow: var(--shadow); }
         .btn-clear:hover { background-color: #dc2626; }
         
         .btn-success { 
             background-color: var(--success); 
             color: white; 
             width: 100%; 
-            margin-top: 16px; 
+            margin-top: 12px; /* Ajustado a 12px para emparejar con el botón de borrar */
             font-weight: bold;
             font-size: 15px;
             padding: 12px;
@@ -264,7 +265,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
+            box-shadow: var(--shadow);
         }
         .btn-success:hover { background-color: var(--success-hover); }
 
@@ -402,9 +403,7 @@
 
     <div class="main-grid">
         
-        <!-- ================= COLUMNA IZQUIERDA ================= -->
         <div class="left-col">
-            <!-- 1. ENTRADA DE DATOS (TABLA DE INTENSIDADES) -->
             <div class="card intensity-card hide-on-print">
                 <h2>Entrada de Datos por Oído</h2>
                  
@@ -422,8 +421,7 @@
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        <!-- Dinámico -->
-                    </tbody>
+                        </tbody>
                 </table>
 
                 <button type="button" class="btn btn-primary" onclick="addRow()">+ Añadir Fila de Intensidad</button>
@@ -431,11 +429,8 @@
                 <div class="recommendation-box">
                     💡 Se recomienda un mínimo de 6 puntos de intensidad para optimizar el ajuste de la curva PHI. Es fundamental incluir al menos 1 o 2 puntos por debajo del 50% de discriminación para servir como anclaje matemático inferior y asegurar una interpolación exacta del URV/SRT.
                 </div>
-
-                <button type="button" class="btn btn-clear" onclick="clearAllData()">🗑️ Borrar y Reiniciar Formulario</button>
             </div>
 
-            <!-- 2. UMBRALES CLÍNICOS DE REFERENCIA (ESTRICTAMENTE DEBAJO EN LA IZQUIERDA) -->
             <div class="card umbrales-card">
                 <h2>Umbrales Clínicos de Referencia</h2>
                 <table class="results-table">
@@ -465,11 +460,16 @@
                     </tbody>
                 </table>
             </div>
+
+            <button type="button" class="btn btn-clear hide-on-print" onclick="clearAllData()">🗑️ Borrar y Reiniciar Formulario</button>
+            
+            <button type="button" class="btn btn-success hide-on-print" onclick="window.print()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                Imprimir Curva Ajustada PDF (A4)
+            </button>
         </div>
 
-        <!-- ================= COLUMNA DERECHA ================= -->
         <div class="right-col">
-            <!-- 3. RESULTADOS DEL AJUSTE MATEMÁTICO (LO PRIMERO A LA DERECHA) -->
             <div class="card resultados-card">
                 <h2>Resultados del ajuste</h2>
                 <table class="results-table">
@@ -523,14 +523,8 @@
                         </tr>
                     </tbody>
                 </table>
-
-                <button type="button" class="btn btn-success" onclick="window.print()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-                    Imprimir Curva Ajustada PDF (A4)
-                </button>
             </div>
 
-            <!-- 4. GRÁFICA DE LOGOAUDIOMETRÍA -->
             <div class="card chart-card">
                 <h2>Curva Logoaudiometría Ajustada (PHI)</h2>
                 <div class="canvas-container">
@@ -541,7 +535,6 @@
         
     </div>
 
-    <!-- GUÍA TÉCNICA INTERACTIVA -->
     <div class="card guide-card">
         <details>
             <summary>📖 Ver Guía Técnica: ¿Cómo se calculan e interpretan estas métricas?</summary>
@@ -582,7 +575,6 @@
                     <div class="formula-box">R² = 1 - [Σ(Y<sub>real</sub> - Y<sub>teórica</sub>)² / Σ(Y<sub>real</sub> - Y<sub>media</sub>)²]</div>
                 </div>
 
-                <!-- EXPLICACIÓN DE RECLUTAMIENTO CORREGIDA BAJO LA OPCIÓN B -->
                 <div class="metric-explain">
                     <h3>Reclutamiento Geométrico</h3>
                     <p><strong>Qué mide:</strong> Deducción automatizada del fenómeno de reclutamiento coclear basándose exclusivamente en el criterio de compresión horizontal (Opción B).</p>
@@ -619,7 +611,7 @@
 
                 <div class="metric-explain" style="grid-column: 1 / -1;">
                     <h3>Fenómeno de Roll-Over</h3>
-                    <p><strong>Qué mide:</strong> Cuantifica la caída paradójica de la inteligibilidad a intensidades sonoras muy elevadas.</p>
+                    <p><strong>Qué mide:</strong> Cuantifica la caída paradójica de la inteligibilidad a intensidades sonoras muy evasivas.</p>
                     <p><strong>Significado clínico:</strong> Actúa como una potente alerta diagnóstica. Si la discriminación colapsa a volúmenes altos y el índice matemático da un resultado igual o mayor a 0.40, el motor activa la etiqueta de sospecha de <strong>Patología Retrococlear</strong>.</p>
                     <div class="formula-box">Índice de Roll-Over = (Y<sub>max</sub> - Y<sub>min_post_pico</sub>) / Y<sub>max</sub></div>
                 </div>
@@ -634,7 +626,6 @@
         </details>
     </div>
 
-    <!-- PIE DE PÁGINA CORPORATIVO -->
     <footer class="site-footer">
         <p>© 2026 Zenker. Todos los derechos reservados.</p>
         <p>Contacto: <a href="mailto:zenker@clinicabarajas.com">zenker@clinicabarajas.com</a></p>
@@ -819,13 +810,12 @@
         let rolloverText = rollover_index > 0 ? `Leve (${rollover_index.toFixed(2)})` : "Ausente (0.00)";
         if (es_patologico) rolloverText = `⚠️ PATOLÓGICO (${rollover_index.toFixed(2)})`;
 
-        // CORREGIDO - OPCIÓN B: DETERMINACIÓN DE RECLUTAMIENTO POR COMPRESIÓN HORIZONTAL EXCLUSIVA (SIN UCL NI b)
         let db_at_max = x_reales[index_pb_max];
         let dist_srt_max = numericSRT !== null ? (db_at_max - numericSRT) : Infinity;
         let tiene_reclutamiento = false;
         
         if (numericSRT !== null && numericSRT > 25) { 
-            if (dist_srt_max <= 20) { // Distancia estrecha comprimida entre SRT e Ymax
+            if (dist_srt_max <= 20) { 
                 if (!es_patologico) { 
                     tiene_reclutamiento = true;
                 }
