@@ -505,32 +505,122 @@
 
     <!-- ===== 6. PROTÉSICA ===== -->
     <h2 id="sec-protetica">6. Implicaciones protésicas (métricas supraliminares)</h2>
+    <p>La logoaudiometría aporta información que va más allá del diagnóstico: es la base para planificar la estrategia de adaptación protésica. Las métricas se agrupan en tres niveles según el origen de los datos necesarios para calcularlas.</p>
+
+    <h3>6.1 Métricas directas del programa (calculadas automáticamente)</h3>
+    <p>Estas variables se obtienen directamente de los datos ya introducidos en el programa, sin ninguna exploración adicional.</p>
+
     <table>
         <thead>
             <tr>
                 <th>Variable</th>
                 <th>Patrón de Normalidad</th>
-                <th>⚠️ Patrón de Alarma</th>
+                <th>⚠️ Patrón de Alarma — Implicación protésica</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><strong>Rango Dinámico (UCL − SRT)</strong></td>
-                <td><strong>Amplio (≥ 45–50 dB):</strong> Permite estrategia lineal (CR cercano a 1:1), preservando el contraste acústico.</td>
-                <td><strong>Estrecho (&lt; 45 dB):</strong> Obliga a alta compresión (WDRC con CR alto) y MPO muy estricto para evitar rechazo por dolor.</td>
+                <td><strong>Amplio (≥ 45–50 dB):</strong> Permite estrategia lineal (CR cercano a 1:1), preservando el contraste acústico y la nitidez natural del habla.</td>
+                <td><strong>Estrecho (&lt; 45 dB):</strong> Obliga a alta compresión (WDRC con CR alto) y MPO muy estricto para evitar que el audífono amplifique hasta el umbral de dolor.</td>
             </tr>
             <tr>
-                <td><strong>Reclutamiento coclear</strong></td>
-                <td><strong>Negativo:</strong> El oído tolera incrementos de ganancia sin saturación prematura.</td>
-                <td><strong>Positivo:</strong> El paciente pasa del umbral de inteligibilidad al disconfort en muy pocos decibelios. El ajuste debe ser especialmente conservador.</td>
+                <td><strong>Reclutamiento por Rango</strong></td>
+                <td><strong>Negativo:</strong> El oído tolera incrementos de ganancia sin saturación prematura. Mayor margen para ajustar ganancia lineal.</td>
+                <td><strong>Positivo:</strong> El paciente pasa del umbral de inteligibilidad al disconfort en muy pocos decibelios. El ajuste debe ser especialmente conservador en entradas medias y altas.</td>
             </tr>
             <tr>
                 <td><strong>Margen de Comodidad (MCL − SRT)</strong></td>
-                <td><strong>Adecuado (≥ 20–30 dB):</strong> Margen holgado para configurar la ganancia conversacional.</td>
-                <td><strong>Crítico (&lt; 20 dB):</strong> Hipersensibilidad marcada. Exige ajuste fino en curvas de ganancia de entradas medias para evitar fatiga cognitiva.</td>
+                <td><strong>Adecuado (≥ 20–30 dB):</strong> Margen holgado para configurar la ganancia conversacional (target gain) sin saturar de inmediato.</td>
+                <td><strong>Crítico (&lt; 20 dB):</strong> Hipersensibilidad marcada. Exige ajuste milimétrico en las curvas de ganancia de entradas medias para evitar fatiga cognitiva y rechazo.</td>
+            </tr>
+            <tr>
+                <td><strong>WRS máximo como predictor de beneficio</strong></td>
+                <td><strong>WRS ≥ 90%:</strong> El sistema auditivo conserva una capacidad de discriminación óptima. La amplificación puede recuperar prácticamente toda la inteligibilidad perdida por la atenuación.</td>
+                <td><strong>WRS &lt; 80%:</strong> El techo de discriminación del oído está limitado internamente. Por muy bien ajustado que esté el audífono, la inteligibilidad máxima alcanzable quedará por debajo del 100%. Es fundamental informar al paciente de este límite antes de la adaptación para gestionar expectativas realistas.<br><br><span class="badge-danger">WRS &lt; 50%:</span> El beneficio protésico en entornos ruidosos será muy limitado. Valorar tecnología de procesamiento de señal avanzada (beamforming, reducción de ruido adaptativa) o sistemas FM/Roger.</td>
+            </tr>
+            <tr>
+                <td><strong>Pendiente de la curva como orientación de ganancia</strong></td>
+                <td><strong>Pendiente pronunciada (&gt; 4 %/dB):</strong> El sistema auditivo responde con eficiencia a pequeños incrementos de intensidad. La ganancia prescriptiva puede ser moderada para lograr inteligibilidad completa.</td>
+                <td><strong>Pendiente aplanada (&lt; 2 %/dB):</strong> El paciente necesita incrementos de intensidad significativamente mayores para cruzar la zona de transición. Orienta hacia una ganancia objetivo más alta en frecuencias medias y sugiere que pequeños ajustes del volumen tendrán poco efecto subjetivo percibido por el usuario.</td>
             </tr>
         </tbody>
     </table>
+
+    <h3>6.2 Métricas complementarias recomendadas (requieren dato adicional)</h3>
+    <p>Estas métricas no las calcula el programa porque requieren un paso de exploración adicional, pero son el complemento natural de los datos logoaudiométricos para completar el perfil protésico.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Métrica</th>
+                <th>Dato adicional necesario</th>
+                <th>Implicación protésica</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Ganancia Funcional Estimada (GFE)</strong></td>
+                <td>SRT en campo libre con audífono puesto (logoaudiometría en campo libre)</td>
+                <td>Diferencia entre el SRT sin y con audífono. Es el indicador más directo y ecológico del beneficio real aportado por la prótesis. Un GFE &lt; 15 dB en una hipoacusia moderada indica que el ajuste es insuficiente o que el paciente no está tolerando la ganancia prescriptiva.</td>
+            </tr>
+            <tr>
+                <td><strong>Índice de Articulación / SII<br><em>(Speech Intelligibility Index)</em></strong></td>
+                <td>Audiograma completo de 0.25 a 8 kHz</td>
+                <td>Calcula el porcentaje del espectro del habla que el paciente puede escuchar con una ganancia determinada. Es la base de las fórmulas de prescripción NAL-NL2 y DSL v5. Un SII &lt; 0.45 sin audífono predice beneficio protésico elevado; un SII cercano a 1.0 con audífono confirma que el fitting es adecuado en papel (debe verificarse con medidas en oído real).</td>
+            </tr>
+            <tr>
+                <td><strong>Curva de Preferencia de Ganancia</strong></td>
+                <td>Ajuste subjetivo del paciente durante la sesión de fitting</td>
+                <td>Diferencia entre la ganancia prescriptiva (NAL-NL2 / DSL) y la ganancia que el paciente selecciona espontáneamente. Discrepancias superiores a 10 dB son un predictor de abandono del audífono. La combinación con el WRS y el rango dinámico ayuda a decidir si la discrepancia se corrige con adaptación progresiva o requiere revisar la prescripción.</td>
+            </tr>
+            <tr>
+                <td><strong>UCL con Ruido (LDLN)</strong></td>
+                <td>Medida de disconfort con ruido de banda ancha en lugar de voz</td>
+                <td>Más representativo que el UCL con voz para calcular el MPO en entornos ruidosos cotidianos. En pacientes con reclutamiento positivo, el LDLN suele ser 5–10 dB inferior al UCL con voz, lo que obliga a ajustar el MPO aún más conservadoramente de lo que indica el programa.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>6.3 Métricas de verificación (fuera del alcance de la logoaudiometría)</h3>
+    <p>Estas medidas no pueden obtenerse ni estimarse con datos logoaudiométricos. Se mencionan aquí para delimitar con claridad qué puede y qué no puede aportar este programa al proceso de adaptación.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Métrica</th>
+                <th>Por qué no la calcula este programa</th>
+                <th>Herramienta necesaria</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Ganancia Real en Oído (REM / REG)</strong></td>
+                <td>Requiere micrófono de sonda en el canal auditivo con y sin audífono</td>
+                <td>Sistema de medidas en oído real (Probe Microphone Measurement)</td>
+            </tr>
+            <tr>
+                <td><strong>Verificación de targets NAL-NL2 / DSL</strong></td>
+                <td>Requiere software de fitting del fabricante y medidas REM simultáneas</td>
+                <td>Software de fitting + audiómetro de campo libre o REM</td>
+            </tr>
+            <tr>
+                <td><strong>Compresión de Ataque y Relajación óptimas</strong></td>
+                <td>Requiere tests de procesamiento temporal (GDT, gaps in noise, TMTF)</td>
+                <td>Audiómetro con módulo de procesamiento temporal</td>
+            </tr>
+            <tr>
+                <td><strong>Beneficio subjetivo en vida real (APHAB / IOI-HA)</strong></td>
+                <td>Requiere seguimiento post-adaptación mínimo de 4–6 semanas</td>
+                <td>Cuestionario validado en español (APHAB-S o similar)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout callout-info">
+        <strong>ℹ️ Posición de la logoaudiometría en el proceso de adaptación</strong>
+        Los datos de este programa son <strong>la fase de planificación preprotésica</strong>: permiten elegir la estrategia de compresión, estimar el beneficio esperable y definir las expectativas del paciente antes de seleccionar el dispositivo. La verificación real del ajuste siempre requiere medidas en oído real (REM) o en campo libre con el audífono puesto.
+    </div>
 
     <!-- ===== 7. R2 ===== -->
     <h2 id="sec-r2">7. Semáforo de fiabilidad del ajuste (R²)</h2>
