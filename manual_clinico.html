@@ -2,132 +2,643 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Criterios Diagnósticos y Guía de Interpretación Clínica</title>
+    <title>Manual Clínico — Logoaudiometría PHI</title>
     <style>
-        body { background-color: #f8fafc; color: #1e293b; font-family: -apple-system, sans-serif; padding: 40px; line-height: 1.6; }
-        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); border-top: 8px solid #0f766e; }
-        h1 { color: #0f766e; font-size: 28px; margin-bottom: 20px; }
-        h2 { color: #0f766e; font-size: 20px; margin-top: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; }
-        h3 { color: #1e293b; font-size: 16px; margin-top: 20px; font-weight: 700; }
+        :root {
+            --primary: #0f766e;
+            --primary-light: #ccfbf1;
+            --warn: #c2410c;
+            --warn-light: #ffedd5;
+            --danger: #b91c1c;
+            --danger-light: #fef2f2;
+            --ok: #15803d;
+            --ok-light: #dcfce7;
+            --info: #0369a1;
+            --info-light: #e0f2fe;
+            --border: #e2e8f0;
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --text-2: #475569;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            padding: 40px 20px;
+            line-height: 1.65;
+            font-size: 15px;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 0 auto;
+            background: white;
+            padding: 48px;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
+            border-top: 8px solid var(--primary);
+        }
+
+        /* NAV */
+        .toc {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 40px;
+        }
+        .toc h3 { color: var(--primary); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        .toc ol { padding-left: 20px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: var(--primary); text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+
+        h1 { color: var(--primary); font-size: 30px; margin-bottom: 8px; }
+        .subtitle { color: var(--text-2); font-size: 15px; margin-bottom: 32px; }
+
+        h2 {
+            color: var(--primary);
+            font-size: 21px;
+            margin-top: 52px;
+            margin-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+            scroll-margin-top: 20px;
+        }
+        h3 {
+            color: var(--text);
+            font-size: 16px;
+            margin-top: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        h4 {
+            color: var(--text-2);
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 16px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p { margin-bottom: 12px; color: var(--text-2); }
+        p strong { color: var(--text); }
+        ul, ol { padding-left: 22px; margin-bottom: 14px; color: var(--text-2); }
+        li { margin-bottom: 6px; }
+
+        /* TABLES */
         table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13.5px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
-        th { background-color: #f1f5f9; font-weight: 600; }
-        .badge { background-color: #334155; color: white; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; }
-        .badge-suspect { background-color: #ffedd5; color: #c2410c; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
-        .formula-box { background-color: #f1f5f9; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 14px; color: #0f766e; font-weight: bold; text-align: center; margin: 10px 0; border: 1px solid #e2e8f0; }
+        th, td { padding: 11px 13px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+        th { background-color: var(--bg); font-weight: 600; color: var(--text); font-size: 13px; }
+        tr:last-child td { border-bottom: none; }
+
+        /* BADGES */
+        .badge { display: inline-block; background-color: #334155; color: white; padding: 2px 7px; border-radius: 4px; font-family: monospace; font-size: 12px; }
+        .badge-ok { background-color: var(--ok-light); color: var(--ok); padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 12px; display: inline-block; }
+        .badge-warn { background-color: var(--warn-light); color: var(--warn); padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 12px; display: inline-block; }
+        .badge-danger { background-color: var(--danger-light); color: var(--danger); padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 12px; display: inline-block; }
+        .badge-info { background-color: var(--info-light); color: var(--info); padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 12px; display: inline-block; }
+
+        /* CALLOUTS */
+        .callout { padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+        .callout-info { background: var(--info-light); border-left: 4px solid var(--info); color: #0c4a6e; }
+        .callout-warn { background: var(--warn-light); border-left: 4px solid var(--warn); color: #7c2d12; }
+        .callout-ok { background: var(--ok-light); border-left: 4px solid var(--ok); color: #14532d; }
+        .callout-danger { background: var(--danger-light); border-left: 4px solid var(--danger); color: #7f1d1d; }
+        .callout strong { display: block; margin-bottom: 4px; }
+
+        /* FORMULA */
+        .formula-box {
+            background-color: var(--bg);
+            padding: 14px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 15px;
+            color: var(--primary);
+            font-weight: bold;
+            text-align: center;
+            margin: 12px 0;
+            border: 1px solid var(--border);
+        }
+
+        /* WORKFLOW STEPS */
+        .steps { counter-reset: step; list-style: none; padding: 0; }
+        .steps li {
+            counter-increment: step;
+            padding: 14px 16px 14px 56px;
+            margin-bottom: 10px;
+            background: var(--bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            position: relative;
+            font-size: 14px;
+            color: var(--text-2);
+        }
+        .steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px;
+            height: 28px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 13px;
+        }
+        .steps li strong { color: var(--text); display: block; margin-bottom: 2px; }
+
+        /* CASE CARDS */
+        .case-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 16px; }
+        @media (max-width: 780px) { .case-grid { grid-template-columns: 1fr; } }
+        .case-card { border: 2px solid var(--border); border-radius: 10px; padding: 16px; font-size: 13.5px; }
+        .case-card h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+        .case-card.conductivo { border-color: #a3a3a3; }
+        .case-card.conductivo h4 { color: #525252; }
+        .case-card.coclear { border-color: #f59e0b; }
+        .case-card.coclear h4 { color: #b45309; }
+        .case-card.retrococlear { border-color: #dc2626; }
+        .case-card.retrococlear h4 { color: #b91c1c; }
+        .case-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dotted var(--border); }
+        .case-row:last-child { border-bottom: none; }
+        .case-label { color: var(--text-2); }
+        .case-value { font-weight: 600; color: var(--text); }
+
+        /* DIVIDER */
+        hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+        /* PRINT */
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border-top: 4px solid var(--primary); padding: 20px; }
+            .toc { display: none; }
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>Criterios Diagnósticos y Guía de Interpretación Clínica</h1>
-    <p>Este manual describe los fundamentos fisiológicos, matemáticos y las reglas del árbol de decisiones del algoritmo del motor de ajuste PHI.</p>
 
-    <h2>1. Matriz Multicriterio de Decisión y Puntos de Corte</h2>
+    <h1>Manual Clínico — Logoaudiometría PHI</h1>
+    <p class="subtitle">Guía de uso, descripción de variables y criterios de interpretación para el audiólogo clínico</p>
+
+    <nav class="toc">
+        <h3>Contenido</h3>
+        <ol>
+            <li><a href="#sec-intro">¿Qué es el modelo PHI y por qué una sigmoide?</a></li>
+            <li><a href="#sec-flujo">Flujo de trabajo recomendado</a></li>
+            <li><a href="#sec-variables">Descripción de cada variable de entrada</a></li>
+            <li><a href="#sec-salidas">Significación clínica de cada métrica de salida</a></li>
+            <li><a href="#sec-matriz">Matriz multicriterio de decisión y puntos de corte</a></li>
+            <li><a href="#sec-protetica">Implicaciones protésicas (métricas supraliminares)</a></li>
+            <li><a href="#sec-r2">Semáforo de fiabilidad del ajuste (R²)</a></li>
+            <li><a href="#sec-casos">Ejemplos clínicos tipo</a></li>
+            <li><a href="#sec-limitaciones">Limitaciones de entrada y advertencias de uso</a></li>
+            <li><a href="#sec-ecuaciones">Ecuaciones del motor matemático</a></li>
+            <li><a href="#sec-legal">Aviso legal</a></li>
+        </ol>
+    </nav>
+
+    <!-- ===== 1. QUÉ ES PHI ===== -->
+    <h2 id="sec-intro">1. ¿Qué es el modelo PHI y por qué una sigmoide?</h2>
+    <p>El <strong>modelo PHI (ajuste sigmoide ponderado)</strong> es el motor matemático que subyace a esta herramienta. Su función es convertir los puntos discretos que el clínico introduce (pares intensidad-discriminación) en una <strong>curva continua de inteligibilidad verbal</strong> de la que se extraen métricas objetivas comparables entre pacientes y sesiones.</p>
+    <p>La curva clásica logoaudiométrica tiene forma de S (sigmoide): a intensidades bajas la discriminación es nula, crece rápidamente en la zona de transición y se estabiliza en un techo máximo. Esta forma se modela con la ecuación logística:</p>
+    <div class="formula-box">Y = Y<sub>max</sub> / (1 + e<sup>−b · (X − X₅₀)</sup>)</div>
+    <p>donde <strong>X</strong> es la intensidad en dB HL, <strong>Y</strong> el porcentaje de discriminación, <strong>X₅₀</strong> el punto de inflexión (equivale al SRT/URV) y <strong>b</strong> controla la pendiente.</p>
+
+    <div class="callout callout-info">
+        <strong>¿Por qué es mejor que unir puntos a mano?</strong>
+        Al ajustar una curva continua, el algoritmo puede calcular el SRT con decimales de precisión, detectar anomalías en la forma (roll-over, meseta precoz) y cuantificar estadísticamente cuánto se ajustan los datos reales al modelo teórico mediante el coeficiente R². Unir puntos manualmente no permite ninguna de estas operaciones.
+    </div>
+
+    <!-- ===== 2. FLUJO ===== -->
+    <h2 id="sec-flujo">2. Flujo de trabajo recomendado</h2>
+    <p>El programa no impone un orden estricto, pero seguir este flujo garantiza que el algoritmo disponga de toda la información necesaria para emitir una clasificación completa:</p>
+    <ol class="steps">
+        <li>
+            <strong>Seleccionar el oído activo (OD / OI)</strong>
+            Usar los botones superiores del panel izquierdo. Todos los datos que se introduzcan a continuación se asignarán al oído seleccionado. Completar un oído antes de cambiar al otro.
+        </li>
+        <li>
+            <strong>Introducir los pares intensidad–discriminación</strong>
+            Por cada nivel de presentación utilizado en la logoaudiometría, introducir la intensidad en dB HL y el porcentaje de palabras correctas. Se recomienda al menos 4–6 puntos que cubran la transición de 0% a máximo. Usar "Añadir fila" si se necesitan más niveles.
+        </li>
+        <li>
+            <strong>Introducir los umbrales supraliminares (SDT, MCL, UCL)</strong>
+            En el panel "Umbrales de Referencia Basales". Estos datos son opcionales pero desbloquean métricas clínicas adicionales (rango dinámico, reclutamiento, margen de comodidad).
+        </li>
+        <li>
+            <strong>Vincular la audiometría tonal (opcional pero muy recomendado)</strong>
+            Desplegar la sección "Vincular Audiometría Tonal Cruzada" e introducir los umbrales de vía aérea y ósea para 0.5, 1, 2 y 4 kHz. Esto permite calcular el PTA4, detectar GAP conductivo y evaluar la concordancia logo-tonal.
+        </li>
+        <li>
+            <strong>Repetir para el segundo oído</strong>
+            Cambiar al otro oído con el selector y repetir los pasos anteriores.
+        </li>
+        <li>
+            <strong>Interpretar el panel de resultados y la curva</strong>
+            El panel derecho muestra todas las métricas calculadas automáticamente. La curva de inteligibilidad superpone ambos oídos. Revisar los indicadores de color (🟢 🟡 🔴) y las alertas de asimetría.
+        </li>
+    </ol>
+
+    <div class="callout callout-warn">
+        <strong>⚠️ Cambiar de oído no borra los datos del otro</strong>
+        Cada oído almacena sus propios datos de forma independiente. Si se pulsa "Reiniciar Todo", se eliminan ambos oídos simultáneamente y la acción es irreversible.
+    </div>
+
+    <!-- ===== 3. VARIABLES DE ENTRADA ===== -->
+    <h2 id="sec-variables">3. Descripción de cada variable de entrada</h2>
+
+    <h3>3.1 Pares Intensidad–Discriminación</h3>
     <table>
         <thead>
             <tr>
-                <th>Variable Logoaudiométrica</th>
-                <th>Rango Normal / Esperado</th>
+                <th>Campo</th>
+                <th>Unidad</th>
+                <th>Descripción clínica</th>
+                <th>Rango habitual de trabajo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Intensidad (dB HL)</strong></td>
+                <td>dB HL</td>
+                <td>Nivel de presentación del material logoaudiométrico en el audiómetro. Debe coincidir con el nivel real de presentación, no con el nivel de sensación.</td>
+                <td>Generalmente de 20 a 100 dB HL</td>
+            </tr>
+            <tr>
+                <td><strong>Discriminación (%)</strong></td>
+                <td>%</td>
+                <td>Porcentaje de palabras o logotomas correctamente identificados a esa intensidad. Se obtiene del protocolo logoaudiométrico (listas PB, bisílabas, logotomas…).</td>
+                <td>0% a 100% (el programa limita a 100%)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout callout-info">
+        <strong>Número mínimo de puntos y cobertura de la curva</strong>
+        El algoritmo requiere al menos <strong>2 puntos</strong> para trazar la curva, pero con 2 puntos el ajuste no es clínicamente útil. Se recomienda obtener datos en al menos <strong>4–6 intensidades</strong> diferentes que incluyan: un nivel por debajo del umbral verbal, la zona de transición rápida (donde la curva sube de 20% a 80%) y el nivel de máxima discriminación. Si todos los puntos se concentran en el plateau superior, el SRT calculado tendrá muy poca precisión.
+    </div>
+
+    <h3>3.2 Audiometría Tonal Cruzada (V.A. / V.O.)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Campo</th>
+                <th>Frecuencias</th>
+                <th>Para qué lo usa el algoritmo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Vía Aérea (V.A.)</strong></td>
+                <td>0.5, 1, 2 y 4 kHz</td>
+                <td>Calcula el <strong>PTA4</strong> (promedio de los cuatro umbrales). Lo compara con el SRT logoaudiométrico para evaluar concordancia logo-tonal. Si la diferencia supera 15 dB, se suspende la clasificación automática.</td>
+            </tr>
+            <tr>
+                <td><strong>Vía Ósea (V.O.)</strong></td>
+                <td>0.5, 1, 2 y 4 kHz</td>
+                <td>Permite estimar el <strong>GAP aéreo-óseo</strong>. Si PTA_VA − PTA_VO ≥ 15 dB, el algoritmo orienta hacia un patrón conductivo en lugar de neurosensorial.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout callout-info">
+        <strong>¿Por qué 4 frecuencias y no el PTA clásico de 3?</strong>
+        El programa usa el promedio de <strong>0.5 + 1 + 2 + 4 kHz</strong> porque la logoaudiometría cubre el rango completo del habla (hasta 4 kHz). El PTA clásico de tres frecuencias (0.5–1–2 kHz) puede subestimar pérdidas que afectan principalmente a 4 kHz y que sí impactan la discriminación verbal.
+    </div>
+
+    <h3>3.3 Umbrales Supraliminares</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Sigla</th>
+                <th>Nombre completo</th>
+                <th>Cómo se obtiene</th>
+                <th>Para qué lo usa el algoritmo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>SDT</strong></td>
+                <td>Speech Detection Threshold<br><em>(Umbral de Detección de la Palabra)</em></td>
+                <td>Nivel mínimo al que el paciente detecta la presencia de voz, sin necesidad de identificarla. Se obtiene por procedimiento ascendente con voz o ruido de banda ancha de habla.</td>
+                <td>Se compara con el SRT calculado. Siempre debe ser <strong>inferior</strong> al SRT (detectar es más fácil que discriminar). Si SDT ≥ SRT, el algoritmo emite alerta de incongruencia fisiológica.</td>
+            </tr>
+            <tr>
+                <td><strong>MCL</strong></td>
+                <td>Most Comfortable Level<br><em>(Nivel de Mayor Comodidad)</em></td>
+                <td>Intensidad a la que el paciente refiere escuchar la voz de forma más cómoda y natural. Se obtiene por método de ajuste o escala de categorías.</td>
+                <td>Se calcula el <strong>Margen de Comodidad = MCL − SRT</strong>. Si es inferior a 20 dB, indica que el rango entre umbral y comodidad es críticamente estrecho, lo que complica el ajuste protésico.</td>
+            </tr>
+            <tr>
+                <td><strong>UCL</strong></td>
+                <td>Uncomfortable Loudness Level<br><em>(Nivel de Disconfort)</em></td>
+                <td>Intensidad a la que el paciente refiere molestia o dolor. Se obtiene por escala de tolerancia (p.ej. escala de Pascoe o LDL).</td>
+                <td>Se calcula el <strong>Rango Dinámico = UCL − SRT</strong>. Un rango inferior a 45 dB indica reclutamiento positivo y obliga a estrategias de alta compresión en el audífono.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ===== 4. MÉTRICAS DE SALIDA ===== -->
+    <h2 id="sec-salidas">4. Significación clínica de cada métrica de salida</h2>
+
+    <h3>4.1 SRT / URV — Umbral de Recepción Verbal (al 50%)</h3>
+    <p>Es la intensidad en dB HL a la que el paciente discrimina correctamente el <strong>50% del material verbal</strong>. El algoritmo lo extrae de la curva ajustada como el punto X₅₀ de la sigmoide. Es el equivalente logoaudiométrico del umbral tonal: a mayor SRT, mayor pérdida verbal.</p>
+    <table>
+        <thead><tr><th>Resultado</th><th>Interpretación</th></tr></thead>
+        <tbody>
+            <tr><td><span class="badge-ok">0–25 dB HL</span></td><td>Umbral verbal normal</td></tr>
+            <tr><td><span class="badge-warn">25–40 dB HL</span></td><td>Pérdida verbal leve</td></tr>
+            <tr><td><span class="badge-warn">40–55 dB HL</span></td><td>Pérdida verbal moderada</td></tr>
+            <tr><td><span class="badge-danger">&gt; 55 dB HL</span></td><td>Pérdida verbal severa-profunda</td></tr>
+            <tr><td><span class="badge-danger">No Alc. (&lt;50%)</span></td><td>La curva no alcanza el 50%: discriminación máxima inferior al 50%. Sin umbral verbal calculable.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>4.2 WRS — Discriminación Máxima (Word Recognition Score)</h3>
+    <p>Porcentaje máximo de discriminación alcanzado por el paciente, independientemente de la intensidad a la que se obtenga. Es el "techo" de la curva sigmoide. Un WRS reducido indica que, aunque se amplifique el sonido, la capacidad de discriminación del sistema auditivo está limitada.</p>
+    <table>
+        <thead><tr><th>Valor WRS</th><th>Interpretación</th></tr></thead>
+        <tbody>
+            <tr><td><span class="badge-ok">90–100%</span></td><td>Excelente / conservada</td></tr>
+            <tr><td><span class="badge-ok">80–89%</span></td><td>Discretamente reducida (compatible con presbiacusia inicial o hipoacusia leve)</td></tr>
+            <tr><td><span class="badge-warn">50–79%</span></td><td>Reducida (daño coclear moderado, distorsión significativa)</td></tr>
+            <tr><td><span class="badge-danger">&lt; 50%</span></td><td>Muy reducida (valorar severidad coclear o desproporción neural)</td></tr>
+        </tbody>
+    </table>
+
+    <h3>4.3 Simetría Interaural (WRS)</h3>
+    <p>Diferencia en puntos porcentuales entre el WRS del oído derecho e izquierdo. Una asimetría ≥ 20% entre oídos es clínicamente significativa y puede indicar patología unilateral (neurinoma del acústico, hipoacusia súbita unilateral, Ménière unilateral). El programa emite una alerta visual cuando se supera este umbral.</p>
+
+    <h3>4.4 Pendiente Máxima Real</h3>
+    <p>Expresa la velocidad de crecimiento de la discriminación en la zona de transición, en <strong>%/dB</strong>. Se calcula como Y<sub>max</sub> × b / 4. Una pendiente muy aplanada indica que la transición de 0% a máximo ocurre a lo largo de muchos decibelios, lo que sugiere distorsión coclear o inconsistencia en las respuestas.</p>
+    <table>
+        <thead><tr><th>Pendiente</th><th>Interpretación morfológica</th></tr></thead>
+        <tbody>
+            <tr><td><span class="badge-ok">&gt; 4 %/dB</span></td><td>Curva pronunciada. Típica de oído normal o perfil conductivo puro.</td></tr>
+            <tr><td><span class="badge-warn">2–4 %/dB</span></td><td>Curva moderada. Frecuente en hipoacusia neurosensorial con discriminación conservada.</td></tr>
+            <tr><td><span class="badge-danger">&lt; 2 %/dB</span></td><td>Curva muy aplanada. Sospecha de distorsión coclear severa o respuestas inconsistentes.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>4.5 Bondad de Ajuste (R²)</h3>
+    <p>Mide cuánto se parecen los puntos reales del paciente a la curva sigmoide teórica. Un R² bajo no significa que el oído esté enfermo: significa que los datos introducidos son inconsistentes entre sí y que las métricas derivadas (SRT, pendiente) son poco fiables. Ver Sección 7 para el semáforo completo.</p>
+
+    <h3>4.6 Concordancia SDT vs SRT</h3>
+    <p>El SDT (umbral de detección) debe ser <strong>siempre inferior</strong> al SRT (umbral de discriminación), porque detectar la presencia de un sonido es fisiológicamente más fácil que identificarlo. Si esto no se cumple, hay una incongruencia que puede deberse a:</p>
+    <ul>
+        <li>Error en la técnica de obtención del SDT</li>
+        <li>Respuesta no orgánica (simulación o exageración)</li>
+        <li>Confusión del paciente sobre la tarea en uno de los dos tests</li>
+        <li>Fatiga o falta de atención entre pruebas</li>
+    </ul>
+    <table>
+        <thead><tr><th>Resultado</th><th>Significado</th></tr></thead>
+        <tbody>
+            <tr><td><span class="badge-ok">🟢 Coherente</span></td><td>SDT &lt; SRT con diferencia de hasta 15 dB. Relación fisiológicamente normal.</td></tr>
+            <tr><td><span class="badge-warn">⚠️ Desfasado</span></td><td>SDT &lt; SRT pero la diferencia supera 15 dB. Inusualmente amplia; revisar técnica.</td></tr>
+            <tr><td><span class="badge-danger">❌ Incongruente</span></td><td>SDT ≥ SRT. Imposible fisiológicamente. Repetir ambas medidas.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>4.7 Rango Dinámico (UCL − SRT)</h3>
+    <p>Espacio en decibelios disponible entre el umbral verbal y el nivel de disconfort. Determina directamente la estrategia de amplificación. Un rango estrecho obliga a ajustar con alta compresión y MPO (Maximum Power Output) muy controlado para evitar que el audífono amplifique hasta el dolor.</p>
+
+    <h3>4.8 Margen de Comodidad (MCL − SRT)</h3>
+    <p>Diferencia entre el nivel de comodidad subjetiva y el umbral verbal. Indica cuánto "espacio" tiene el audioprotesista para configurar la ganancia de la conversación ordinaria sin que el paciente la perciba como incómoda.</p>
+
+    <h3>4.9 Reclutamiento por Rango</h3>
+    <p>El algoritmo lo estima indirectamente: si el Rango Dinámico es inferior a 45 dB, se considera positivo. El reclutamiento coclear refleja un crecimiento anormalmente rápido de la sensación de volumen tras superar el umbral auditivo, característico de la lesión de células ciliadas externas. Tiene implicaciones directas en la tolerancia al audífono.</p>
+
+    <h3>4.10 Índice de Roll-Over</h3>
+    <p>El <strong>roll-over</strong> es la caída del porcentaje de discriminación al aumentar la intensidad por encima del pico máximo. En condiciones normales y cocleares, la curva alcanza un plateau estable. En patología retrococlear (neurinoma del acústico, neuropatía auditiva), la curva cae significativamente al aumentar la intensidad.</p>
+    <p>El índice se calcula como: <strong>(WRS<sub>máx</sub> − WRS<sub>min post-pico</sub>) / WRS<sub>máx</sub></strong></p>
+
+    <div class="callout callout-warn">
+        <strong>⚠️ Requisito práctico para detectar roll-over</strong>
+        Para que el algoritmo pueda calcular el índice de roll-over, es imprescindible haber obtenido puntos logoaudiométricos <strong>por encima del nivel de máxima discriminación</strong> (intensidades supraóptimas). Si la exploración se detiene en el pico, el roll-over no puede detectarse aunque exista.
+    </div>
+    <table>
+        <thead><tr><th>Índice</th><th>Clasificación</th><th>Acción clínica</th></tr></thead>
+        <tbody>
+            <tr><td><span class="badge-ok">&lt; 0.35</span></td><td>Negativo</td><td>Sin sospecha de patología retrococlear por este criterio</td></tr>
+            <tr><td><span class="badge-warn">0.35–0.44</span></td><td>Zona gris / Sospecha leve</td><td>Considerar BERA o prueba de adaptación tonal (Tone Decay)</td></tr>
+            <tr><td><span class="badge-danger">≥ 0.45</span></td><td>Significativo</td><td>Alta sospecha retrococlear. Derivar para BERA y/o RM con gadolinio</td></tr>
+        </tbody>
+    </table>
+
+    <h3>4.11 Concordancia Logo-Tonal</h3>
+    <p>Compara el SRT calculado por el algoritmo con el PTA4 de la vía aérea. Normalmente ambos valores difieren en menos de 10–12 dB. Una discrepancia mayor puede indicar:</p>
+    <ul>
+        <li><strong>SRT mucho mejor que PTA4:</strong> Posible exageración de los umbrales tonales (hipoacusia funcional) o pérdida selectiva de frecuencias no evaluadas en el PTA4.</li>
+        <li><strong>SRT mucho peor que PTA4:</strong> Distorsión verbal desproporcionada para el grado de pérdida tonal. Orientativo de patología retrococlear o central.</li>
+    </ul>
+
+    <h3>4.12 Clasificación Diagnóstica</h3>
+    <p>Síntesis automática de todos los criterios anteriores en una categoría diagnóstica orientativa. El algoritmo suspende la clasificación (y lo indica explícitamente) en tres situaciones: R² &lt; 0.85, discrepancia logo-tonal ≥ 15 dB, o SDT incongruente con SRT.</p>
+
+    <!-- ===== 5. MATRIZ ===== -->
+    <h2 id="sec-matriz">5. Matriz multicriterio de decisión y puntos de corte</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Variable</th>
+                <th>Rango Normal</th>
                 <th>Patrón Conductivo</th>
                 <th>Patrón Coclear</th>
                 <th>Patrón Retrococlear</th>
-                <th>⚠️ Zonas de Duda / Sospecha (Filtros del Motor)</th>
+                <th>⚠️ Zonas de Duda</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><strong>Diferencia SRT vs PTA4</strong></td>
-                <td>5 a 12 dB de diferencia</td>
+                <td>5–12 dB</td>
                 <td>Congruente</td>
                 <td>Congruente</td>
-                <td>Discordante / Peor de lo esperado</td>
-                <td><span class="badge-suspect">11 a 14 dB:</span> Discrepancia leve-moderada. Revisar técnica, instrucciones y comprensión verbal.<br><span class="badge-suspect">&ge; 15 dB:</span> Inconsistencia significativa. Detiene clasificación automática para verificar fatiga, idioma o respuesta no orgánica.</td>
+                <td>Discordante / peor de lo esperado</td>
+                <td><span class="badge-warn">11–14 dB:</span> Revisar técnica.<br><span class="badge-danger">≥ 15 dB:</span> Suspende clasificación automática.</td>
             </tr>
             <tr>
-                <td><strong>Umbral Verbal (SRT)</strong></td>
-                <td>0 a 25 dB HL</td>
-                <td>Elevado pero totalmente congruente con la vía aérea.</td>
-                <td>Congruente con PTA, pero el WRS máximo puede verse truncado.</td>
-                <td>WRS significativamente peor de lo esperado para su PTA.</td>
-                <td>Una discrepancia aislada en el SRT no diagnostica por sí sola simulación ni afectación central. Requiere correlación.</td>
+                <td><strong>WRS máximo</strong></td>
+                <td>90–100%</td>
+                <td>Conservado si intensidad suficiente</td>
+                <td>80–89%: leve. 50–79%: moderado. &lt;50%: severo</td>
+                <td>Desproporcionadamente bajo para el PTA</td>
+                <td>Hipoacusias cocleares profundas también dan WRS muy bajo; no confundir con retrococlear.</td>
             </tr>
             <tr>
-                <td><strong>Discriminación Máxima (WRS)</strong></td>
-                <td>90% a 100%: Excelente / Conservada</td>
-                <td>Conservada si se estimula a suficiente intensidad supraliminar.</td>
-                <td>80-89%: Discretamente reducida.<br>50-79%: Reducida (Daño coclear).<br>&lt;50%: Muy reducida.</td>
-                <td>Muy baja o desproporcionadamente baja respecto al promedio tonal.</td>
-                <td>Hipoacusias cocleares severas-profundas también arrojan WRS muy bajos. Lo retrococlear se sospecha por asimetría, desplome o roll-over.</td>
-            </tr>
-            <tr>
-                <td><strong>Índice de Roll-Over</strong></td>
-                <td>&lt; 0.35 (Negativo)</td>
+                <td><strong>Roll-Over</strong></td>
+                <td>&lt; 0.35</td>
                 <td>Negativo</td>
-                <td>Negativo o leve campana</td>
-                <td>&ge; 0.45 (Sospecha significativa)</td>
-                <td><span class="badge-suspect">0.35 a 0.44:</span> Sospecha leve / Zona gris clínica. Indica fatiga neural incipiente (Sugerido corroborar con BERA o RM).</td>
+                <td>Negativo o campana leve</td>
+                <td>≥ 0.45</td>
+                <td><span class="badge-warn">0.35–0.44:</span> Zona gris. Corroborar con BERA o RM.</td>
             </tr>
             <tr>
-                <td><strong>Morfología de la Curva</strong></td>
-                <td>Sigmoidea con pendiente adecuada y techo alto.</td>
-                <td>Curva desplazada en paralelo a la derecha, manteniendo pendiente y techo conservados.</td>
-                <td>Techo reducido de forma permanente, pendiente aplanada o meseta precoz.</td>
-                <td>Caída post-pico / Roll-over marcado, curva en campana o rendimiento inestable.</td>
-                <td><span class="badge-suspect">Verticalizada:</span> Fuerte sospecha de patología conductiva inicial de frecuencias graves (ej. Otosclerosis incipiente).</td>
+                <td><strong>Morfología curva</strong></td>
+                <td>Sigmoide con pendiente adecuada y techo alto</td>
+                <td>Desplazada en paralelo a la derecha, pendiente y techo conservados</td>
+                <td>Techo reducido, pendiente aplanada o meseta precoz</td>
+                <td>Caída post-pico, curva en campana, rendimiento inestable</td>
+                <td><span class="badge-warn">Curva muy verticalizada:</span> Sospecha conductiva incipiente (otosclerosis).</td>
+            </tr>
+            <tr>
+                <td><strong>Simetría interaural</strong></td>
+                <td>&lt; 20% diferencia entre OD y OI</td>
+                <td>Asimetría si la afectación conductiva es unilateral</td>
+                <td>Variable</td>
+                <td>A menudo marcadamente asimétrica</td>
+                <td><span class="badge-danger">≥ 20%:</span> Derivar para descartar patología retroclear unilateral.</td>
             </tr>
         </tbody>
     </table>
 
-    <h2>2. Implicaciones Protésicas (Métricas Supraliminares)</h2>
+    <!-- ===== 6. PROTÉSICA ===== -->
+    <h2 id="sec-protetica">6. Implicaciones protésicas (métricas supraliminares)</h2>
     <table>
         <thead>
             <tr>
-                <th>Variable Supraliminar</th>
-                <th>Patrón de Normalidad / Linealidad</th>
-                <th>⚠️ Patrón de Alarma (Estrategias de Adaptación)</th>
+                <th>Variable</th>
+                <th>Patrón de Normalidad</th>
+                <th>⚠️ Patrón de Alarma</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td><strong>Rango Dinámico de la Palabra (UCL - SRT)</strong></td>
-                <td><strong>Amplio (&ge; 45-50 dB):</strong> Permite adoptar una estrategia de adaptación más lineal (CR cercano a 1:1), preservando el contraste acústico y la nitidez natural del lenguaje.</td>
-                <td><strong>Estrecho (&lt; 45 dB):</strong> Obliga a adoptar una estrategia de alta compresión (Ratios CR altos en WDRC) y MPO muy estricto para evitar el rechazo de la prótesis por dolor.</td>
+                <td><strong>Rango Dinámico (UCL − SRT)</strong></td>
+                <td><strong>Amplio (≥ 45–50 dB):</strong> Permite estrategia lineal (CR cercano a 1:1), preservando el contraste acústico.</td>
+                <td><strong>Estrecho (&lt; 45 dB):</strong> Obliga a alta compresión (WDRC con CR alto) y MPO muy estricto para evitar rechazo por dolor.</td>
             </tr>
             <tr>
-                <td><strong>Reclutamiento Coclear</strong></td>
-                <td><strong>Negativo:</strong> Crecimiento fisiológico o conductivo extendido de la sonoridad. El oído tolera incrementos de ganancia sin saturación prematura.</td>
-                <td><strong>Positivo (Por rango estrecho):</strong> Confirmación de fatiga celular sensorial. El paciente pasa del umbral de inteligibilidad al dolor en decibelios muy reducidos.</td>
+                <td><strong>Reclutamiento coclear</strong></td>
+                <td><strong>Negativo:</strong> El oído tolera incrementos de ganancia sin saturación prematura.</td>
+                <td><strong>Positivo:</strong> El paciente pasa del umbral de inteligibilidad al disconfort en muy pocos decibelios. El ajuste debe ser especialmente conservador.</td>
             </tr>
             <tr>
-                <td><strong>Margen de Comodidad (MCL - SRT)</strong></td>
-                <td><strong>Adecuado (&ge; 20-30 dB):</strong> Margen holgado para que el audioprotesista configure la ganancia objetivo conversacional (Target Gain) sin saturar de inmediato.</td>
-                <td><strong>Crítico (&lt; 20 dB):</strong> Alerta máxima de hipersensibilidad. Exige un ajuste fino milimétrico en las curvas de ganancia de entradas medias para evitar fatiga cognitiva.</td>
+                <td><strong>Margen de Comodidad (MCL − SRT)</strong></td>
+                <td><strong>Adecuado (≥ 20–30 dB):</strong> Margen holgado para configurar la ganancia conversacional.</td>
+                <td><strong>Crítico (&lt; 20 dB):</strong> Hipersensibilidad marcada. Exige ajuste fino en curvas de ganancia de entradas medias para evitar fatiga cognitiva.</td>
             </tr>
         </tbody>
     </table>
 
-    <h2>3. Semáforo Estadístico de Fiabilidad del Ajuste (R²)</h2>
-    <p>El coeficiente de bondad de ajuste estadístico cuantifica qué tanto se adaptan las respuestas reales del paciente a la sigmoide PHI continua:</p>
-    <ul>
-        <li><strong>🟢 R² &ge; 0.95 (Óptimo):</strong> Ejecución biológica regular y lineal. Confianza máxima en las métricas resultantes.</li>
-        <li><strong>🟡 0.85 &le; R² &lt; 0.94 (Moderado):</strong> Inconsistencias leves en respuestas. Común en tinnitus severo, fluctuaciones de atención o curvas presbiacúsicas verticalizadas.</li>
-        <li><strong>🔴 R² &lt; 0.85 (Baja Fiabilidad):</strong> Dispersión caótica. El motor suspende la clasificación automática y emite alerta de revisión técnica por sospecha de descalibración, distracción o simulación.</li>
-    </ul>
+    <!-- ===== 7. R2 ===== -->
+    <h2 id="sec-r2">7. Semáforo de fiabilidad del ajuste (R²)</h2>
+    <p>El R² cuantifica en qué medida la respuesta real del paciente sigue una forma sigmoide coherente. Un R² bajo no es un diagnóstico: es una advertencia de que los datos deben revisarse antes de interpretar las métricas derivadas.</p>
+    <div class="callout callout-ok">
+        <strong>🟢 R² ≥ 0.95 — Óptimo</strong>
+        Ejecución biológica regular y consistente. Confianza máxima en SRT, WRS y pendiente. La curva del paciente sigue fielmente el modelo sigmoide.
+    </div>
+    <div class="callout callout-warn">
+        <strong>🟡 0.85 ≤ R² &lt; 0.95 — Moderado</strong>
+        Inconsistencias leves en las respuestas. Común en pacientes con tinnitus severo, fluctuaciones de atención, presbiacusia con curva muy verticalizada o material verbal no adaptado. Las métricas son orientativas pero deben interpretarse con cautela.
+    </div>
+    <div class="callout callout-danger">
+        <strong>🔴 R² &lt; 0.85 — Baja fiabilidad</strong>
+        Dispersión caótica de respuestas. El algoritmo suspende la clasificación diagnóstica automática y emite alerta. Causas más frecuentes: descalibración del audiómetro, fatiga extrema, simulación o exageración de la pérdida, instrucciones no comprendidas, o material logoaudiométrico inadecuado para la lengua del paciente.
+    </div>
 
-    <h2>4. Ecuaciones del Motor Matemático</h2>
-    <h3>Ecuación General de la Curva PHI</h3>
-    <div class="formula-box">$$Y_{\text{teórica}} = \frac{Y_{\text{max}}}{1 + e^{-b \cdot (X - X_{50})}}$$</div>
-    
-    <h3>Fórmula Real de la Pendiente Máxima</h3>
-    <p>La pendiente real varía dinámicamente según el techo de discriminación efectivo alcanzado por la persona:</p>
-    <div class="formula-box">$$\text{Pendiente máxima} = \frac{Y_{\text{max}} \cdot b}{4}$$</div>
+    <!-- ===== 8. CASOS CLÍNICOS ===== -->
+    <h2 id="sec-casos">8. Ejemplos clínicos tipo</h2>
+    <p>Los siguientes perfiles ilustran cómo se presentan los resultados del algoritmo en los tres patrones diagnósticos más frecuentes. Los valores son aproximados y representativos, no normativos.</p>
 
-    <h3>Coeficiente de Bondad de Ajuste</h3>
-    <div class="formula-box">$$R^2 = 1 - \frac{\sum (Y_{\text{real}} - Y_{\text{teórica}})^2}{\sum (Y_{\text{real}} - Y_{\text{media}})^2}$$</div>
+    <div class="case-grid">
+        <div class="case-card conductivo">
+            <h4>Perfil Conductivo</h4>
+            <div class="case-row"><span class="case-label">SRT (OD)</span><span class="case-value">42 dB HL</span></div>
+            <div class="case-row"><span class="case-label">WRS máximo</span><span class="case-value">96%</span></div>
+            <div class="case-row"><span class="case-label">Pendiente</span><span class="case-value">5.2 %/dB</span></div>
+            <div class="case-row"><span class="case-label">Roll-Over</span><span class="case-value">0.04 — Negativo</span></div>
+            <div class="case-row"><span class="case-label">PTA4 VA</span><span class="case-value">45 dB</span></div>
+            <div class="case-row"><span class="case-label">PTA4 VO</span><span class="case-value">10 dB</span></div>
+            <div class="case-row"><span class="case-label">GAP aéreo-óseo</span><span class="case-value">35 dB</span></div>
+            <div class="case-row"><span class="case-label">R²</span><span class="case-value">0.98</span></div>
+            <p style="margin-top:10px; font-size:12.5px; color:#525252;">Curva desplazada a la derecha con techo conservado. El oído discrimina perfectamente si recibe suficiente intensidad. El GAP indica afectación de la vía mecánica (otosclerosis, OMA, disfunción tubárica).</p>
+        </div>
 
-    <h2>5. Acerca de este software y Aviso Legal</h2>
+        <div class="case-card coclear">
+            <h4>Perfil Coclear (Neurosensorial)</h4>
+            <div class="case-row"><span class="case-label">SRT (OD)</span><span class="case-value">38 dB HL</span></div>
+            <div class="case-row"><span class="case-label">WRS máximo</span><span class="case-value">72%</span></div>
+            <div class="case-row"><span class="case-label">Pendiente</span><span class="case-value">2.1 %/dB</span></div>
+            <div class="case-row"><span class="case-label">Roll-Over</span><span class="case-value">0.12 — Negativo</span></div>
+            <div class="case-row"><span class="case-label">Rango dinámico</span><span class="case-value">38 dB ⚠️</span></div>
+            <div class="case-row"><span class="case-label">Reclutamiento</span><span class="case-value">Positivo</span></div>
+            <div class="case-row"><span class="case-label">R²</span><span class="case-value">0.91</span></div>
+            <p style="margin-top:10px; font-size:12.5px; color:#525252;">WRS reducida con rango dinámico estrecho. La curva llega a un techo bajo y se estabiliza. El reclutamiento positivo confirma lesión de células ciliadas externas. Requiere alta compresión en la adaptación.</p>
+        </div>
+
+        <div class="case-card retrococlear">
+            <h4>Perfil Retrococlear (Sospecha)</h4>
+            <div class="case-row"><span class="case-label">SRT (OD)</span><span class="case-value">52 dB HL</span></div>
+            <div class="case-row"><span class="case-label">WRS máximo</span><span class="case-value">64%</span></div>
+            <div class="case-row"><span class="case-label">Roll-Over</span><span class="case-value">0.51 ⚠️ Significativo</span></div>
+            <div class="case-row"><span class="case-label">SRT vs PTA4</span><span class="case-value">18 dB ❌ Inconsistente</span></div>
+            <div class="case-row"><span class="case-label">Simetría OD/OI</span><span class="case-value">⚠️ Asimetría 28%</span></div>
+            <div class="case-row"><span class="case-label">R²</span><span class="case-value">0.87</span></div>
+            <p style="margin-top:10px; font-size:12.5px; color:#b91c1c;">Roll-over significativo con asimetría interaural marcada. El WRS cae al aumentar la intensidad. La discriminación es desproporcionadamente peor que el umbral tonal. Indicación de BERA y/o RM con gadolinio para descartar neurinoma del acústico.</p>
+        </div>
+    </div>
+
+    <!-- ===== 9. LIMITACIONES ===== -->
+    <h2 id="sec-limitaciones">9. Limitaciones de entrada y advertencias de uso</h2>
+
+    <div class="callout callout-warn">
+        <strong>⚠️ Mínimo de puntos y distribución</strong>
+        El algoritmo requiere al menos 2 puntos por oído, pero con menos de 4 el ajuste sigmoide es geométricamente indeterminado. Es imprescindible que los puntos cubran la zona de transición de la curva (entre aproximadamente 20% y 80% de discriminación). Puntos concentrados solo en el plateau alto generarán un SRT irreal y un R² artificialmente elevado.
+    </div>
+
+    <div class="callout callout-warn">
+        <strong>⚠️ El roll-over requiere puntos supraóptimos</strong>
+        Para detectar caída post-pico es necesario haber estimulado a intensidades superiores al nivel de máxima discriminación. Si la exploración se detuvo en el pico (práctica habitual por comodidad del paciente), el índice de roll-over aparecerá como negativo aunque exista patología retrococlear.
+    </div>
+
+    <div class="callout callout-danger">
+        <strong>❌ El algoritmo no diagnostica patología central</strong>
+        Los patrones de lesión central (corteza auditiva, cuerpo calloso, tronco del encéfalo) pueden producir curvas logoaudiométricas completamente normales en condiciones de escucha dióptica. Este software no incorpora pruebas dióticas ni dicóticas. Un resultado "compatible con normalidad" no descarta afectación central.
+    </div>
+
+    <div class="callout callout-info">
+        <strong>ℹ️ Validez del material logoaudiométrico</strong>
+        Los puntos de corte y clasificaciones de este manual se basan en pruebas con material logoaudiométrico calibrado y listas de palabras balanceadas fonémicamente en español. El uso de listas no calibradas, material en otros idiomas sin adaptación o palabras con distinta dificultad fonémica puede producir resultados atípicos que no deben interpretarse literalmente.
+    </div>
+
+    <!-- ===== 10. ECUACIONES ===== -->
+    <h2 id="sec-ecuaciones">10. Ecuaciones del motor matemático</h2>
+
+    <h3>Ecuación general de la curva PHI</h3>
+    <div class="formula-box">Y = Y<sub>max</sub> / (1 + e<sup>−b · (X − X₅₀)</sup>)</div>
+    <p>Donde <strong>Y</strong> es el porcentaje teórico de discriminación, <strong>X</strong> la intensidad en dB HL, <strong>X₅₀</strong> el punto de inflexión (SRT), <strong>b</strong> el coeficiente de pendiente y <strong>Y<sub>max</sub></strong> el techo de discriminación efectivo.</p>
+
+    <h3>Pendiente máxima real</h3>
+    <p>Varía dinámicamente según el techo de discriminación alcanzado:</p>
+    <div class="formula-box">Pendiente<sub>máx</sub> = (Y<sub>max</sub> × b) / 4</div>
+
+    <h3>Coeficiente de bondad de ajuste</h3>
+    <div class="formula-box">R² = 1 − [ Σ(Y<sub>real</sub> − Y<sub>teórica</sub>)² / Σ(Y<sub>real</sub> − Ȳ)² ]</div>
+
+    <h3>Índice de Roll-Over</h3>
+    <div class="formula-box">RI = (WRS<sub>máx</sub> − WRS<sub>min post-pico</sub>) / WRS<sub>máx</sub></div>
+
+    <h3>Rango Dinámico y Margen de Comodidad</h3>
+    <div class="formula-box">Rango Dinámico = UCL − SRT &nbsp;|&nbsp; Margen Comodidad = MCL − SRT</div>
+
+    <!-- ===== 11. LEGAL ===== -->
+    <h2 id="sec-legal">11. Aviso legal</h2>
     <p>Esta herramienta web ha sido desarrollada de forma independiente por <strong>Franz Zenker</strong> con fines estrictamente <strong>didácticos, formativos y de investigación académica</strong>.</p>
-    <p>Los algoritmos de modelado matemático y el árbol de decisiones integrado carecen de validación clínica regulada (marcaje CE o FDA). Las clasificaciones emitidas representan aproximaciones teóricas orientativas y <strong>bajo ningún concepto sustituyen el juicio diagnóstico final del profesional de la salud o médico responsable</strong>.</p>
+    <p>Los algoritmos de modelado matemático y el árbol de decisiones integrado <strong>carecen de validación clínica regulada</strong> (marcaje CE o FDA). Las clasificaciones emitidas representan aproximaciones teóricas orientativas y <strong>bajo ningún concepto sustituyen el juicio diagnóstico final del profesional de la salud o médico responsable</strong>.</p>
+    <p>El autor declara que no existe conflicto de intereses. El uso de esta herramienta implica la aceptación de estos términos por parte del profesional que la utiliza.</p>
+
 </div>
 </body>
 </html>
