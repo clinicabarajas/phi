@@ -62,7 +62,7 @@
         canvas { width: 100%; height: auto; display: block; }
         .recommendation-box { font-size: 13.5px; color: #0369a1; background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 14px; border-radius: 6px; line-height: 1.5; margin-bottom: 20px; }
         
-        footer { margin-top: 40px; text-align: center; font-size: 12px; color: var(--text-secondary); border-top: 1px solid var(--border); padding-top: 20px; font-weight: 500; }
+        footer { margin-top: 40px; text-align: center; font-size: 10px; color: var(--text-secondary); border-top: 1px solid var(--border); padding-top: 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
 
         @media print {
             .hide-on-print, .btn, .recommendation-box { display: none !important; }
@@ -168,7 +168,7 @@
     </div>
 
     <footer>
-        © 2026 Franz Zenker. Licencia Creative Commons Atribución-NoComercial 4.0 Internacional (CC BY-NC 4.0)
+        LOGOAUDIOMETRÍA. MODELADO ANALÍTICO PHI. © 2026 FRANZ ZENKER. LICENCIA CREATIVE COMMONS ATRIBUCIÓN-NOCOMERCIAL 4.0 INTERNACIONAL (CC BY-NC 4.0)
     </footer>
 </div>
 
@@ -288,6 +288,16 @@
         let r2_num = sumSquaresTotal === 0 ? 1 : 1 - (finalErrorSum / sumSquaresTotal);
         let p_max_calc = (y_max_fijo * bestB) / 4;
 
+        // --- INTERPRETACIÓN CLÍNICA DE LA PENDIENTE (BISÍLABOS) ---
+        let pendienteText = "";
+        if (p_max_calc >= 5.0) {
+            pendienteText = `${p_max_calc.toFixed(1)} %/dB <span style="color:#16a34a; font-weight:bold;">[🟢 Normal]</span>`;
+        } else if (p_max_calc >= 3.5) {
+            pendienteText = `${p_max_calc.toFixed(1)} %/dB <span style="color:#c2410c; font-weight:bold;">[🟡 Aplanada]</span>`;
+        } else {
+            pendienteText = `${p_max_calc.toFixed(1)} %/dB <span style="color:#dc2626; font-weight:bold;">[🔴 Patológica]</span>`;
+        }
+
         let urvText = "No Alc. (<50%)"; 
         let numericSRT = null;
         if (y_max_fijo > 50.1) {
@@ -338,16 +348,17 @@
             else { concordanciaText = `❌ Inconsistencia (${diffPTA_SRT.toFixed(1)} dB)`; bloqueo_SRT = true; }
         }
 
-        // --- MATRIZ CLÍNICA DIAGNÓSTICA MEJORADA CON FILTRO DE INTENSIDAD ---
+        // --- MATRIZ CLÍNICA DIAGNÓSTICA CON FILTRO DE INTENSIDAD Y PENDIENTE ---
         let clasificacion = "Compatible con normalidad";
         if (!bloqueo_SRT) {
             if (es_patologico) {
                 clasificacion = "⚠️ Sospecha de afectación neural (Roll-over significativo)";
             } else if (es_sospecha_leve) {
                 clasificacion = "⚠️ Zona gris: Sospecha leve de fatiga neural";
+            } else if (p_max_calc < 3.5 && numericSRT !== null) {
+                clasificacion = "⚠️ Curva anormalmente plana: Compatible con distorsión coclear (Lesión de CCE / Pérdida de selectividad)";
             } else if (numericSRT !== null) {
                 
-                // Si el umbral de palabra (SRT) es normal (menor o igual a 22 dB HL)
                 if (numericSRT <= 22) {
                     if (y_max_fijo >= 90) {
                         clasificacion = "Compatible con normalidad audiológica";
@@ -357,7 +368,6 @@
                         clasificacion = "Umbral normal con WRS reducida (Evaluar desproporción neural)";
                     }
                 } 
-                // Si el umbral está desplazado (> 22 dB HL), es una alteración/hipoacusia
                 else {
                     if (y_max_fijo >= 90) {
                         if (ptaVA !== null && ptaVO !== null) {
@@ -383,7 +393,7 @@
 
         if (r2_num < 0.85) clasificacion = "⚠️ Baja fiabilidad matemática (R² < 0.85).";
 
-        return { urv: urvText, urvVal: numericSRT, pbMax: `${y_max_fijo.toFixed(0)}%`, pendiente: `${p_max_calc.toFixed(1)} %/dB`, r2: r2_num.toFixed(3), r2Val: r2_num, rollover: rolloverText, sdtText: sdtText, rdText: rdText, mclText: mclText, reclutText: reclutText, concordancia: concordanciaText, clasif: clasificacion, b: bestB, x50: bestX50, yMax: y_max_fijo };
+        return { urv: urvText, urvVal: numericSRT, pbMax: `${y_max_fijo.toFixed(0)}%`, pendiente: pendienteText, r2: r2_num.toFixed(3), r2Val: r2_num, rollover: rolloverText, sdtText: sdtText, rdText: rdText, mclText: mclText, reclutText: reclutText, concordancia: concordanciaText, clasif: clasificacion, b: bestB, x50: bestX50, yMax: y_max_fijo };
     }
 
     function calculateAndDraw() {
@@ -392,7 +402,7 @@
         ears.forEach(e => {
             if (e.res) {
                 document.getElementById(e.p+'URV').innerText = e.res.urv; document.getElementById(e.p+'PBMax').innerText = e.res.pbMax;
-                document.getElementById(e.p+'Pendiente').innerText = e.res.pendiente; document.getElementById(e.p+'Rollover').innerHTML = e.res.rollover;
+                document.getElementById(e.p+'Pendiente').innerHTML = e.res.pendiente; document.getElementById(e.p+'Rollover').innerHTML = e.res.rollover;
                 document.getElementById(e.p+'SDT_SRT').innerHTML = e.res.sdtText; document.getElementById(e.p+'RangoDyn').innerHTML = e.res.rdText;
                 document.getElementById(e.p+'MargenCom').innerHTML = e.res.mclText; document.getElementById(e.p+'Reclutamiento').innerHTML = e.res.reclutText;
                 document.getElementById(e.p+'Concordancia').innerText = e.res.concordancia; document.getElementById(e.p+'Clasif').innerText = e.res.clasif;
