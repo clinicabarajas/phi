@@ -62,7 +62,7 @@
         canvas { width: 100%; height: auto; display: block; }
         .recommendation-box { font-size: 13.5px; color: #0369a1; background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 14px; border-radius: 6px; line-height: 1.5; margin-bottom: 20px; }
         
-        footer { margin-top: 40px; text-align: center; font-size: 10px; color: var(--text-secondary); border-top: 1px solid var(--border); padding-top: 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+        footer { margin-top: 40px; text-align: center; font-size: 11px; color: var(--text-secondary); border-top: 1px solid var(--border); padding-top: 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.4; }
 
         @media print {
             .hide-on-print, .btn, .recommendation-box { display: none !important; }
@@ -82,7 +82,7 @@
             <h1>LOGOAUDIOMETRÍA</h1>
             <p>Modelado Digital Analítico PHI</p>
         </div>
-        <a href="manual_clinico.html" target="_blank" class="btn btn-help hide-on-print">📖 Abrir Manual Clínico y Criterios</a>
+        <a href="https://clinicabarajas.github.io/phi/manual_clinico.html" target="_blank" class="btn btn-help hide-on-print">📖 Abrir Manual Clínico y Criterios</a>
     </header>
 
     <div class="recommendation-box">
@@ -143,24 +143,20 @@
                 <table class="results-table">
                     <thead><tr><th>Métrica Analizada</th><th style="color:var(--right-ear);">Oído Derecho</th><th style="color:var(--left-ear);">Oído Izquierdo</th></tr></thead>
                     <tbody>
-                        <!-- BLOQUE 1: Inteligibilidad -->
                         <tr><td><strong>SRT / URV (al 50%)</strong></td><td id="odURV">--</td><td id="oiURV">--</td></tr>
                         <tr><td><strong>Discriminación Máx. (WRS)</strong></td><td id="odPBMax">--</td><td id="oiPBMax">--</td></tr>
                         <tr><td><strong>Simetría Interaural (WRS)</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold; background-color:#f8fafc; text-align: center;">--</td></tr>
                         <tr><td><strong>Pendiente Máxima Real</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
                         <tr><td><strong>Índice de Roll-Over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
                         
-                        <!-- BLOQUE 2: Perfil Dinámico -->
                         <tr><td><strong>Rango Dinámico (UCL-SRT)</strong></td><td id="odRangoDyn">--</td><td id="oiRangoDyn">--</td></tr>
                         <tr><td><strong>Margen Comodidad (MCL-SRT)</strong></td><td id="odMargenCom">--</td><td id="oiMargenCom">--</td></tr>
                         <tr><td><strong>Reclutamiento por Rango</strong></td><td id="odReclutamiento">--</td><td id="oiReclutamiento">--</td></tr>
                         
-                        <!-- BLOQUE 3: Validación e Higiene de la Prueba -->
                         <tr><td><strong>Concord. SDT vs SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
                         <tr><td><strong>Concordancia Logo-Tonal</strong></td><td id="odConcordancia">--</td><td id="oiConcordancia">--</td></tr>
                         <tr><td><strong>Bondad de Ajuste (R²)</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
                         
-                        <!-- DIAGNÓSTICO -->
                         <tr style="background-color:#f8fafc;"><td><strong>Clasificación Diagnóstica:</strong></td><td id="odClasif" style="font-weight:bold; font-size:13px;">--</td><td id="oiClasif" style="font-weight:bold; font-size:13px;">--</td></tr>
                     </tbody>
                 </table>
@@ -438,36 +434,140 @@
     }
 
     function drawCanvasChart(resOD, resOI) {
-        const canvas = document.getElementById('audiogramCanvas'); const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const padding = 50; const width = canvas.width - 2 * padding; const height = canvas.height - 2 * padding; const maxDb = 110, minDb = -10;
-        function getX(db) { return padding + ((db - minDb) / (maxDb - minDb)) * width; }
-        function getY(pct) { return padding + (1 - (pct / 100)) * height; }
+        const canvas = document.getElementById('audiogramCanvas'); 
+        const ctx = canvas.getContext('2d'); 
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const paddingLeft = 65;    
+        const paddingRight = 25;
+        const paddingTop = 55;     
+        const paddingBottom = 50;  
+        
+        const width = canvas.width - paddingLeft - paddingRight; 
+        const height = canvas.height - paddingTop - paddingBottom; 
+        const maxDb = 110, minDb = -10;
+        
+        function getX(db) { return paddingLeft + ((db - minDb) / (maxDb - minDb)) * width; }
+        function getY(pct) { return paddingTop + (1 - (pct / 100)) * height; }
 
-        ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1; ctx.fillStyle = '#64748b'; ctx.font = '11px sans-serif';
-        for (let db = minDb; db <= maxDb; db += 10) { ctx.beginPath(); ctx.moveTo(getX(db), padding); ctx.lineTo(getX(db), padding + height); ctx.stroke(); ctx.fillText(db, getX(db), padding + height + 8); }
-        for (let pct = 0; pct <= 100; pct += 20) { ctx.beginPath(); ctx.moveTo(padding, getY(pct)); ctx.lineTo(padding + width, getY(pct)); ctx.stroke(); ctx.fillText(pct, padding - 8, getY(pct)); }
+        // Recuadro de leyenda superior centrado fuera del cuadrante
+        const boxW = canvas.width * 0.75;
+        const boxH = 28;
+        const boxX = (canvas.width - boxW) / 2;
+        const boxY = 12;
+        
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.fillStyle = '#f8fafc';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.rect(boxX, boxY, boxW, boxH);
+        ctx.fill();
+        ctx.stroke();
+        
+        ctx.font = 'bold 11px sans-serif';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        
+        ctx.fillStyle = '#dc2626';
+        ctx.fillText('◯ Oído Derecho (OD)', boxX + boxW * 0.28, boxY + boxH / 2);
+        
+        ctx.fillStyle = '#2563eb';
+        ctx.fillText('✕ Oído Izquierdo (OI)', boxX + boxW * 0.72, boxY + boxH / 2);
+
+        // Títulos estandarizados de los Ejes
+        ctx.fillStyle = '#1e293b';
+        ctx.font = 'bold 11px sans-serif';
+        
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.fillText('Intensidad (dB)', paddingLeft + width / 2, paddingTop + height + 26);
+        
+        ctx.save();
+        ctx.translate(18, paddingTop + height / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText('Reconocimiento (%)', 0, 0);
+        ctx.restore();
+
+        // Construcción de la cuadrícula
+        ctx.strokeStyle = '#e2e8f0'; 
+        ctx.lineWidth = 1; 
+        ctx.fillStyle = '#64748b'; 
+        ctx.font = '10px sans-serif';
+        
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        for (let db = minDb; db <= maxDb; db += 10) { 
+            ctx.beginPath(); 
+            ctx.moveTo(getX(db), paddingTop); 
+            ctx.lineTo(getX(db), paddingTop + height); 
+            ctx.stroke(); 
+            ctx.fillText(db, getX(db), paddingTop + height + 6); 
+        }
+        
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        for (let pct = 0; pct <= 100; pct += 20) { 
+            ctx.beginPath(); 
+            ctx.moveTo(paddingLeft, getY(pct)); 
+            ctx.lineTo(paddingLeft + width, getY(pct)); 
+            ctx.stroke(); 
+            ctx.fillText(pct, paddingLeft - 8, getY(pct)); 
+        }
+
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(paddingLeft, paddingTop, width, height);
 
         let empty = true;
+        
         if (resOD) {
             empty = false;
             ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3; ctx.beginPath();
-            for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOD.yMax / (1 + Math.exp(-resOD.b * (db - resOD.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); }
+            for (let db = minDb; db <= maxDb; db += 0.5) { 
+                let pred = resOD.yMax / (1 + Math.exp(-resOD.b * (db - resOD.x50))); 
+                if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); 
+            }
             ctx.stroke();
         }
-        dataPointsOD.forEach(p => { if (p.db!==null && p.pct!==null) { empty = false; ctx.beginPath(); ctx.arc(getX(p.db), getY(p.pct), 6, 0, 2 * Math.PI); ctx.fillStyle = 'white'; ctx.fill(); ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.stroke(); } });
+        dataPointsOD.forEach(p => { 
+            if (p.db!==null && p.pct!==null) { 
+                empty = false; 
+                ctx.beginPath(); 
+                ctx.arc(getX(p.db), getY(p.pct), 5, 0, 2 * Math.PI); 
+                ctx.fillStyle = 'white'; 
+                ctx.fill(); 
+                ctx.strokeStyle = '#dc2626'; 
+                ctx.lineWidth = 2; 
+                ctx.stroke(); 
+            } 
+        });
+        
         if (resOI) {
             empty = false;
             ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 3; ctx.beginPath();
-            for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOI.yMax / (1 + Math.exp(-resOI.b * (db - resOI.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); }
+            for (let db = minDb; db <= maxDb; db += 0.5) { 
+                let pred = resOI.yMax / (1 + Math.exp(-resOI.b * (db - resOI.x50))); 
+                if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); 
+            }
             ctx.stroke();
         }
-        dataPointsOI.forEach(p => { if (p.db!==null && p.pct!==null) { empty = false; let x = getX(p.db), y = getY(p.pct); ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(x - 5, y - 5); ctx.lineTo(x + 5, y + 5); ctx.moveTo(x + 5, y - 5); ctx.lineTo(x - 5, y + 5); ctx.stroke(); } });
+        dataPointsOI.forEach(p => { 
+            if (p.db!==null && p.pct!==null) { 
+                empty = false; 
+                let x = getX(p.db), y = getY(p.pct); 
+                ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2; ctx.beginPath(); 
+                ctx.moveTo(x - 4, y - 4); ctx.lineTo(x + 4, y + 4); 
+                ctx.moveTo(x + 4, y - 4); ctx.lineTo(x - 4, y + 4); 
+                ctx.stroke(); 
+            } 
+        });
 
-        ctx.fillStyle = '#1e293b'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
-        ctx.fillStyle = '#dc2626'; ctx.fillText('◯ Oído Derecho (OD)', padding + 15, padding + 20);
-        ctx.fillStyle = '#2563eb'; ctx.fillText('✕ Oído Izquierdo (OI)', padding + 15, padding + 38);
-
-        if (empty) { ctx.fillStyle = '#94a3b8'; ctx.font = 'italic 14px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Introduce los porcentajes en la tabla para generar la curva', padding + width / 2, padding + height / 2); }
+        if (empty) { 
+            ctx.fillStyle = '#94a3b8'; ctx.font = 'italic 13px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText('Introduce los porcentajes en la tabla para generar la curva', paddingLeft + width / 2, paddingTop + height / 2); 
+        }
     }
 
     function generarInforme() {
