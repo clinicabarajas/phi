@@ -143,20 +143,24 @@
                 <table class="results-table">
                     <thead><tr><th>Métrica Analizada</th><th style="color:var(--right-ear);">Oído Derecho</th><th style="color:var(--left-ear);">Oído Izquierdo</th></tr></thead>
                     <tbody>
+                        <!-- BLOQUE 1: Inteligibilidad -->
                         <tr><td><strong>SRT / URV (al 50%)</strong></td><td id="odURV">--</td><td id="oiURV">--</td></tr>
                         <tr><td><strong>Discriminación Máx. (WRS)</strong></td><td id="odPBMax">--</td><td id="oiPBMax">--</td></tr>
                         <tr><td><strong>Simetría Interaural (WRS)</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold; background-color:#f8fafc; text-align: center;">--</td></tr>
                         <tr><td><strong>Pendiente Máxima Real</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
                         <tr><td><strong>Índice de Roll-Over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
                         
+                        <!-- BLOQUE 2: Perfil Dinámico -->
                         <tr><td><strong>Rango Dinámico (UCL-SRT)</strong></td><td id="odRangoDyn">--</td><td id="oiRangoDyn">--</td></tr>
                         <tr><td><strong>Margen Comodidad (MCL-SRT)</strong></td><td id="odMargenCom">--</td><td id="oiMargenCom">--</td></tr>
                         <tr><td><strong>Reclutamiento por Rango</strong></td><td id="odReclutamiento">--</td><td id="oiReclutamiento">--</td></tr>
                         
+                        <!-- BLOQUE 3: Validación e Higiene de la Prueba -->
                         <tr><td><strong>Concord. SDT vs SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
                         <tr><td><strong>Concordancia Logo-Tonal</strong></td><td id="odConcordancia">--</td><td id="oiConcordancia">--</td></tr>
                         <tr><td><strong>Bondad de Ajuste (R²)</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
                         
+                        <!-- DIAGNÓSTICO -->
                         <tr style="background-color:#f8fafc;"><td><strong>Clasificación Diagnóstica:</strong></td><td id="odClasif" style="font-weight:bold; font-size:13px;">--</td><td id="oiClasif" style="font-weight:bold; font-size:13px;">--</td></tr>
                     </tbody>
                 </table>
@@ -476,7 +480,7 @@
         ctx.fillText('Reconocimiento (%)', 0, 0);
         ctx.restore();
 
-        // Construcción de la cuadrícula
+        // CORRECCIÓN FIX: Cambiado el error 'padding' por 'paddingTop' para evitar cuelgues de ejecución
         ctx.strokeStyle = '#e2e8f0'; 
         ctx.lineWidth = 1; 
         ctx.fillStyle = '#64748b'; 
@@ -554,6 +558,31 @@
             ctx.fillStyle = '#94a3b8'; ctx.font = 'italic 13px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
             ctx.fillText('Introduce los porcentajes en la tabla para generar la curva', paddingLeft + width / 2, paddingTop + height / 2); 
         }
+    }
+
+    function generarInforme() {
+        const datosInforme = {
+            dataPointsOD: dataPointsOD,
+            dataPointsOI: dataPointsOI,
+            tonal: {
+                odVA500: document.getElementById('odVA500').value, odVO500: document.getElementById('odVO500').value,
+                oiVA500: document.getElementById('oiVA500').value, oiVO500: document.getElementById('oiVO500').value,
+                odVA1000: document.getElementById('odVA1000').value, odVO1000: document.getElementById('odVO1000').value,
+                oiVA1000: document.getElementById('oiVA1000').value, oiVO1000: document.getElementById('oiVO1000').value,
+                odVA2000: document.getElementById('odVA2000').value, odVO2000: document.getElementById('odVO2000').value,
+                oiVA2000: document.getElementById('oiVA2000').value, oiVO2000: document.getElementById('oiVO2000').value,
+                odVA4000: document.getElementById('odVA4000').value, odVO4000: document.getElementById('odVO4000').value,
+                oiVA4000: document.getElementById('oiVA4000').value, oiVO4000: document.getElementById('oiVO4000').value
+            },
+            umbrales: {
+                odUDV: document.getElementById('odUDV').value, oiUDV: document.getElementById('oiUDV').value,
+                odMCL: document.getElementById('odMCL').value, oiMCL: document.getElementById('oiMCL').value,
+                odUCL: document.getElementById('odUCL').value, oiUCL: document.getElementById('oiUCL').value
+            }
+        };
+
+        localStorage.setItem('datos_logoaudiometria', JSON.stringify(datosInforme));
+        window.open('reporte.html', '_blank');
     }
 </script>
 </body>
