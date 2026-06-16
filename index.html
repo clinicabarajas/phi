@@ -143,17 +143,24 @@
                 <table class="results-table">
                     <thead><tr><th>Métrica Analizada</th><th style="color:var(--right-ear);">Oído Derecho</th><th style="color:var(--left-ear);">Oído Izquierdo</th></tr></thead>
                     <tbody>
+                        <!-- BLOQUE 1: Inteligibilidad -->
                         <tr><td><strong>SRT / URV (al 50%)</strong></td><td id="odURV">--</td><td id="oiURV">--</td></tr>
                         <tr><td><strong>Discriminación Máx. (WRS)</strong></td><td id="odPBMax">--</td><td id="oiPBMax">--</td></tr>
                         <tr><td><strong>Simetría Interaural (WRS)</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold; background-color:#f8fafc; text-align: center;">--</td></tr>
                         <tr><td><strong>Pendiente Máxima Real</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
-                        <tr><td><strong>Bondad de Ajuste (R²)</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
-                        <tr><td><strong>Concord. SDT vs SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
+                        <tr><td><strong>Índice de Roll-Over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
+                        
+                        <!-- BLOQUE 2: Perfil Dinámico -->
                         <tr><td><strong>Rango Dinámico (UCL-SRT)</strong></td><td id="odRangoDyn">--</td><td id="oiRangoDyn">--</td></tr>
                         <tr><td><strong>Margen Comodidad (MCL-SRT)</strong></td><td id="odMargenCom">--</td><td id="oiMargenCom">--</td></tr>
                         <tr><td><strong>Reclutamiento por Rango</strong></td><td id="odReclutamiento">--</td><td id="oiReclutamiento">--</td></tr>
-                        <tr><td><strong>Índice de Roll-Over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
+                        
+                        <!-- BLOQUE 3: Validación e Higiene de la Prueba -->
+                        <tr><td><strong>Concord. SDT vs SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
                         <tr><td><strong>Concordancia Logo-Tonal</strong></td><td id="odConcordancia">--</td><td id="oiConcordancia">--</td></tr>
+                        <tr><td><strong>Bondad de Ajuste (R²)</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
+                        
+                        <!-- DIAGNÓSTICO -->
                         <tr style="background-color:#f8fafc;"><td><strong>Clasificación Diagnóstica:</strong></td><td id="odClasif" style="font-weight:bold; font-size:13px;">--</td><td id="oiClasif" style="font-weight:bold; font-size:13px;">--</td></tr>
                     </tbody>
                 </table>
@@ -399,6 +406,7 @@
     function calculateAndDraw() {
         let resOD = procesarAjusteOido(dataPointsOD, 'OD'); let resOI = procesarAjusteOido(dataPointsOI, 'OI');
         let ears = [{res:resOD, p:'od'}, {res:resOI, p:'oi'}];
+        
         ears.forEach(e => {
             if (e.res) {
                 document.getElementById(e.p+'URV').innerText = e.res.urv; document.getElementById(e.p+'PBMax').innerText = e.res.pbMax;
