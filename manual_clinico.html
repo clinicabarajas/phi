@@ -286,7 +286,7 @@
 
     <div class="callout callout-info">
         <strong>Número mínimo de puntos y cobertura de la curva</strong>
-        El algoritmo requiere al menos <strong>2 puntos</strong> para trazar la curva, pero con menos de 6 el ajuste sigmoide puede ser geométricamente indeterminado. Se recomienda obtener datos en al menos <strong>6 intensidades</strong> diferentes que incluyan: un nivel por debajo del umbral verbal, la zona de transición rápida (donde la curva sube de 20% a 80%) y el nivel de máxima discriminación. Si todos los puntos se concentran en el plateau superior, el SRT calculado tendrá muy poca precisión.
+        El algoritmo requiere al menos <strong>2 puntos</strong> para trazar la curva, pero con menos de 6 el ajuste sigmoide puede ser geométricamente indeterminado. Se recomienda obtener datos en al menos <strong>6 intensidades</strong> diferentes que incluyan: un nivel por debajo del umbral verbal, la zona de transición rápida (donde la curva sube de 20% a 80%) y el nivel de máxima discriminación. Es imprescindible que <strong>al menos uno de los puntos esté por debajo del 50% de discriminación</strong>: sin ese anclaje inferior el algoritmo no puede calcular el SRT con base real y solo puede extrapolarlo, lo que reduce significativamente la fiabilidad del resultado. Si todos los puntos se concentran en el plateau superior, el SRT calculado tendrá muy poca precisión y el R² será artificialmente elevado.
     </div>
 
     <h3>3.2 Audiometría Tonal Cruzada (V.A. / V.O.)</h3>
@@ -381,13 +381,13 @@
     <p>Diferencia en puntos porcentuales entre el WRS del oído derecho e izquierdo. Una asimetría ≥ 20% entre oídos es clínicamente significativa y puede indicar patología unilateral (neurinoma del acústico, hipoacusia súbita unilateral, Ménière unilateral). El programa emite una alerta visual cuando se supera este umbral.</p>
 
     <h3>4.4 Pendiente Máxima Real</h3>
-    <p>Expresa la velocidad de crecimiento de la discriminación en la zona de transición, en <strong>%/dB</strong>. Se calcula como Y<sub>max</sub> × b / 4. Una pendiente muy aplanada indica que la transición de 0% a máximo ocurre a lo largo de muchos decibelios, lo que sugiere distorsión coclear o inconsistencia en las respuestas.</p>
+    <p>Expresa la velocidad de crecimiento de la discriminación en la zona de transición, en <strong>%/dB</strong>. Se calcula como Y<sub>max</sub> × b / 4. Refleja la integridad de la sincronía neural y la selectividad frecuencial coclear. Los umbrales están calibrados específicamente para material logoaudiométrico de bisílabos (De Cárdenas y Marrero-Aguilar, 1994).</p>
     <table>
-        <thead><tr><th>Pendiente</th><th>Interpretación morfológica</th></tr></thead>
+        <thead><tr><th>Pendiente</th><th>Clasificación</th><th>Interpretación clínica</th></tr></thead>
         <tbody>
-            <tr><td><span class="badge-ok">&gt; 4 %/dB</span></td><td>Curva pronunciada. Típica de oído normal o perfil conductivo puro.</td></tr>
-            <tr><td><span class="badge-warn">2–4 %/dB</span></td><td>Curva moderada. Frecuente en hipoacusia neurosensorial con discriminación conservada.</td></tr>
-            <tr><td><span class="badge-danger">&lt; 2 %/dB</span></td><td>Curva muy aplanada. Sospecha de distorsión coclear severa o respuestas inconsistentes.</td></tr>
+            <tr><td><span class="badge-ok">≥ 5.0 %/dB 🟢 Normal</span></td><td>Sincronía neural íntegra</td><td>Selectividad frecuencial coclear conservada. Alta eficiencia en el cierre lingüístico. Típica de oído normal o perfil conductivo puro.</td></tr>
+            <tr><td><span class="badge-warn">3.5–5.0 %/dB 🟡 Aplanada</span></td><td>Zona gris</td><td>Pérdida leve de la velocidad de integración. Típica de presbiacusias sensoriales tempranas o fatiga neural incipiente. Requiere seguimiento.</td></tr>
+            <tr><td><span class="badge-danger">&lt; 3.5 %/dB 🔴 Patológica</span></td><td>Pérdida severa de selectividad</td><td>Lesión de Células Ciliadas Externas (CCE) o sufrimiento retrococlear con dispersión temporal. El paciente discrimina por "fuerza bruta" de volumen pero carece de velocidad de discriminación. Orientativo de distorsión coclear establecida.</td></tr>
         </tbody>
     </table>
 
@@ -445,7 +445,13 @@
     </ul>
 
     <h3>4.12 Clasificación Diagnóstica</h3>
-    <p>Síntesis automática de todos los criterios anteriores en una categoría diagnóstica orientativa. El algoritmo suspende la clasificación (y lo indica explícitamente) en tres situaciones: R² &lt; 0.85, discrepancia logo-tonal ≥ 15 dB, o SDT incongruente con SRT.</p>
+    <p>Síntesis automática de todos los criterios anteriores en una categoría diagnóstica orientativa. El algoritmo aplica la siguiente jerarquía de decisión:</p>
+    <ul>
+        <li><strong>Criterio de Normalidad Directa (Filtro de Intensidad):</strong> Si el SRT es ≤ 22 dB HL y el WRS ≥ 90%, el algoritmo clasifica directamente como <em>"Compatible con normalidad audiológica"</em>, descartando automáticamente sospechas de GAP conductivo o desplazamientos patológicos.</li>
+        <li><strong>Criterio de Pendiente Patológica:</strong> Si la pendiente es &lt; 3.5 %/dB, el algoritmo emite alerta de distorsión coclear por pérdida de selectividad frecuencial, independientemente del WRS.</li>
+        <li><strong>Criterio de Roll-Over:</strong> Un índice ≥ 0.45 orienta hacia afectación retrococlear y tiene prioridad sobre la clasificación por WRS.</li>
+        <li><strong>Suspensión de la clasificación:</strong> El algoritmo suspende el diagnóstico automático y lo indica explícitamente en tres situaciones: R² &lt; 0.85, discrepancia logo-tonal ≥ 15 dB, o SDT incongruente con SRT.</li>
+    </ul>
 
     <!-- ===== 5. MATRIZ ===== -->
     <h2 id="sec-matriz">5. Matriz multicriterio de decisión y puntos de corte</h2>
@@ -494,12 +500,20 @@
                 <td><span class="badge-warn">Curva muy verticalizada:</span> Sospecha conductiva incipiente (otosclerosis).</td>
             </tr>
             <tr>
+                <td><strong>Pendiente Máxima (bisílabos)</strong></td>
+                <td>≥ 5.0 %/dB</td>
+                <td>Conservada o aumentada</td>
+                <td>3.5–5.0 %/dB: zona gris. &lt; 3.5 %/dB: pérdida de selectividad frecuencial</td>
+                <td>Puede estar reducida por dispersión temporal axonal</td>
+                <td><span class="badge-danger">&lt; 3.5 %/dB:</span> Alerta de distorsión coclear por lesión de CCE. El programa emite clasificación específica independientemente del WRS.</td>
+            </tr>
+            <tr>
                 <td><strong>Simetría interaural</strong></td>
                 <td>&lt; 20% diferencia entre OD y OI</td>
                 <td>Asimetría si la afectación conductiva es unilateral</td>
                 <td>Variable</td>
                 <td>A menudo marcadamente asimétrica</td>
-                <td><span class="badge-danger">≥ 20%:</span> Derivar para descartar patología retroclear unilateral.</td>
+                <td><span class="badge-danger">≥ 20%:</span> Derivar para descartar patología retrococlear unilateral.</td>
             </tr>
         </tbody>
     </table>
