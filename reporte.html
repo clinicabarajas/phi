@@ -77,7 +77,6 @@
 </head>
 <body>
 
-<!-- Elementos Técnicos Ocultos para que el motor matemático original funcione sin cambios -->
 <div style="display:none;">
     <input type="number" id="odVA500"><input type="number" id="odVO500"><input type="number" id="oiVA500"><input type="number" id="oiVO500">
     <input type="number" id="odVA1000"><input type="number" id="odVO1000"><input type="number" id="oiVA1000"><input type="number" id="oiVO1000">
@@ -91,7 +90,6 @@
 </div>
 
 <div class="page-report">
-    <!-- Encabezado Modificado -->
     <div class="clinic-header">
         <div class="logo-placeholder">
             [ Logotipo del Centro ]<br>Sustituir por imagen corporativa
@@ -102,7 +100,6 @@
         </div>
     </div>
 
-    <!-- Datos del Paciente (Editables) -->
     <div class="patient-box">
         <div>Paciente: <div class="patient-field" contenteditable="true">Haga clic para escribir nombre...</div></div>
         <div>Edad: <div class="patient-field" contenteditable="true">-- años</div></div>
@@ -111,7 +108,6 @@
 
     <div class="report-title">Resultados de Logoaudiometría Analítica (PHI)</div>
 
-    <!-- Resultados y Gráfica Analítica -->
     <div class="grid-results">
         <div class="results-col">
             <table>
@@ -119,17 +115,24 @@
                     <tr><th>Métrica Analizada</th><th style="color:var(--right-ear); width:35%;">Oído Derecho</th><th style="color:var(--left-ear); width:35%;">Oído Izquierdo</th></tr>
                 </thead>
                 <tbody>
+                    <!-- BLOQUE 1: Inteligibilidad -->
                     <tr><td><strong>SRT / URV (al 50%)</strong></td><td id="odURV">--</td><td id="oiURV">--</td></tr>
                     <tr><td><strong>Discriminación Máx.</strong></td><td id="odPBMax">--</td><td id="oiPBMax">--</td></tr>
                     <tr><td><strong>Simetría Interaural</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold;">--</td></tr>
                     <tr><td><strong>Pendiente Máxima Real</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
-                    <tr><td><strong>Fiabilidad (R²)</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
-                    <tr><td><strong>Concord. SDT vs SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
+                    <tr><td><strong>Índice Roll-Over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
+                    
+                    <!-- BLOQUE 2: Perfil Dinámico -->
                     <tr><td><strong>Rango Dinámico</strong></td><td id="odRangoDyn">--</td><td id="oiRangoDyn">--</td></tr>
                     <tr><td><strong>Margen Comodidad</strong></td><td id="odMargenCom">--</td><td id="oiMargenCom">--</td></tr>
                     <tr><td><strong>Reclutamiento</strong></td><td id="odReclutamiento">--</td><td id="oiReclutamiento">--</td></tr>
-                    <tr><td><strong>Índice Roll-Over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
+                    
+                    <!-- BLOQUE 3: Validación -->
+                    <tr><td><strong>Concord. SDT vs SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
                     <tr><td><strong>Concordancia Tonal</strong></td><td id="odConcordancia">--</td><td id="oiConcordancia">--</td></tr>
+                    <tr><td><strong>Fiabilidad (R²)</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
+                    
+                    <!-- DIAGNÓSTICO -->
                     <tr style="background-color:#f8fafc;"><td><strong>Diagnóstico Clínico:</strong></td><td id="odClasif" style="font-weight:bold; font-size:11px;">--</td><td id="oiClasif" style="font-weight:bold; font-size:11px;">--</td></tr>
                 </tbody>
             </table>
@@ -141,23 +144,16 @@
         </div>
     </div>
 
-    <!-- Área de Observaciones -->
     <div class="observations-section">
         <h3>Observaciones Clínicas y Recomendaciones</h3>
-        <div class="observations-area" contenteditable="true" placeholder="Escriba aquí los comentarios detallados del estudio, recomendaciones de adaptación protésica o criterios de derivación..."></div>
+        <div class="observations-area" contenteditable="true" placeholder="Escriba aquí los comentarios detallados..."></div>
     </div>
 
-    <!-- Firmas Oficiales -->
     <div class="footer-signatures">
-        <div class="signature-line">
-            Firma del Especialista
-        </div>
-        <div class="signature-line">
-            Sello del Centro
-        </div>
+        <div class="signature-line">Firma del Especialista</div>
+        <div class="signature-line">Sello del Centro</div>
     </div>
 
-    <!-- Pie de página modificado -->
     <footer>
         LOGOAUDIOMETRÍA. MODELADO ANALÍTICO PHI. © 2026 FRANZ ZENKER. LICENCIA CREATIVE COMMONS ATRIBUCIÓN-NOCOMERCIAL 4.0 INTERNACIONAL (CC BY-NC 4.0)
     </footer>
@@ -171,7 +167,7 @@
         document.getElementById('reportDate').innerText = hoy.toLocaleDateString('es-ES');
 
         const json = localStorage.getItem('datos_logoaudiometria');
-        if(!json) { alert("No se encontraron datos clínicos. Cierre esta ventana y pulse 'Generar Informe' en la pantalla de datos."); return; }
+        if(!json) { alert("No se encontraron datos clínicos."); return; }
         
         const datos = JSON.parse(json);
         dataPointsOD = datos.dataPointsOD;
@@ -246,7 +242,7 @@
         let r2_num = sumSquaresTotal === 0 ? 1 : 1 - (finalErrorSum / sumSquaresTotal);
         let p_max_calc = (y_max_fijo * bestB) / 4;
 
-        // --- INTERPRETACIÓN CLÍNICA DE LA PENDIENTE (BISÍLABOS) ---
+        // --- INTERPRETACIÓN CLÍNICA DE LA PENDIENTE ---
         let pendienteText = "";
         if (p_max_calc >= 5.0) {
             pendienteText = `${p_max_calc.toFixed(1)} %/dB <span style="color:#16a34a; font-weight:bold;">[ Normal]</span>`;
@@ -300,7 +296,6 @@
             else { concordanciaText = `❌ Inconsistencia (${diffPTA_SRT.toFixed(1)} dB)`; bloqueo_SRT = true; }
         }
 
-        // --- MATRIZ CLÍNICA DIAGNÓSTICA CON FILTRO DE INTENSIDAD Y PENDIENTE ---
         let clasificacion = "Compatible con normalidad";
         if (!bloqueo_SRT) {
             if (es_patologico) {
@@ -310,38 +305,22 @@
             } else if (p_max_calc < 3.5 && numericSRT !== null) {
                 clasificacion = "⚠️ Curva anormalmente plana: Compatible con distorsión coclear (Lesión de CCE / Pérdida de selectividad)";
             } else if (numericSRT !== null) {
-                
                 if (numericSRT <= 22) {
-                    if (y_max_fijo >= 90) {
-                        clasificacion = "Compatible con normalidad audiológica";
-                    } else if (y_max_fijo >= 80) {
-                        clasificacion = "Umbral normal con WRS discretamente reducida (Posible distorsión inicial)";
-                    } else {
-                        clasificacion = "Umbral normal con WRS reducida (Evaluar desproporción neural)";
-                    }
+                    if (y_max_fijo >= 90) clasificacion = "Compatible con normalidad audiológica";
+                    else if (y_max_fijo >= 80) clasificacion = "Umbral normal con WRS discretamente reducida (Posible distorsión inicial)";
+                    else clasificacion = "Umbral normal con WRS reducida (Evaluar desproporción neural)";
                 } 
                 else {
                     if (y_max_fijo >= 90) {
                         if (ptaVA !== null && ptaVO !== null) {
                             clasificacion = (ptaVA - ptaVO >= 15) ? "Compatible con perfil Conductivo / Transmisión" : "Hipoacusia Neurosensorial/Coclear con excelente discriminación";
-                        } else {
-                            clasificacion = "Perfil desplazado con WRS óptimo (Sugerente de transmisión, requiere valorar GAP tonal)";
-                        }
-                    } else if (y_max_fijo >= 80) {
-                        clasificacion = "Hipoacusia con WRS discretamente reducida (Compatible con presbiacusia o lesión inicial)";
-                    } else if (y_max_fijo >= 50) {
-                        clasificacion = "Hipoacusia con WRS reducida (Compatible con distorsión coclear)";
-                    } else {
-                        clasificacion = "Hipoacusia con WRS muy reducida (Valorar severidad coclear o retrococlear)";
-                    }
+                        } else { clasificacion = "Perfil desplazado con WRS óptimo (Sugerente de transmisión, requiere valorar GAP tonal)"; }
+                    } else if (y_max_fijo >= 80) clasificacion = "Hipoacusia con WRS discretamente reducida (Compatible con presbiacusia o lesión inicial)";
+                    else if (y_max_fijo >= 50) clasificacion = "Hipoacusia con WRS reducida (Compatible con distorsión coclear)";
+                    else clasificacion = "Hipoacusia con WRS muy reducida (Valorar severidad coclear o retrococlear)";
                 }
-
-            } else {
-                clasificacion = "Discriminación máxima insuficiente para calcular SRT de forma estándar.";
-            }
-        } else { 
-            clasificacion = "⚠️ Inconsistencia logo-tonal (SRT-PTA ≥ 15 dB)."; 
-        }
+            } else { clasificacion = "Discriminación insuficiente para SRT estándar."; }
+        } else { clasificacion = "⚠️ Inconsistencia logo-tonal (SRT-PTA ≥ 15 dB)."; }
 
         if (r2_num < 0.85) clasificacion = "⚠️ Baja fiabilidad matemática (R² < 0.85).";
 
