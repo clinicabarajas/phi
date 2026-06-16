@@ -351,7 +351,7 @@
             else { concordanciaText = `❌ Inconsistencia (${diffPTA_SRT.toFixed(1)} dB)`; bloqueo_SRT = true; }
         }
 
-        // --- MATRIZ CLÍNICA DIAGNÓSTICA CON FILTRO DE INTENSIDAD Y PENDIENTE ---
+        // --- MATRIZ CLÍNICA DIAGNÓSTICA ---
         let clasificacion = "Compatible con normalidad";
         if (!bloqueo_SRT) {
             if (es_patologico) {
@@ -363,36 +363,21 @@
             } else if (numericSRT !== null) {
                 
                 if (numericSRT <= 22) {
-                    if (y_max_fijo >= 90) {
-                        clasificacion = "Compatible con normalidad audiológica";
-                    } else if (y_max_fijo >= 80) {
-                        clasificacion = "Umbral normal con WRS discretamente reducida (Posible distorsión inicial)";
-                    } else {
-                        clasificacion = "Umbral normal con WRS reducida (Evaluar desproporción neural)";
-                    }
+                    if (y_max_fijo >= 90) clasificacion = "Compatible con normalidad audiológica";
+                    else if (y_max_fijo >= 80) clasificacion = "Umbral normal con WRS discretamente reducida (Posible distorsión inicial)";
+                    else clasificacion = "Umbral normal con WRS reducida (Evaluar desproporción neural)";
                 } 
                 else {
                     if (y_max_fijo >= 90) {
                         if (ptaVA !== null && ptaVO !== null) {
                             clasificacion = (ptaVA - ptaVO >= 15) ? "Compatible con perfil Conductivo / Transmisión" : "Hipoacusia Neurosensorial/Coclear con excelente discriminación";
-                        } else {
-                            clasificacion = "Perfil desplazado con WRS óptimo (Sugerente de transmisión, requiere valorar GAP tonal)";
-                        }
-                    } else if (y_max_fijo >= 80) {
-                        clasificacion = "Hipoacusia con WRS discretamente reducida (Compatible con presbiacusia o lesión inicial)";
-                    } else if (y_max_fijo >= 50) {
-                        clasificacion = "Hipoacusia con WRS reducida (Compatible con distorsión coclear)";
-                    } else {
-                        clasificacion = "Hipoacusia con WRS muy reducida (Valorar severidad coclear o retrococlear)";
-                    }
+                        } else { clasificacion = "Perfil desplazado con WRS óptimo (Sugerente de transmisión, requiere valorar GAP tonal)"; }
+                    } else if (y_max_fijo >= 80) clasificacion = "Hipoacusia con WRS discretamente reducida (Compatible con presbiacusia o lesión inicial)";
+                    else if (y_max_fijo >= 50) clasificacion = "Hipoacusia con WRS reducida (Compatible con distorsión coclear)";
+                    else clasificacion = "Hipoacusia con WRS muy reducida (Valorar severidad coclear o retrococlear)";
                 }
-
-            } else {
-                clasificacion = "Discriminación máxima insuficiente para calcular SRT de forma estándar.";
-            }
-        } else { 
-            clasificacion = "⚠️ Inconsistencia logo-tonal significativa (SRT-PTA ≥ 15 dB)."; 
-        }
+            } else { clasificacion = "Discriminación máxima insuficiente para calcular SRT de forma estándar."; }
+        } else { clasificacion = "⚠️ Inconsistencia logo-tonal significativa (SRT-PTA ≥ 15 dB)."; }
 
         if (r2_num < 0.85) clasificacion = "⚠️ Baja fiabilidad matemática (R² < 0.85).";
 
@@ -466,13 +451,14 @@
         
         ctx.font = 'bold 11px sans-serif';
         ctx.textBaseline = 'middle';
-        ctx.textAlign = 'center';
         
+        // CORRECCIÓN: Alineación centrada absoluta respecto al lienzo
+        ctx.textAlign = 'center';
         ctx.fillStyle = '#dc2626';
-        ctx.fillText('◯ Oído Derecho (OD)', boxX + boxW * 0.28, boxY + boxH / 2);
+        ctx.fillText('◯ Oído Derecho (OD)', canvas.width / 2 - 75, boxY + boxH / 2);
         
         ctx.fillStyle = '#2563eb';
-        ctx.fillText('✕ Oído Izquierdo (OI)', boxX + boxW * 0.72, boxY + boxH / 2);
+        ctx.fillText('✕ Oído Izquierdo (OI)', canvas.width / 2 + 75, boxY + boxH / 2);
 
         // Títulos estandarizados de los Ejes
         ctx.fillStyle = '#1e293b';
@@ -533,7 +519,7 @@
         }
         dataPointsOD.forEach(p => { 
             if (p.db!==null && p.pct!==null) { 
-                empty = false; 
+                empty = false;
                 ctx.beginPath(); 
                 ctx.arc(getX(p.db), getY(p.pct), 5, 0, 2 * Math.PI); 
                 ctx.fillStyle = 'white'; 
@@ -555,7 +541,7 @@
         }
         dataPointsOI.forEach(p => { 
             if (p.db!==null && p.pct!==null) { 
-                empty = false; 
+                empty = false;
                 let x = getX(p.db), y = getY(p.pct); 
                 ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2; ctx.beginPath(); 
                 ctx.moveTo(x - 4, y - 4); ctx.lineTo(x + 4, y + 4); 
@@ -568,31 +554,6 @@
             ctx.fillStyle = '#94a3b8'; ctx.font = 'italic 13px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
             ctx.fillText('Introduce los porcentajes en la tabla para generar la curva', paddingLeft + width / 2, paddingTop + height / 2); 
         }
-    }
-
-    function generarInforme() {
-        const datosInforme = {
-            dataPointsOD: dataPointsOD,
-            dataPointsOI: dataPointsOI,
-            tonal: {
-                odVA500: document.getElementById('odVA500').value, odVO500: document.getElementById('odVO500').value,
-                oiVA500: document.getElementById('oiVA500').value, oiVO500: document.getElementById('oiVO500').value,
-                odVA1000: document.getElementById('odVA1000').value, odVO1000: document.getElementById('odVO1000').value,
-                oiVA1000: document.getElementById('oiVA1000').value, oiVO1000: document.getElementById('oiVO1000').value,
-                odVA2000: document.getElementById('odVA2000').value, odVO2000: document.getElementById('odVO2000').value,
-                oiVA2000: document.getElementById('oiVA2000').value, oiVO2000: document.getElementById('oiVO2000').value,
-                odVA4000: document.getElementById('odVA4000').value, odVO4000: document.getElementById('odVO4000').value,
-                oiVA4000: document.getElementById('oiVA4000').value, oiVO4000: document.getElementById('oiVO4000').value
-            },
-            umbrales: {
-                odUDV: document.getElementById('odUDV').value, oiUDV: document.getElementById('oiUDV').value,
-                odMCL: document.getElementById('odMCL').value, oiMCL: document.getElementById('oiMCL').value,
-                odUCL: document.getElementById('odUCL').value, oiUCL: document.getElementById('oiUCL').value
-            }
-        };
-
-        localStorage.setItem('datos_logoaudiometria', JSON.stringify(datosInforme));
-        window.open('reporte.html', '_blank');
     }
 </script>
 </body>
