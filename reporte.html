@@ -211,6 +211,47 @@
             text-align: left;
         }
 
+
+        .recognition-estimate-table th,
+        .recognition-estimate-table td {
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .recognition-estimate-table th:first-child,
+        .recognition-estimate-table td:first-child {
+            text-align: left;
+            font-weight: 700;
+            width: 26%;
+        }
+
+        .recognition-estimate-table thead th {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            font-weight: 800;
+        }
+
+        @media print {
+            .recognition-estimate-table th,
+            .recognition-estimate-table td {
+                text-align: center !important;
+                white-space: nowrap !important;
+            }
+
+            .recognition-estimate-table th:first-child,
+            .recognition-estimate-table td:first-child {
+                text-align: left !important;
+                font-weight: 700 !important;
+                width: 26% !important;
+            }
+
+            .recognition-estimate-table thead th {
+                background-color: #e2e8f0 !important;
+                color: #1e293b !important;
+                font-weight: 800 !important;
+            }
+        }
+
         .asymmetry-alert {
             display: none;
             font-size: 10px;
@@ -535,6 +576,51 @@
             <canvas id="audiogramCanvas" width="670" height="315"></canvas>
         </div>
 
+
+        <div class="section-title metrics-title">Valores de la Función Resultado-Intensidad (P/I)</div>
+
+        <div class="results-col">
+            <table class="recognition-estimate-table">
+                <thead>
+                    <tr>
+                        <th>RECONOCIMIENTO</th>
+                        <th>30%</th>
+                        <th>40%</th>
+                        <th>50%</th>
+                        <th>60%</th>
+                        <th>65%</th>
+                        <th>70%</th>
+                        <th>80%</th>
+                        <th>90%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Derecho (dB HL)</td>
+                        <td id="odRec30">--</td>
+                        <td id="odRec40">--</td>
+                        <td id="odRec50">--</td>
+                        <td id="odRec60">--</td>
+                        <td id="odRec65">--</td>
+                        <td id="odRec70">--</td>
+                        <td id="odRec80">--</td>
+                        <td id="odRec90">--</td>
+                    </tr>
+                    <tr>
+                        <td>Izquierdo (dB HL)</td>
+                        <td id="oiRec30">--</td>
+                        <td id="oiRec40">--</td>
+                        <td id="oiRec50">--</td>
+                        <td id="oiRec60">--</td>
+                        <td id="oiRec65">--</td>
+                        <td id="oiRec70">--</td>
+                        <td id="oiRec80">--</td>
+                        <td id="oiRec90">--</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="section-title metrics-title">Análisis Y Perfil Clínico</div>
 
         <div class="results-col">
@@ -599,6 +685,31 @@
 
 <script>
     let dataPointsOD = [], dataPointsOI = [];
+
+    const NIVELES_RECONOCIMIENTO = [30, 40, 50, 60, 65, 70, 80, 90];
+
+    function estimarDbParaReconocimiento(res, porcentaje) {
+        if (!res || res.b === undefined || res.x50 === undefined || res.yMax === undefined) return "--";
+        if (porcentaje <= 0 || porcentaje >= res.yMax) return "--";
+
+        const ratio = (res.yMax / porcentaje) - 1;
+        if (ratio <= 0) return "--";
+
+        const db = res.x50 - (Math.log(ratio) / res.b);
+        if (!isFinite(db)) return "--";
+
+        return Math.round(db);
+    }
+
+    function actualizarTablaReconocimiento(resOD, resOI) {
+        NIVELES_RECONOCIMIENTO.forEach(function(porcentaje) {
+            const odCell = document.getElementById('odRec' + porcentaje);
+            const oiCell = document.getElementById('oiRec' + porcentaje);
+            if (odCell) odCell.innerText = estimarDbParaReconocimiento(resOD, porcentaje);
+            if (oiCell) oiCell.innerText = estimarDbParaReconocimiento(resOI, porcentaje);
+        });
+    }
+
 
     window.onload = function() {
         const hoy = new Date();
@@ -787,6 +898,7 @@
             simRow.innerText = diff>=20 ? `⚠️ Asimetría de ${diff.toFixed(0)}%` : `Simétrica (Dif: ${diff.toFixed(0)}%)`;
             if (diff>=20) { asAlert.innerHTML = `<strong>⚠️ Alerta de asimetría:</strong> Variación interaural de ${diff.toFixed(0)}% en discriminación máxima.`; asAlert.style.display='block'; } else asAlert.style.display='none';
         }
+        actualizarTablaReconocimiento(resOD, resOI);
         drawCanvasChart(resOD, resOI);
     }
 
