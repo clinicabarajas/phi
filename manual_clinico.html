@@ -190,7 +190,7 @@
 <div class="container">
 
     <h1>Manual Clínico — Logoaudiometría PHI</h1>
-    <p class="subtitle">Guía de uso, descripción de variables y criterios de interpretación para el audiólogo clínico · Versión 1.1</p>
+    <p class="subtitle">Guía de uso, descripción de variables y criterios de interpretación para el audiólogo clínico · Versión 1.2</p>
 
     <nav class="toc">
         <h3>Contenido</h3>
@@ -240,7 +240,7 @@
         </li>
         <li>
             <strong>Vincular la audiometría tonal (opcional pero muy recomendado)</strong>
-            Desplegar la sección "Vincular Audiometría Tonal Cruzada" e introducir los umbrales de vía aérea y ósea para 0.5, 1, 2 y 4 kHz. Esto permite calcular el PTA4, detectar GAP conductivo y evaluar la concordancia logo-tonal.
+            Desplegar la sección "Vincular Audiometría Tonal Cruzada" e introducir los umbrales de vía aérea y ósea para 0.5, 1 y 2 kHz. La frecuencia de 4 kHz puede mantenerse como dato complementario, pero la concordancia SRT-PTA se calcula con el PTA3. Esto permite evaluar la congruencia logo-tonal y estimar el GAP conductivo sin sobrerrepresentar las caídas aisladas en agudos.
         </li>
         <li>
             <strong>Repetir para el segundo oído</strong>
@@ -303,20 +303,20 @@
         <tbody>
             <tr>
                 <td><strong>Vía Aérea (V.A.)</strong></td>
-                <td>0.5, 1, 2 y 4 kHz</td>
-                <td>Calcula el <strong>PTA4</strong> (promedio de los cuatro umbrales). Lo compara con el SRT logoaudiométrico para evaluar concordancia logo-tonal. Si la diferencia supera 15 dB, se suspende la clasificación automática.</td>
+                <td>0.5, 1 y 2 kHz<br><em>4 kHz opcional/complementaria</em></td>
+                <td>Calcula el <strong>PTA3</strong> (promedio de 500, 1000 y 2000 Hz). Lo compara con el SRT logoaudiométrico para evaluar concordancia logo-tonal. Si la diferencia alcanza o supera 15 dB, se suspende la clasificación automática.</td>
             </tr>
             <tr>
                 <td><strong>Vía Ósea (V.O.)</strong></td>
-                <td>0.5, 1, 2 y 4 kHz</td>
-                <td>Permite estimar el <strong>GAP aéreo-óseo</strong>. Si PTA_VA − PTA_VO ≥ 15 dB, el algoritmo orienta hacia un patrón conductivo en lugar de neurosensorial.</td>
+                <td>0.5, 1 y 2 kHz<br><em>4 kHz opcional/complementaria</em></td>
+                <td>Permite estimar el <strong>GAP aéreo-óseo</strong> sobre el PTA3. Si PTA3_VA − PTA3_VO ≥ 15 dB, el algoritmo orienta hacia componente conductivo, puro o mixto según el WRS y la pendiente.</td>
             </tr>
         </tbody>
     </table>
 
     <div class="callout callout-info">
-        <strong>¿Por qué 4 frecuencias y no el PTA clásico de 3?</strong>
-        El programa usa el promedio de <strong>0.5 + 1 + 2 + 4 kHz</strong> porque la logoaudiometría cubre el rango completo del habla (hasta 4 kHz). El PTA clásico de tres frecuencias (0.5–1–2 kHz) puede subestimar pérdidas que afectan principalmente a 4 kHz y que sí impactan la discriminación verbal.
+        <strong>¿Por qué PTA3 para la concordancia SRT-PTA?</strong>
+        La concordancia clásica entre el SRT/URV y la audiometría tonal se establece con el promedio de las frecuencias conversacionales <strong>500, 1000 y 2000 Hz</strong>. Este promedio se denomina <strong>PTA3</strong>. La frecuencia de 4 kHz puede aportar información útil sobre la audibilidad de consonantes y sobre la configuración de la pérdida, pero no debe incorporarse de forma sistemática al cálculo de concordancia SRT-PTA, ya que una caída aislada en agudos puede sobreestimar la pérdida verbal esperable. En pérdidas con pendiente muy acusada, el valor de 4 kHz debe interpretarse como información complementaria y no como parte del criterio primario de congruencia logo-tonal.
     </div>
 
     <h3>3.3 Umbrales Supraliminares</h3>
@@ -465,7 +465,7 @@
     <p>El algoritmo lo estima indirectamente: si el Rango Dinámico es inferior a 45 dB, se considera positivo. El reclutamiento coclear refleja un crecimiento anormalmente rápido de la sensación de volumen tras superar el umbral auditivo, característico de la lesión de células ciliadas externas. Tiene implicaciones directas en la tolerancia al audífono.</p>
 
     <h3>4.11 Índice de Roll-Over</h3>
-    <p>El <strong>roll-over</strong> es la caída del porcentaje de discriminación al aumentar la intensidad por encima del pico máximo. En condiciones normales y cocleares, la curva alcanza un plateau estable. En patología retrococlear (neurinoma del acústico, neuropatía auditiva), la curva cae significativamente al aumentar la intensidad.</p>
+    <p>El <strong>roll-over</strong> es la caída del porcentaje de discriminación al aumentar la intensidad por encima del pico máximo. En la terminología clínica hispanohablante, este fenómeno también se conoce como <strong>regresión fonémica</strong>. En condiciones normales y cocleares, la curva alcanza un plateau estable. En patología retrococlear (neurinoma del acústico, neuropatía auditiva), la curva cae significativamente al aumentar la intensidad.</p>
     <p>El índice se calcula como: <strong>(WRS<sub>máx</sub> − WRS<sub>min post-pico</sub>) / WRS<sub>máx</sub></strong></p>
 
     <div class="callout callout-warn">
@@ -482,10 +482,10 @@
     </table>
 
     <h3>4.12 Concordancia Logo-Tonal</h3>
-    <p>Compara el SRT calculado por el algoritmo con el PTA4 de la vía aérea. Normalmente ambos valores difieren en menos de 10–12 dB. Una discrepancia mayor puede indicar:</p>
+    <p>Compara el SRT calculado por el algoritmo con el <strong>PTA3</strong> de la vía aérea. La concordancia fisiológica normal se sitúa habitualmente dentro de un margen de <strong>±10 dB</strong>; una diferencia de 0 dB es perfectamente normal y representa una coincidencia ideal entre el umbral verbal y el promedio tonal conversacional. Una discrepancia mayor puede indicar:</p>
     <ul>
-        <li><strong>SRT mucho mejor que PTA4:</strong> Posible exageración de los umbrales tonales (hipoacusia funcional) o pérdida selectiva de frecuencias no evaluadas en el PTA4.</li>
-        <li><strong>SRT mucho peor que PTA4:</strong> Distorsión verbal desproporcionada para el grado de pérdida tonal. Orientativo de patología retrococlear o central.</li>
+        <li><strong>SRT mucho mejor que PTA3:</strong> Posible exageración de los umbrales tonales (hipoacusia funcional) o pérdida selectiva de frecuencias no representadas por el PTA3.</li>
+        <li><strong>SRT mucho peor que PTA3:</strong> Distorsión verbal desproporcionada para el grado de pérdida tonal. Orientativo de patología retrococlear o central.</li>
     </ul>
 
     <h3>4.13 Clasificación Diagnóstica</h3>
@@ -512,8 +512,8 @@
         </thead>
         <tbody>
             <tr>
-                <td><strong>Diferencia SRT vs PTA4</strong></td>
-                <td>5–12 dB</td>
+                <td><strong>Diferencia SRT vs PTA3</strong></td>
+                <td>0–10 dB<br><em>o ±10 dB</em></td>
                 <td>Congruente</td>
                 <td>Congruente</td>
                 <td>Discordante / peor de lo esperado</td>
@@ -564,7 +564,7 @@
 
     <div class="callout callout-info">
         <strong>Perfil mixto: combinación de desplazamiento y techo reducido</strong>
-        En la hipoacusia mixta la curva puede mostrar simultáneamente dos fenómenos: desplazamiento hacia la derecha por el componente conductivo y reducción del WRS máximo por el componente coclear. Por ello, no debe interpretarse como un perfil conductivo puro aunque exista GAP aéreo-óseo. La clave está en integrar PTA4 por vía aérea y ósea, WRS máximo, pendiente y tabla P/I.
+        En la hipoacusia mixta la curva puede mostrar simultáneamente dos fenómenos: desplazamiento hacia la derecha por el componente conductivo y reducción del WRS máximo por el componente coclear. Por ello, no debe interpretarse como un perfil conductivo puro aunque exista GAP aéreo-óseo. La clave está en integrar PTA3 por vía aérea y ósea, WRS máximo, pendiente y tabla P/I.
     </div>
 
     <!-- ===== 6. AUDIOPROTÉSICA ===== -->
@@ -645,8 +645,8 @@
             <div class="case-row"><span class="case-label">WRS máximo</span><span class="case-value">96%</span></div>
             <div class="case-row"><span class="case-label">Pendiente</span><span class="case-value">5.2 %/dB</span></div>
             <div class="case-row"><span class="case-label">Roll-Over</span><span class="case-value">0.04 — Negativo</span></div>
-            <div class="case-row"><span class="case-label">PTA4 VA</span><span class="case-value">45 dB</span></div>
-            <div class="case-row"><span class="case-label">PTA4 VO</span><span class="case-value">10 dB</span></div>
+            <div class="case-row"><span class="case-label">PTA3 VA</span><span class="case-value">45 dB</span></div>
+            <div class="case-row"><span class="case-label">PTA3 VO</span><span class="case-value">10 dB</span></div>
             <div class="case-row"><span class="case-label">GAP aéreo-óseo</span><span class="case-value">35 dB</span></div>
             <div class="case-row"><span class="case-label">R²</span><span class="case-value">0.98</span></div>
             <p style="margin-top:10px; font-size:12.5px; color:#525252;">Curva desplazada a la derecha con techo conservado. El oído discrimina perfectamente si recibe suficiente intensidad. El GAP indica afectación de la vía mecánica (otosclerosis, OMA, disfunción tubárica).</p>
@@ -658,8 +658,8 @@
             <div class="case-row"><span class="case-label">WRS máximo</span><span class="case-value">78%</span></div>
             <div class="case-row"><span class="case-label">Pendiente</span><span class="case-value">3.4 %/dB</span></div>
             <div class="case-row"><span class="case-label">Roll-Over</span><span class="case-value">0.10 — Negativo</span></div>
-            <div class="case-row"><span class="case-label">PTA4 VA</span><span class="case-value">55 dB</span></div>
-            <div class="case-row"><span class="case-label">PTA4 VO</span><span class="case-value">30 dB</span></div>
+            <div class="case-row"><span class="case-label">PTA3 VA</span><span class="case-value">55 dB</span></div>
+            <div class="case-row"><span class="case-label">PTA3 VO</span><span class="case-value">30 dB</span></div>
             <div class="case-row"><span class="case-label">GAP aéreo-óseo</span><span class="case-value">25 dB</span></div>
             <div class="case-row"><span class="case-label">Tabla P/I</span><span class="case-value">80–90% no alcanzable</span></div>
             <div class="case-row"><span class="case-label">R²</span><span class="case-value">0.94</span></div>
@@ -683,7 +683,7 @@
             <div class="case-row"><span class="case-label">SRT (OD)</span><span class="case-value">52 dB HL</span></div>
             <div class="case-row"><span class="case-label">WRS máximo</span><span class="case-value">64%</span></div>
             <div class="case-row"><span class="case-label">Roll-Over</span><span class="case-value">0.51 ⚠️ Significativo</span></div>
-            <div class="case-row"><span class="case-label">SRT vs PTA4</span><span class="case-value">18 dB ❌ Inconsistente</span></div>
+            <div class="case-row"><span class="case-label">SRT vs PTA3</span><span class="case-value">18 dB ❌ Inconsistente</span></div>
             <div class="case-row"><span class="case-label">Simetría OD/OI</span><span class="case-value">⚠️ Asimetría 28%</span></div>
             <div class="case-row"><span class="case-label">R²</span><span class="case-value">0.87</span></div>
             <p style="margin-top:10px; font-size:12.5px; color:#b91c1c;">Roll-over significativo con asimetría interaural marcada. El WRS cae al aumentar la intensidad. La discriminación es desproporcionadamente peor que el umbral tonal. Indicación de PEATC y/o RM para descartar neurinoma del acústico.</p>
@@ -699,8 +699,8 @@
     </div>
 
     <div class="callout callout-warn">
-        <strong>⚠️ El roll-over requiere puntos supraóptimos</strong>
-        Para detectar caída post-pico es necesario haber estimulado a intensidades superiores al nivel de máxima discriminación. Si la exploración se detuvo en el pico (práctica habitual por comodidad del paciente), el índice de roll-over aparecerá como negativo aunque exista patología retrococlear.
+        <strong>⚠️ El roll-over o regresión fonémica requiere puntos supraóptimos</strong>
+        Para detectar caída post-pico es necesario haber estimulado a intensidades superiores al nivel de máxima discriminación. Si la exploración se detuvo en el pico (práctica habitual por comodidad del paciente), el índice de roll-over puede aparecer como negativo aunque exista regresión fonémica o patología retrococlear.
     </div>
 
     <div class="callout callout-warn">
@@ -749,17 +749,17 @@
 
     <h3>APA 7ª edición</h3>
     <div class="formula-box" style="font-family: -apple-system, sans-serif; font-size: 13.5px; text-align: left; color: var(--text); font-weight: normal; line-height: 1.7;">
-        Zenker, F. (2026). <em>Manual clínico de logoaudiometría PHI: Guía de uso, descripción de variables y criterios de interpretación clínica</em> (v1.1) [Software de análisis clínico]. https://clinicabarajas.github.io/phi/
+        Zenker, F. (2026). <em>Manual clínico de logoaudiometría PHI: Guía de uso, descripción de variables y criterios de interpretación clínica</em> (v1.2) [Software de análisis clínico]. https://clinicabarajas.github.io/phi/
     </div>
 
     <h3>Vancouver — para revistas médicas y publicaciones ORL/audiología</h3>
     <div class="formula-box" style="font-family: -apple-system, sans-serif; font-size: 13.5px; text-align: left; color: var(--text); font-weight: normal; line-height: 1.7;">
-        Zenker F. Manual clínico de logoaudiometría PHI: guía de uso, descripción de variables y criterios de interpretación clínica [Internet]. Versión 1.1. 2026 [citado DD mes AAAA]. Disponible en: https://clinicabarajas.github.io/phi/
+        Zenker F. Manual clínico de logoaudiometría PHI: guía de uso, descripción de variables y criterios de interpretación clínica [Internet]. Versión 1.2. 2026 [citado DD mes AAAA]. Disponible en: https://clinicabarajas.github.io/phi/
     </div>
 
     <div class="callout callout-info" style="margin-top: 20px;">
         <strong>ℹ️ Nota sobre la fecha de consulta</strong>
-        En APA 7ª no es obligatorio indicar fecha de consulta para recursos con URL permanente. En Vancouver sí es obligatorio: sustituya "DD mes AAAA" por la fecha en que accedió al manual (p. ej., 15 junio 2026). La versión actual es la <strong>v1.1 (2026)</strong>.
+        En APA 7ª no es obligatorio indicar fecha de consulta para recursos con URL permanente. En Vancouver sí es obligatorio: sustituya "DD mes AAAA" por la fecha en que accedió al manual (p. ej., 15 junio 2026). La versión actual es la <strong>v1.2 (2026)</strong>.
     </div>
 
     <!-- ===== 12. LEGAL ===== -->
