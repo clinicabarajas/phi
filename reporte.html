@@ -13,65 +13,458 @@
             --left-ear: #2563eb;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        body { background-color: #f1f5f9; color: var(--text-report); padding: 40px 20px; }
-
-        /* Contenedor tipo Hoja A4 */
-        .page-report {
-            background: white;
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 50px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            border-radius: 8px;
-            position: relative;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
-        /* Encabezado */
-        .clinic-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary-report); padding-bottom: 20px; margin-bottom: 25px; }
-        .logo-placeholder { width: 180px; height: 65px; border: 1px dashed var(--border-report); display: flex; align-items: center; justify-content: center; font-size: 11px; color: #64748b; text-align: center; border-radius: 4px; }
-        .clinic-info { text-align: right; line-height: 1.4; }
-        .clinic-info h2 { font-size: 22px; color: var(--primary-report); letter-spacing: 0.5px; margin-bottom: 4px; }
-        .clinic-info p { font-size: 13px; color: #64748b; font-weight: 500; }
+        body {
+            background-color: #f1f5f9;
+            color: var(--text-report);
+            padding: 14px;
+            font-size: 11px;
+        }
 
-        /* Ficha del Paciente */
-        .patient-box { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 15px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 6px; margin-bottom: 25px; font-size: 13px; }
-        .patient-field { border-bottom: 1px dotted var(--border-report); padding-bottom: 2px; color: #000; font-weight: bold; outline: none; }
+        .page-report {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 10mm 10mm 8mm 10mm;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+        }
 
-        /* Título del Informe */
-        .report-title { font-size: 16px; font-weight: bold; color: var(--primary-report); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 20px; text-align: center; background: #e2e8f0; padding: 6px; border-radius: 4px; }
+        /* Encabezado mantenido con espacio para insertar logo a la izquierda */
+        .clinic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            border-bottom: 2px solid var(--primary-report);
+            padding-bottom: 10px;
+            margin-bottom: 18px;
+            flex: 0 0 auto;
+        }
 
-        /* Distribución de Resultados y Gráfica */
-        .grid-results { display: grid; grid-template-columns: 1.2fr 1fr; gap: 25px; margin-bottom: 25px; }
-        
-        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 12px; }
-        th, td { padding: 8px 10px; border: 1px solid #cbd5e1; text-align: center; }
-        th { background-color: #f1f5f9; color: #1e293b; font-weight: bold; }
-        .asymmetry-alert { display: none; font-size: 12px; color: #b91c1c; background-color: #fef2f2; border: 1px solid #fca5a5; padding: 10px; border-radius: 4px; margin-top: 10px; font-weight: bold; }
+        .logo-placeholder {
+            width: 180px;
+            height: 65px;
+            border: 1px dashed var(--border-report);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: #64748b;
+            text-align: center;
+            border-radius: 4px;
+            line-height: 1.3;
+            flex: 0 0 auto;
+        }
 
-        /* Área de Observaciones */
-        .observations-section { margin-top: 15px; margin-bottom: 40px; }
-        .observations-section h3 { font-size: 14px; color: var(--primary-report); margin-bottom: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; }
-        .observations-area { min-height: 90px; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; font-size: 13px; line-height: 1.5; background: #fffcf5; outline: none; }
-        .observations-area:focus { border-color: #0284c7; background: #fff; }
+        .clinic-info {
+            text-align: right;
+            line-height: 1.35;
+            flex: 1 1 auto;
+        }
 
-        /* Área de Firmas */
-        .footer-signatures { display: flex; justify-content: space-between; margin-top: 50px; font-size: 12px; padding-top: 20px; }
-        .signature-line { width: 220px; border-top: 1px solid #000; text-align: center; padding-top: 5px; margin-top: 45px; }
+        .clinic-info h2 {
+            font-size: 26px;
+            color: var(--primary-report);
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            font-weight: 800;
+        }
 
-        /* Botón Flotante de Impresión */
-        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; gap: 10px; z-index: 1000; }
-        .btn-print { background: #16a34a; color: white; border: none; padding: 14px 24px; border-radius: 50px; font-weight: bold; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(22,163,74,0.3); transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
-        .btn-print:hover { background: #15803d; transform: translateY(-2px); }
+        .clinic-info p {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 600;
+        }
 
-        footer { margin-top: 30px; text-align: center; font-size: 10px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 12px; font-weight: bold; text-transform: uppercase; line-height: 1.4; }
+        .patient-box {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 15px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            flex: 0 0 auto;
+        }
+
+        .patient-field {
+            border-bottom: 1px dotted var(--border-report);
+            padding-bottom: 2px;
+            color: #000;
+            font-weight: bold;
+            min-height: 16px;
+            outline: none;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--primary-report);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin: 8px 0 8px 0;
+            text-align: center;
+            background: #f1f5f9;
+            padding: 5px 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            flex: 0 0 auto;
+        }
+
+        .report-body {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .chart-top {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 14px;
+            flex: 0 0 auto;
+        }
+
+        #audiogramCanvas {
+            width: 100%;
+            max-width: 670px;
+            height: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        .metrics-title {
+            margin-top: 4px;
+            margin-bottom: 8px;
+        }
+
+        .results-col {
+            width: 100%;
+            flex: 0 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9.8px;
+        }
+
+        th, td {
+            padding: 4px 5px;
+            border: 1px solid #cbd5e1;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            font-weight: bold;
+        }
+
+        td:first-child {
+            width: 24%;
+        }
+
+        .metric-group td {
+            background: #e2e8f0 !important;
+            color: #1e293b !important;
+            font-weight: 800 !important;
+            text-align: left !important;
+            border-top: 1px solid #cbd5e1 !important;
+            border-bottom: 1px solid #cbd5e1 !important;
+        }
+
+        .clinical-orientation-row td {
+            background: #f8fafc !important;
+            font-weight: 800 !important;
+        }
+
+        .asymmetry-alert {
+            display: none;
+            font-size: 10px;
+            color: #b91c1c;
+            background-color: #fef2f2;
+            border: 1px solid #fca5a5;
+            padding: 5px;
+            border-radius: 4px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .floating-actions {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-print {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(22,163,74,0.3);
+        }
+
+        .footer-spacer-11 {
+            display: block;
+            height: auto;
+            min-height: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-spacer-11 .footer-spacer-line {
+            display: block;
+            height: 1em;
+            min-height: 1em;
+            line-height: 1em;
+            font-size: 10px;
+            margin: 0;
+            padding: 0;
+        }
+
+        footer.report-footer {
+            display: block;
+            position: static;
+            margin-top: 0;
+            padding-top: 8px;
+            border-top: 1.5px solid #cbd5e1;
+            text-align: center;
+            color: #475569;
+            background: #ffffff;
+            font-size: 8.8px;
+            font-weight: 600;
+            line-height: 1.35;
+            width: 100%;
+            clear: both;
+            flex: 0 0 auto;
+        }
+
+        @page {
+            size: A4;
+            margin: 8mm;
+        }
 
         @media print {
-            body { background: white; padding: 0; color: #000; }
-            .page-report { box-shadow: none; padding: 0; max-width: 100%; margin: 0; }
-            .floating-actions { display: none !important; }
-            .observations-area { border: none; background: transparent; padding: 0; min-height: auto; }
-            [contenteditable="true"]:empty:before { content: ""; }
+            @page {
+                size: A4 portrait;
+                margin: 9mm 8mm 8mm 8mm;
+            }
+
+            html,
+            body {
+                width: 210mm !important;
+                min-height: 297mm !important;
+                background: white !important;
+                color: #1e293b !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                font-family: Arial, Helvetica, sans-serif !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                font-family: Arial, Helvetica, sans-serif !important;
+            }
+
+            .floating-actions {
+                display: none !important;
+            }
+
+            .page-report {
+                width: 100% !important;
+                min-height: calc(297mm - 17mm) !important;
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                background: white !important;
+                display: block !important;
+                page-break-after: avoid !important;
+            }
+
+            .clinic-header {
+                margin-bottom: 14px !important;
+                padding-bottom: 8px !important;
+                border-bottom: 1.5px solid #cbd5e1 !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                gap: 12px !important;
+            }
+
+            .logo-placeholder {
+                width: 180px !important;
+                height: 65px !important;
+                font-size: 9px !important;
+            }
+
+            .clinic-info h2 {
+                font-size: 23px !important;
+                color: #0f766e !important;
+                letter-spacing: 1px !important;
+                font-weight: 800 !important;
+            }
+
+            .clinic-info p {
+                font-size: 10px !important;
+                color: #64748b !important;
+                font-weight: 600 !important;
+            }
+
+            .patient-box {
+                display: grid !important;
+                grid-template-columns: 2fr 1fr 1fr !important;
+                gap: 5px !important;
+                margin-bottom: 8px !important;
+                background: #f8fafc !important;
+                border: 1px solid #e2e8f0 !important;
+                border-radius: 6px !important;
+                padding: 5px 6px !important;
+                font-size: 9px !important;
+            }
+
+            .patient-field {
+                color: #1e293b !important;
+                font-size: 9px !important;
+                font-weight: 700 !important;
+                white-space: normal !important;
+            }
+
+            .section-title {
+                display: block !important;
+                background: #f1f5f9 !important;
+                border: 1px solid #e2e8f0 !important;
+                color: #1e293b !important;
+                font-size: 10.5px !important;
+                font-weight: 800 !important;
+                padding: 5px 8px !important;
+                margin: 8px 0 6px 0 !important;
+                letter-spacing: 0.2px !important;
+                text-align: center !important;
+                border-radius: 4px !important;
+            }
+
+            .chart-top {
+                display: flex !important;
+                justify-content: center !important;
+                margin-top: 4px !important;
+                margin-bottom: 6px !important;
+            }
+
+            #audiogramCanvas {
+                width: 670px !important;
+                height: 315px !important;
+                max-width: 100% !important;
+                border: 1px solid #e2e8f0 !important;
+                border-radius: 6px !important;
+                background: #ffffff !important;
+            }
+
+            table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+                font-size: 8.2px !important;
+                margin-bottom: auto !important;
+            }
+
+            th {
+                background: #f1f5f9 !important;
+                color: #334155 !important;
+                font-weight: 800 !important;
+                border: 1px solid #cbd5e1 !important;
+                padding: 3px 5px !important;
+                text-align: left !important;
+            }
+
+            td {
+                border: 1px solid #e2e8f0 !important;
+                padding: 2.7px 5px !important;
+                color: #1e293b !important;
+                background: #ffffff !important;
+                vertical-align: middle !important;
+                text-align: left !important;
+            }
+
+            .metric-group td {
+                background: #e2e8f0 !important;
+                color: #1e293b !important;
+                font-weight: 800 !important;
+                text-align: left !important;
+                border-top: 1px solid #cbd5e1 !important;
+                border-bottom: 1px solid #cbd5e1 !important;
+                padding: 3.2px 5px !important;
+            }
+
+            .clinical-orientation-row td {
+                background: #f8fafc !important;
+                font-weight: 800 !important;
+            }
+
+            .footer-spacer-11 {
+                display: block !important;
+                height: auto !important;
+                min-height: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                page-break-inside: avoid !important;
+            }
+
+            .footer-spacer-11 .footer-spacer-line {
+                display: block !important;
+                height: 1em !important;
+                min-height: 1em !important;
+                line-height: 1em !important;
+                font-size: 10px !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            footer.report-footer {
+                display: block !important;
+                position: static !important;
+                margin-top: 0 !important;
+                padding-top: 8px !important;
+                border-top: 1.5px solid #cbd5e1 !important;
+                text-align: center !important;
+                color: #475569 !important;
+                background: #ffffff !important;
+                font-size: 8.7px !important;
+                font-weight: 600 !important;
+                line-height: 1.35 !important;
+                width: 100% !important;
+                clear: both !important;
+            }
         }
     </style>
 </head>
@@ -96,61 +489,80 @@
         </div>
         <div class="clinic-info">
             <h2>LOGOAUDIOMETRÍA</h2>
-            <p>Informe de Modelado Analítico PHI</p>
+            <p>Audiometría Verbal - Ajuste a Curva PHI</p>
         </div>
     </div>
 
     <div class="patient-box">
         <div>Paciente: <div class="patient-field" contenteditable="true">Haga clic para escribir nombre...</div></div>
         <div>Edad: <div class="patient-field" contenteditable="true">-- años</div></div>
-        <div>Fecha: <div class="patient-field" id="reportDate" contenteditable="true">--/--/----</div></div>
+        <div>Fecha de la prueba: <div class="patient-field" id="reportDate" contenteditable="true">--/--/----</div></div>
     </div>
 
-    <div class="report-title">Resultados de Logoaudiometría Analítica (PHI)</div>
+    <div class="report-body">
+        <div class="section-title">Curva De Inteligibilidad Verbal (PHI)</div>
 
-    <div class="grid-results">
+        <div class="chart-top">
+            <canvas id="audiogramCanvas" width="670" height="315"></canvas>
+        </div>
+
+        <div class="section-title metrics-title">Análisis Y Perfil Clínico</div>
+
         <div class="results-col">
             <table>
                 <thead>
-                    <tr><th>Métrica Analizada</th><th style="color:var(--right-ear); width:35%;">Oído Derecho</th><th style="color:var(--left-ear); width:35%;">Oído Izquierdo</th></tr>
+                    <tr>
+                        <th>Métrica</th>
+                        <th style="color:var(--right-ear);">OD</th>
+                        <th style="color:var(--left-ear);">OI</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr><td><strong>SRT / URV (al 50%)</strong></td><td id="odURV">--</td><td id="oiURV">--</td></tr>
-                    <tr><td><strong>Discriminación Máx.</strong></td><td id="odPBMax">--</td><td id="oiPBMax">--</td></tr>
-                    <tr><td><strong>Simetría Interaural</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold;">--</td></tr>
-                    <tr><td><strong>Pendiente Máxima Real</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
-                    <tr><td><strong>Índice Roll-Over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
-                    
-                    <tr><td><strong>Rango Dinámico</strong></td><td id="odRangoDyn">--</td><td id="oiRangoDyn">--</td></tr>
-                    <tr><td><strong>Margen Comodidad</strong></td><td id="odMargenCom">--</td><td id="oiMargenCom">--</td></tr>
+                    <tr class="metric-group"><td colspan="3">Reconocimiento verbal</td></tr>
+                    <tr><td><strong>SRT / URV 50%</strong></td><td id="odURV">--</td><td id="oiURV">--</td></tr>
+                    <tr><td><strong>Discriminación Máx. (WRS)</strong></td><td id="odPBMax">--</td><td id="oiPBMax">--</td></tr>
+                    <tr><td><strong>Simetría Interaural (WRS)</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold;">--</td></tr>
+
+                    <tr class="metric-group"><td colspan="3">Concordancia audiológica</td></tr>
+                    <tr><td><strong>Concordancia SDT-SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
+                    <tr><td><strong>Concordancia con audiometría</strong></td><td id="odConcordancia">--</td><td id="oiConcordancia">--</td></tr>
+
+                    <tr class="metric-group"><td colspan="3">Perfil de la curva PHI</td></tr>
+                    <tr><td><strong>Pendiente máxima</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
+                    <tr><td><strong>Índice roll-over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
+                    <tr><td><strong>Fiabilidad R²</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
+
+                    <tr class="metric-group"><td colspan="3">Parámetros del Rango Dinámico Verbal</td></tr>
+                    <tr><td><strong>Rango dinámico</strong></td><td id="odRangoDyn">--</td><td id="oiRangoDyn">--</td></tr>
+                    <tr><td><strong>Margen de comodidad</strong></td><td id="odMargenCom">--</td><td id="oiMargenCom">--</td></tr>
                     <tr><td><strong>Reclutamiento</strong></td><td id="odReclutamiento">--</td><td id="oiReclutamiento">--</td></tr>
-                    
-                    <tr><td><strong>Concord. SDT vs SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
-                    <tr><td><strong>Concordancia Tonal</strong></td><td id="odConcordancia">--</td><td id="oiConcordancia">--</td></tr>
-                    <tr><td><strong>Fiabilidad (R²)</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
-                    
-                    <tr style="background-color:#f8fafc;"><td><strong>Diagnóstico Clínico:</strong></td><td id="odClasif" style="font-weight:bold; font-size:11px;">--</td><td id="oiClasif" style="font-weight:bold; font-size:11px;">--</td></tr>
+
+                    <tr class="metric-group"><td colspan="3">Orientación clínica</td></tr>
+                    <tr class="clinical-orientation-row"><td><strong>Orientación clínica</strong></td>
+                        <td id="odClasif" style="font-weight:bold; font-size:9.2px;">--</td>
+                        <td id="oiClasif" style="font-weight:bold; font-size:9.2px;">--</td>
+                    </tr>
                 </tbody>
             </table>
             <div id="asimetriaAlert" class="asymmetry-alert"></div>
         </div>
-
-        <div class="chart-col">
-            <canvas id="audiogramCanvas" width="370" height="340" style="border: 1px solid #e2e8f0; border-radius: 6px; background:#fff;"></canvas>
-        </div>
     </div>
 
-    <div class="observations-section">
-        <h3>Observaciones Clínicas y Recomendaciones</h3>
-        <div class="observations-area" contenteditable="true" placeholder="Escriba aquí los comentarios detallados..."></div>
+    <div class="footer-spacer-11" aria-hidden="true">
+        <div class="footer-spacer-line">&nbsp;</div>
+        <div class="footer-spacer-line">&nbsp;</div>
+        <div class="footer-spacer-line">&nbsp;</div>
+        <div class="footer-spacer-line">&nbsp;</div>
+        <div class="footer-spacer-line">&nbsp;</div>
+        <div class="footer-spacer-line">&nbsp;</div>
+        <div class="footer-spacer-line">&nbsp;</div>
+        <div class="footer-spacer-line">&nbsp;</div>
+        <div class="footer-spacer-line">&nbsp;</div>
+        <div class="footer-spacer-line">&nbsp;</div>
+        <div class="footer-spacer-line">&nbsp;</div>
     </div>
 
-    <div class="footer-signatures">
-        <div class="signature-line">Firma del Especialista</div>
-        <div class="signature-line">Sello del Centro</div>
-    </div>
-
-    <footer>
+    <footer class="report-footer">
         LOGOAUDIOMETRÍA. MODELADO ANALÍTICO PHI. © 2026 FRANZ ZENKER. LICENCIA CREATIVE COMMONS ATRIBUCIÓN-NOCOMERCIAL 4.0 INTERNACIONAL (CC BY-NC 4.0)
     </footer>
 </div>
