@@ -84,6 +84,25 @@
         .clinical-analysis-table .metric-section td { text-align: left !important; }
         .clinical-analysis-table td[colspan="2"],
         #simetriaInteraural { text-align: center !important; }
+        .recognition-estimate-table th,
+        .recognition-estimate-table td {
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .recognition-estimate-table th:first-child,
+        .recognition-estimate-table td:first-child {
+            text-align: left;
+            font-weight: 700;
+            width: 26%;
+        }
+
+        .recognition-estimate-table thead th {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            font-weight: 800;
+        }
+
         .asymmetry-alert { display: none; font-size: 13.5px; color: #b91c1c; background-color: #fef2f2; border: 1px solid #fca5a5; padding: 12px; border-radius: 6px; margin-top: 12px; font-weight: bold; }
         .canvas-container { width: 100%; background: white; border-radius: 8px; padding: 10px; }
         canvas { width: 100%; height: auto; display: block; }
@@ -191,6 +210,49 @@
                 <h2>Curva de Inteligibilidad Verbal (PHI)</h2>
                 <div class="canvas-container"><canvas id="audiogramCanvas" width="520" height="420"></canvas></div>
             </div>
+
+            <div class="card recognition-estimate-card">
+                <h2>Valores de la Función Resultado-Intensidad (P/I)</h2>
+                <table class="results-table recognition-estimate-table">
+                    <thead>
+                        <tr>
+                            <th>RECONOCIMIENTO</th>
+                            <th>30%</th>
+                            <th>40%</th>
+                            <th>50%</th>
+                            <th>60%</th>
+                            <th>65%</th>
+                            <th>70%</th>
+                            <th>80%</th>
+                            <th>90%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Derecho (dB HL)</td>
+                            <td id="odRec30">--</td>
+                            <td id="odRec40">--</td>
+                            <td id="odRec50">--</td>
+                            <td id="odRec60">--</td>
+                            <td id="odRec65">--</td>
+                            <td id="odRec70">--</td>
+                            <td id="odRec80">--</td>
+                            <td id="odRec90">--</td>
+                        </tr>
+                        <tr>
+                            <td>Izquierdo (dB HL)</td>
+                            <td id="oiRec30">--</td>
+                            <td id="oiRec40">--</td>
+                            <td id="oiRec50">--</td>
+                            <td id="oiRec60">--</td>
+                            <td id="oiRec65">--</td>
+                            <td id="oiRec70">--</td>
+                            <td id="oiRec80">--</td>
+                            <td id="oiRec90">--</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="card">
                 <h2>Análisis y Perfil Clínico</h2>
                 <table class="results-table clinical-analysis-table">
@@ -239,6 +301,29 @@
     let currentEar = 'OD';
     let dataPointsOD = [{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null}];
     let dataPointsOI = [{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null}];
+    const NIVELES_RECONOCIMIENTO = [30, 40, 50, 60, 65, 70, 80, 90];
+
+    function estimarDbParaReconocimiento(res, porcentaje) {
+        if (!res || res.b === undefined || res.x50 === undefined || res.yMax === undefined) return "--";
+        if (porcentaje <= 0 || porcentaje >= res.yMax) return "--";
+
+        const ratio = (res.yMax / porcentaje) - 1;
+        if (ratio <= 0) return "--";
+
+        const db = res.x50 - (Math.log(ratio) / res.b);
+        if (!isFinite(db)) return "--";
+
+        return Math.round(db);
+    }
+
+    function actualizarTablaReconocimiento(resOD, resOI) {
+        NIVELES_RECONOCIMIENTO.forEach(function(porcentaje) {
+            const odCell = document.getElementById('odRec' + porcentaje);
+            const oiCell = document.getElementById('oiRec' + porcentaje);
+            if (odCell) odCell.innerText = estimarDbParaReconocimiento(resOD, porcentaje);
+            if (oiCell) oiCell.innerText = estimarDbParaReconocimiento(resOI, porcentaje);
+        });
+    }
 
     window.onload = function() { renderTable(); calculateAndDraw(); };
 
@@ -482,6 +567,7 @@
         } else {
             simRow.innerText = "--"; asAlert.style.display='none';
         }
+        actualizarTablaReconocimiento(resOD, resOI);
         drawCanvasChart(resOD, resOI);
     }
 
@@ -641,6 +727,17 @@
                 odUDV: document.getElementById('odUDV').value, oiUDV: document.getElementById('oiUDV').value,
                 odMCL: document.getElementById('odMCL').value, oiMCL: document.getElementById('oiMCL').value,
                 odUCL: document.getElementById('odUCL').value, oiUCL: document.getElementById('oiUCL').value
+            },
+            reconocimientoEstimado: {
+                niveles: NIVELES_RECONOCIMIENTO,
+                od: NIVELES_RECONOCIMIENTO.map(function(p) {
+                    const cell = document.getElementById('odRec' + p);
+                    return cell ? cell.innerText : "--";
+                }),
+                oi: NIVELES_RECONOCIMIENTO.map(function(p) {
+                    const cell = document.getElementById('oiRec' + p);
+                    return cell ? cell.innerText : "--";
+                })
             }
         };
 
