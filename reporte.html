@@ -3,596 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informe Clínico de Logoaudiometría</title>
+    <title>Logoaudiometría - Ajuste PHI</title>
     <style>
         :root {
-            --primary-report: #1e293b;
-            --text-report: #334155;
-            --border-report: #94a3b8;
+            --primary: #0f766e;
+            --primary-hover: #115e59;
+            --success: #16a34a;
+            --success-hover: #15803d;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
             --right-ear: #dc2626;
+            --right-ear-light: #fee2e2;
             --left-ear: #2563eb;
+            --left-ear-light: #dbeafe;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --warning-alert: #c2410c;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, Helvetica, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); line-height: 1.5; padding: 20px; }
+        .container { max-width: 1250px; margin: 0 auto; }
+        header { background-color: var(--card-bg); padding: 24px; border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 24px; border-left: 6px solid var(--primary); display: flex; justify-content: space-between; align-items: center; }
+        header h1 { font-size: 26px; color: var(--primary); letter-spacing: 0.5px; }
+        
+        .main-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 24px; }
+        @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
+        .card { background: var(--card-bg); border-radius: 12px; padding: 24px; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 24px; }
+        .card h2 { font-size: 18px; margin-bottom: 16px; color: var(--text); border-bottom: 2px solid var(--border); padding-bottom: 8px; }
+        
+        .ear-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .ear-btn { padding: 12px; border: 2px solid var(--border); border-radius: 8px; background: white; font-weight: bold; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .ear-btn.derecho { color: var(--right-ear); }
+        .ear-btn.derecho.active { background-color: var(--right-ear-light); border-color: var(--right-ear); }
+        .ear-btn.izquierdo { color: var(--left-ear); }
+        .ear-btn.izquierdo.active { background-color: var(--left-ear-light); border-color: var(--left-ear); }
 
-        body {
-            background-color: #f1f5f9;
-            color: var(--text-report);
-            padding: 14px;
-            font-size: 11px;
-        }
+        .btn { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 14px; transition: background 0.2s; text-decoration: none; text-align: center; }
+        .btn-primary { background-color: var(--primary); color: white; width: 100%; margin-top: 8px; }
+        .btn-primary:hover { background-color: var(--primary-hover); }
+        .btn-danger { background-color: #fee2e2; color: #ef4444; padding: 6px 12px; }
+        .btn-clear { background-color: #ef4444; color: white; width: 100%; margin-top: 8px; font-weight: 600; padding: 12px; }
+        .btn-success { background-color: var(--success); color: white; width: 100%; margin-top: 8px; font-weight: bold; font-size: 15px; padding: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-help { background-color: #0284c7; color: white; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-help:hover { background-color: #0369a1; }
 
-        .page-report {
-            background: white;
-            width: 210mm;
-            min-height: 297mm;
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 10mm 10mm 8mm 10mm;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-            border-radius: 6px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Encabezado mantenido con espacio para insertar logo a la izquierda */
-        .clinic-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 18px;
-            border-bottom: 2px solid var(--primary-report);
-            padding-bottom: 10px;
-            margin-bottom: 18px;
-            flex: 0 0 auto;
-        }
-
-        .logo-placeholder {
-            width: 180px;
-            height: 65px;
-            border: 1px dashed var(--border-report);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            color: #64748b;
-            text-align: center;
-            border-radius: 4px;
-            line-height: 1.3;
-            flex: 0 0 auto;
-        }
-
-        .clinic-info {
-            text-align: right;
-            line-height: 1.35;
-            flex: 1 1 auto;
-        }
-
-        .clinic-info h2 {
-            font-size: 26px;
-            color: var(--primary-report);
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-            font-weight: 800;
-        }
-
-        .clinic-info p {
-            font-size: 14px;
-            color: #64748b;
-            font-weight: 600;
-        }
-
-        .patient-box {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 15px;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 14px;
-            font-size: 13px;
-            flex: 0 0 auto;
-        }
-
-        .patient-field {
-            border-bottom: 1px dotted var(--border-report);
-            padding-bottom: 2px;
-            color: #000;
-            font-weight: bold;
-            min-height: 16px;
-            outline: none;
-        }
-
-        .section-title {
-            font-size: 13px;
-            font-weight: 800;
-            color: var(--primary-report);
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            margin: 8px 0 8px 0;
-            text-align: center;
-            background: #f1f5f9;
-            padding: 5px 8px;
-            border: 1px solid #e2e8f0;
-            border-radius: 4px;
-            flex: 0 0 auto;
-        }
-
-        .report-body {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
-        }
-
-        .chart-top {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 14px;
-            flex: 0 0 auto;
-        }
-
-        #audiogramCanvas {
-            width: 100%;
-            max-width: 670px;
-            height: auto;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            background: #fff;
-        }
-
-        .metrics-title {
-            margin-top: 4px;
-            margin-bottom: 8px;
-        }
-
-        .results-col {
-            width: 100%;
-            flex: 0 0 auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 9.8px;
-        }
-
-        th, td {
-            padding: 4px 5px;
-            border: 1px solid #cbd5e1;
-            text-align: left;
-            vertical-align: middle;
-        }
-
-        th {
-            background-color: #f1f5f9;
-            color: #1e293b;
-            font-weight: bold;
-        }
-
-        td:first-child {
-            width: 24%;
-        }
-
-        .metric-group td {
-            background: #e2e8f0 !important;
-            color: #1e293b !important;
-            font-weight: 800 !important;
-            text-align: left !important;
-            border-top: 1px solid #cbd5e1 !important;
-            border-bottom: 1px solid #cbd5e1 !important;
-        }
-
-        .clinical-orientation-row td {
-            background: #f8fafc !important;
-            font-weight: 800 !important;
-        }
-
-        .asymmetry-alert {
-            display: none;
-            font-size: 10px;
-            color: #b91c1c;
-            background-color: #fef2f2;
-            border: 1px solid #fca5a5;
-            padding: 5px;
-            border-radius: 4px;
-            margin-top: 5px;
-            font-weight: bold;
-        }
-
-        .floating-actions {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 1000;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .btn-print {
-            background: #16a34a;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 13px;
+        table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+        th, td { padding: 10px; text-align: center; border-bottom: 1px solid var(--border); }
+        th { background-color: var(--bg); color: var(--text-secondary); font-size: 13px; font-weight: 600; }
+        .input-field { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; text-align: center; font-size: 15px; }
+        .input-field.inline-input { max-width: 60px; padding: 5px; font-size: 14px; background-color: #fafafa; }
+        .results-table th { background-color: #f1f5f9; color: #334155; }
+        .results-table td { font-size: 14px; font-weight: 500; padding: 8px 10px; }
+        .tonal-details summary {
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(22,163,74,0.3);
-        }
-
-        .footer-spacer-11 {
             display: block;
-            height: auto;
-            min-height: 0;
-            margin: 0;
-            padding: 0;
-        }
-
-        .footer-spacer-11 .footer-spacer-line {
-            display: block;
-            height: 1em;
-            min-height: 1em;
-            line-height: 1em;
-            font-size: 10px;
-            margin: 0;
-            padding: 0;
-        }
-
-        footer.report-footer {
-            display: block;
-            position: static;
-            margin-top: 0;
-            padding-top: 8px;
-            border-top: 1.5px solid #cbd5e1;
-            text-align: center;
-            color: #475569;
-            background: #ffffff;
-            font-size: 8.8px;
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: var(--text);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
             font-weight: 600;
-            line-height: 1.35;
-            width: 100%;
-            clear: both;
-            flex: 0 0 auto;
+            list-style: none;
         }
+        .tonal-details summary::-webkit-details-marker { display: none; }
+        .metric-section td { background-color: #f8fafc; color: var(--primary); font-weight: 700; text-align: left; border-top: 2px solid var(--border); font-size: 13px; letter-spacing: 0.2px; }
 
-        @page {
-            size: A4;
-            margin: 8mm;
-        }
+        .sonority-table th, .sonority-table td { text-align: left; }
+        .sonority-table td:nth-child(3), .sonority-table td:nth-child(4) { white-space: nowrap; }
+        .clinical-analysis-table { table-layout: fixed; }
+        .clinical-analysis-table th, .clinical-analysis-table td { vertical-align: middle; }
+        .clinical-analysis-table th:first-child,
+        .clinical-analysis-table td:first-child { width: 46%; text-align: left; }
+        .clinical-analysis-table th:nth-child(2),
+        .clinical-analysis-table th:nth-child(3),
+        .clinical-analysis-table td:nth-child(2),
+        .clinical-analysis-table td:nth-child(3) { width: 27%; text-align: center; }
+        .clinical-analysis-table td:first-child strong { white-space: nowrap; }
+        .clinical-analysis-table .metric-section td { text-align: left; white-space: normal; }
+        .clinical-analysis-table #simetriaInteraural { text-align: center !important; }
+        .asymmetry-alert { display: none; font-size: 13.5px; color: #b91c1c; background-color: #fef2f2; border: 1px solid #fca5a5; padding: 12px; border-radius: 6px; margin-top: 12px; font-weight: bold; }
+        .canvas-container { width: 100%; background: white; border-radius: 8px; padding: 10px; }
+        canvas { width: 100%; height: auto; display: block; }
+        .recommendation-box { font-size: 13.5px; color: #0369a1; background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 14px; border-radius: 6px; line-height: 1.5; margin-bottom: 20px; }
+        
+        footer { margin-top: 40px; text-align: center; font-size: 11px; color: var(--text-secondary); border-top: 1px solid var(--border); padding-top: 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.4; }
 
         @media print {
-            @page {
-                size: A4 portrait;
-                margin: 9mm 8mm 8mm 8mm;
-            }
-
-            html,
-            body {
-                width: 210mm !important;
-                min-height: 297mm !important;
-                background: white !important;
-                color: #1e293b !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                font-family: Arial, Helvetica, sans-serif !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                color-adjust: exact !important;
-                font-family: Arial, Helvetica, sans-serif !important;
-            }
-
-            .floating-actions {
-                display: none !important;
-            }
-
-            .page-report {
-                width: 100% !important;
-                min-height: calc(297mm - 17mm) !important;
-                max-width: none !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                box-shadow: none !important;
-                border-radius: 0 !important;
-                background: white !important;
-                display: block !important;
-                page-break-after: avoid !important;
-            }
-
-            .clinic-header {
-                margin-bottom: 14px !important;
-                padding-bottom: 8px !important;
-                border-bottom: 1.5px solid #cbd5e1 !important;
-                display: flex !important;
-                justify-content: space-between !important;
-                align-items: center !important;
-                gap: 12px !important;
-            }
-
-            .logo-placeholder {
-                width: 180px !important;
-                height: 65px !important;
-                font-size: 9px !important;
-            }
-
-            .clinic-info h2 {
-                font-size: 23px !important;
-                color: #0f766e !important;
-                letter-spacing: 1px !important;
-                font-weight: 800 !important;
-            }
-
-            .clinic-info p {
-                font-size: 10px !important;
-                color: #64748b !important;
-                font-weight: 600 !important;
-            }
-
-            .patient-box {
-                display: grid !important;
-                grid-template-columns: 2fr 1fr 1fr !important;
-                gap: 5px !important;
-                margin-bottom: 8px !important;
-                background: #f8fafc !important;
-                border: 1px solid #e2e8f0 !important;
-                border-radius: 6px !important;
-                padding: 5px 6px !important;
-                font-size: 9px !important;
-            }
-
-            .patient-field {
-                color: #1e293b !important;
-                font-size: 9px !important;
-                font-weight: 700 !important;
-                white-space: normal !important;
-            }
-
-            .section-title {
-                display: block !important;
-                background: #f1f5f9 !important;
-                border: 1px solid #e2e8f0 !important;
-                color: #1e293b !important;
-                font-size: 10.5px !important;
-                font-weight: 800 !important;
-                padding: 5px 8px !important;
-                margin: 8px 0 6px 0 !important;
-                letter-spacing: 0.2px !important;
-                text-align: center !important;
-                border-radius: 4px !important;
-            }
-
-            .chart-top {
-                display: flex !important;
-                justify-content: center !important;
-                margin-top: 4px !important;
-                margin-bottom: 6px !important;
-            }
-
-            #audiogramCanvas {
-                width: 670px !important;
-                height: 315px !important;
-                max-width: 100% !important;
-                border: 1px solid #e2e8f0 !important;
-                border-radius: 6px !important;
-                background: #ffffff !important;
-            }
-
-            table {
-                width: 100% !important;
-                border-collapse: collapse !important;
-                font-size: 8.2px !important;
-                margin-bottom: auto !important;
-            }
-
-            th {
-                background: #f1f5f9 !important;
-                color: #334155 !important;
-                font-weight: 800 !important;
-                border: 1px solid #cbd5e1 !important;
-                padding: 3px 5px !important;
-                text-align: left !important;
-            }
-
-            td {
-                border: 1px solid #e2e8f0 !important;
-                padding: 2.7px 5px !important;
-                color: #1e293b !important;
-                background: #ffffff !important;
-                vertical-align: middle !important;
-                text-align: left !important;
-            }
-
-            .metric-group td {
-                background: #e2e8f0 !important;
-                color: #1e293b !important;
-                font-weight: 800 !important;
-                text-align: left !important;
-                border-top: 1px solid #cbd5e1 !important;
-                border-bottom: 1px solid #cbd5e1 !important;
-                padding: 3.2px 5px !important;
-            }
-
-            .clinical-orientation-row td {
-                background: #f8fafc !important;
-                font-weight: 800 !important;
-            }
-
-            .footer-spacer-11 {
-                display: block !important;
-                height: auto !important;
-                min-height: 0 !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                page-break-inside: avoid !important;
-            }
-
-            .footer-spacer-11 .footer-spacer-line {
-                display: block !important;
-                height: 1em !important;
-                min-height: 1em !important;
-                line-height: 1em !important;
-                font-size: 10px !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-
-            footer.report-footer {
-                display: block !important;
-                position: static !important;
-                margin-top: 0 !important;
-                padding-top: 8px !important;
-                border-top: 1.5px solid #cbd5e1 !important;
-                text-align: center !important;
-                color: #475569 !important;
-                background: #ffffff !important;
-                font-size: 8.7px !important;
-                font-weight: 600 !important;
-                line-height: 1.35 !important;
-                width: 100% !important;
-                clear: both !important;
-            }
+            .hide-on-print, .btn, .recommendation-box { display: none !important; }
+            body { background: white !important; color: #000 !important; padding: 0 !important; font-size: 11px !important; }
+            .main-grid { display: block !important; width: 100% !important; }
+            .card { box-shadow: none !important; border: none !important; padding: 0 !important; margin-bottom: 10px !important; page-break-inside: avoid; }
+            canvas { max-width: 65% !important; margin: 0 auto !important; }
+            footer { border-top: none; margin-top: 20px; font-size: 10px; }
         }
     </style>
 </head>
 <body>
 
-<div style="display:none;">
-    <input type="number" id="odVA500"><input type="number" id="odVO500"><input type="number" id="oiVA500"><input type="number" id="oiVO500">
-    <input type="number" id="odVA1000"><input type="number" id="odVO1000"><input type="number" id="oiVA1000"><input type="number" id="oiVO1000">
-    <input type="number" id="odVA2000"><input type="number" id="odVO2000"><input type="number" id="oiVA2000"><input type="number" id="oiVO2000">
-    <input type="number" id="odVA4000"><input type="number" id="odVO4000"><input type="number" id="oiVA4000"><input type="number" id="oiVO4000">
-    <input type="number" id="odUDV"><input type="number" id="oiUDV"><input type="number" id="odMCL"><input type="number" id="oiMCL"><input type="number" id="odUCL"><input type="number" id="oiUCL">
-</div>
-
-<div class="floating-actions">
-    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
-</div>
-
-<div class="page-report">
-    <div class="clinic-header">
-        <div class="logo-placeholder">
-            [ Logotipo del Centro ]<br>Sustituir por imagen corporativa
+<div class="container">
+    <header>
+        <div>
+            <h1>LOGOAUDIOMETRÍA</h1>
+            <p>Introducción de datos:</p>
         </div>
-        <div class="clinic-info">
-            <h2>LOGOAUDIOMETRÍA</h2>
-            <p>Audiometría Verbal - Ajuste a Curva PHI</p>
+        <a href="https://clinicabarajas.github.io/phi/manual_clinico.html" target="_blank" class="btn btn-help hide-on-print">📖 Abrir Manual Clínico y Criterios</a>
+    </header>
+
+    <div class="recommendation-box">
+        <strong>Principio del algoritmo:</strong> La logoaudiometría no diagnostica por sí sola la localización de la lesión, pero detecta patrones de congruencia, distorsión y desproporción que orientan el diagnóstico diferencial y deciden cuándo repetir, complementar o derivar.
+    </div>
+
+    <div class="main-grid">
+        <div class="left-col">
+            <div class="card intensity-card hide-on-print">
+                <h2>Entrada de Datos por Oído</h2>
+                <div class="ear-selector">
+                    <button type="button" class="ear-btn derecho active" onclick="setEar('OD')">Oído Derecho (OD)</button>
+                    <button type="button" class="ear-btn izquierdo" onclick="setEar('OI')">Oído Izquierdo (OI)</button>
+                </div>
+                <table>
+                    <thead><tr><th>Intensidad (dB HL)</th><th>Discriminación (%)</th><th>Acción</th></tr></thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+                <button type="button" class="btn btn-primary" onclick="addRow()">+ Añadir Fila de Intensidad</button>
+            </div>
+
+            <div class="card hide-on-print">
+                <details class="tonal-details">
+                    <summary>📊 Vincular Audiometría Tonal Cruzada (Opcional)</summary>
+                    <table class="results-table" style="margin-top:15px;">
+                        <thead>
+                            <tr><th rowspan="2" style="vertical-align:middle;">kHz</th><th colspan="2" style="color:var(--right-ear);">Oído Derecho</th><th colspan="2" style="color:var(--left-ear);">Oído Izquierdo</th></tr>
+                            <tr><th>V.A.</th><th>V.O.</th><th>V.A.</th><th>V.O.</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>0.5</strong></td><td><input type="number" id="odVA500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO500" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
+                            <tr><td><strong>1.0</strong></td><td><input type="number" id="odVA1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO1000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
+                            <tr><td><strong>2.0</strong></td><td><input type="number" id="odVA2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO2000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
+                            <tr><td><strong>4.0</strong></td><td><input type="number" id="odVA4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="odVO4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVA4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td><td><input type="number" id="oiVO4000" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"></td></tr>
+                        </tbody>
+                    </table>
+                </details>
+            </div>
+
+            <div class="card">
+                <h2>Parámetros del Rango Dinámico Verbal</h2>
+                <table class="results-table sonority-table">
+                    <thead>
+                        <tr>
+                            <th>Parámetro</th>
+                            <th>Descripción</th>
+                            <th style="color:var(--right-ear);">OD</th>
+                            <th style="color:var(--left-ear);">OI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>SDT</strong></td>
+                            <td>Umbral de detección verbal</td>
+                            <td><input type="number" id="odUDV" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td>
+                            <td><input type="number" id="oiUDV" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MCL</strong></td>
+                            <td>Nivel de máxima comodidad</td>
+                            <td><input type="number" id="odMCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td>
+                            <td><input type="number" id="oiMCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td>
+                        </tr>
+                        <tr>
+                            <td><strong>UCL</strong></td>
+                            <td>Nivel de disconfort</td>
+                            <td><input type="number" id="odUCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td>
+                            <td><input type="number" id="oiUCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button type="button" class="btn btn-clear hide-on-print" onclick="clearAllData()">🗑️ Reiniciar Todo</button>
+            <button type="button" class="btn btn-success hide-on-print" onclick="generarInforme()">📋 Generar Informe Clínico</button>
+        </div>
+
+        <div class="right-col">
+            <div class="card">
+                <h2>Análisis y Perfil Clínico</h2>
+                <table class="results-table clinical-analysis-table">
+                    <colgroup>
+                        <col style="width:46%;">
+                        <col style="width:27%;">
+                        <col style="width:27%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th style="color:var(--right-ear);">OD</th>
+                            <th style="color:var(--left-ear);">OI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="metric-section"><td colspan="3">Reconocimiento verbal</td></tr>
+                        <tr><td><strong>SRT / URV 50%</strong></td><td id="odURV">--</td><td id="oiURV">--</td></tr>
+                        <tr><td><strong>Discriminación Máx. (WRS)</strong></td><td id="odPBMax">--</td><td id="oiPBMax">--</td></tr>
+                        <tr><td><strong>Simetría Interaural (WRS)</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold; background-color:#f8fafc; text-align:center;">--</td></tr>
+
+                        <tr class="metric-section"><td colspan="3">Concordancia audiológica</td></tr>
+                        <tr><td><strong>Concordancia SDT-SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
+                        <tr><td><strong>Concordancia con audiometría</strong></td><td id="odConcordancia">--</td><td id="oiConcordancia">--</td></tr>
+
+                        <tr class="metric-section"><td colspan="3">Perfil de la curva PHI</td></tr>
+                        <tr><td><strong>Pendiente máxima</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
+                        <tr><td><strong>Índice roll-over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
+                        <tr><td><strong>Fiabilidad R²</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
+
+                        <tr class="metric-section"><td colspan="3">Parámetros del Rango Dinámico Verbal</td></tr>
+                        <tr><td><strong>Rango dinámico</strong></td><td id="odRangoDyn">--</td><td id="oiRangoDyn">--</td></tr>
+                        <tr><td><strong>Margen de comodidad</strong></td><td id="odMargenCom">--</td><td id="oiMargenCom">--</td></tr>
+                        <tr><td><strong>Reclutamiento</strong></td><td id="odReclutamiento">--</td><td id="oiReclutamiento">--</td></tr>
+
+                        <tr class="metric-section"><td colspan="3">Orientación clínica</td></tr>
+                        <tr><td><strong>Orientación clínica</strong></td><td id="odClasif" style="font-weight:bold; font-size:13px;">--</td><td id="oiClasif" style="font-weight:bold; font-size:13px;">--</td></tr>
+                    </tbody>
+                </table>
+                <div id="asimetriaAlert" class="asymmetry-alert"></div>
+            </div>
+
+            <div class="card chart-card">
+                <h2>Curva de Inteligibilidad Verbal (PHI)</h2>
+                <div class="canvas-container"><canvas id="audiogramCanvas" width="520" height="420"></canvas></div>
+            </div>
         </div>
     </div>
 
-    <div class="patient-box">
-        <div>Paciente: <div class="patient-field" contenteditable="true">Haga clic para escribir nombre...</div></div>
-        <div>Edad: <div class="patient-field" contenteditable="true">-- años</div></div>
-        <div>Fecha de la prueba: <div class="patient-field" id="reportDate" contenteditable="true">--/--/----</div></div>
-    </div>
-
-    <div class="report-body">
-        <div class="section-title">Curva De Inteligibilidad Verbal (PHI)</div>
-
-        <div class="chart-top">
-            <canvas id="audiogramCanvas" width="670" height="315"></canvas>
-        </div>
-
-        <div class="section-title metrics-title">Análisis Y Perfil Clínico</div>
-
-        <div class="results-col">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Métrica</th>
-                        <th style="color:var(--right-ear);">OD</th>
-                        <th style="color:var(--left-ear);">OI</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="metric-group"><td colspan="3">Reconocimiento verbal</td></tr>
-                    <tr><td><strong>SRT / URV 50%</strong></td><td id="odURV">--</td><td id="oiURV">--</td></tr>
-                    <tr><td><strong>Discriminación Máx. (WRS)</strong></td><td id="odPBMax">--</td><td id="oiPBMax">--</td></tr>
-                    <tr><td><strong>Simetría Interaural (WRS)</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold;">--</td></tr>
-
-                    <tr class="metric-group"><td colspan="3">Concordancia audiológica</td></tr>
-                    <tr><td><strong>Concordancia SDT-SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
-                    <tr><td><strong>Concordancia con audiometría</strong></td><td id="odConcordancia">--</td><td id="oiConcordancia">--</td></tr>
-
-                    <tr class="metric-group"><td colspan="3">Perfil de la curva PHI</td></tr>
-                    <tr><td><strong>Pendiente máxima</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
-                    <tr><td><strong>Índice roll-over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
-                    <tr><td><strong>Fiabilidad R²</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
-
-                    <tr class="metric-group"><td colspan="3">Parámetros del Rango Dinámico Verbal</td></tr>
-                    <tr><td><strong>Rango dinámico</strong></td><td id="odRangoDyn">--</td><td id="oiRangoDyn">--</td></tr>
-                    <tr><td><strong>Margen de comodidad</strong></td><td id="odMargenCom">--</td><td id="oiMargenCom">--</td></tr>
-                    <tr><td><strong>Reclutamiento</strong></td><td id="odReclutamiento">--</td><td id="oiReclutamiento">--</td></tr>
-
-                    <tr class="metric-group"><td colspan="3">Orientación clínica</td></tr>
-                    <tr class="clinical-orientation-row"><td><strong>Orientación clínica</strong></td>
-                        <td id="odClasif" style="font-weight:bold; font-size:9.2px;">--</td>
-                        <td id="oiClasif" style="font-weight:bold; font-size:9.2px;">--</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div id="asimetriaAlert" class="asymmetry-alert"></div>
-        </div>
-    </div>
-
-    <div class="footer-spacer-11" aria-hidden="true">
-        <div class="footer-spacer-line">&nbsp;</div>
-        <div class="footer-spacer-line">&nbsp;</div>
-        <div class="footer-spacer-line">&nbsp;</div>
-        <div class="footer-spacer-line">&nbsp;</div>
-        <div class="footer-spacer-line">&nbsp;</div>
-        <div class="footer-spacer-line">&nbsp;</div>
-        <div class="footer-spacer-line">&nbsp;</div>
-        <div class="footer-spacer-line">&nbsp;</div>
-        <div class="footer-spacer-line">&nbsp;</div>
-        <div class="footer-spacer-line">&nbsp;</div>
-        <div class="footer-spacer-line">&nbsp;</div>
-    </div>
-
-    <footer class="report-footer">
+    <footer>
         LOGOAUDIOMETRÍA. MODELADO ANALÍTICO PHI. © 2026 FRANZ ZENKER. LICENCIA CREATIVE COMMONS ATRIBUCIÓN-NOCOMERCIAL 4.0 INTERNACIONAL (CC BY-NC 4.0)
     </footer>
 </div>
 
 <script>
-    let dataPointsOD = [], dataPointsOI = [];
+    let currentEar = 'OD';
+    let dataPointsOD = [{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null}];
+    let dataPointsOI = [{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null}];
 
-    window.onload = function() {
-        const hoy = new Date();
-        document.getElementById('reportDate').innerText = hoy.toLocaleDateString('es-ES');
+    window.onload = function() { renderTable(); calculateAndDraw(); };
 
-        const json = localStorage.getItem('datos_logoaudiometria');
-        if(!json) { alert("No se encontraron datos clínicos."); return; }
-        
-        const datos = JSON.parse(json);
-        dataPointsOD = datos.dataPointsOD;
-        dataPointsOI = datos.dataPointsOI;
+    function setEar(ear) {
+        currentEar = ear;
+        document.querySelectorAll('.ear-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelector('.ear-btn.' + (ear === 'OD' ? 'derecho' : 'izquierdo')).classList.add('active');
+        renderTable();
+    }
 
-        Object.keys(datos.tonal).forEach(id => { document.getElementById(id).value = datos.tonal[id]; });
-        Object.keys(datos.umbrales).forEach(id => { document.getElementById(id).value = datos.umbrales[id]; });
+    function renderTable() {
+        const tbody = document.getElementById('tableBody'); tbody.innerHTML = '';
+        let currentPoints = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
+        currentPoints.forEach((p, i) => {
+            let row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="number" class="input-field" value="${p.db!==null?p.db:''}" placeholder="--" onchange="updatePoint(${i},'db',this.value)"></td>
+                <td><input type="number" class="input-field" value="${p.pct!==null?p.pct:''}" placeholder="--" onchange="updatePoint(${i},'pct',this.value)"></td>
+                <td><button class="btn btn-danger" onclick="deleteRow(${i})">🗑</button></td>`;
+            tbody.appendChild(row);
+        });
+    }
 
+    function addRow() {
+        let pts = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
+        let valoresDb = pts.map(p => p.db).filter(v => v !== null && !isNaN(v));
+        let nuevoDb = valoresDb.length > 0 ? valoresDb[valoresDb.length - 1] + 10 : null;
+        pts.push({db: nuevoDb, pct: null});
+        renderTable();
         calculateAndDraw();
-    };
+    }
+    function deleteRow(i) { let pts = currentEar === 'OD' ? dataPointsOD : dataPointsOI; pts.splice(i, 1); renderTable(); calculateAndDraw(); }
+    function updatePoint(i, f, v) { let pts = currentEar === 'OD' ? dataPointsOD : dataPointsOI; pts[i][f] = v===""?null:parseFloat(v); if(f==='pct' && pts[i].pct>100) pts[i].pct=100; calculateAndDraw(); }
+
+    function clearAllData() {
+        if(confirm("¿Vaciar ficha?")) {
+            dataPointsOD = [{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null}];
+            dataPointsOI = [{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null}];
+            document.querySelectorAll('.input-field').forEach(i => i.value = "");
+            document.getElementById('simetriaInteraural').innerText = "--";
+            document.getElementById('asimetriaAlert').style.display='none';
+            renderTable(); calculateAndDraw();
+        }
+    }
 
     function procesarAjusteOido(points, ear) {
         let validos = points.filter(p => p.db !== null && p.pct !== null && !isNaN(p.db) && !isNaN(p.pct));
         if (validos.length < 2) return null;
         validos.sort((a, b) => a.db - b.db);
 
-        let x_reales = validos.map(p => p.db); let y_reales = validos.map(p => p.pct);
+        let x_reales = validos.map(p => p.db); 
+        let y_reales = validos.map(p => p.pct);
         let prefix = ear === 'OD' ? 'od' : 'oi';
         
         let va500 = document.getElementById(prefix + 'VA500').value;
@@ -607,9 +311,12 @@
         let ptaVA = (va500!==""&&va1000!==""&&va2000!==""&&va4000!=="") ? (parseFloat(va500)+parseFloat(va1000)+parseFloat(va2000)+parseFloat(va4000))/4 : null;
         let ptaVO = (vo500!==""&&vo1000!==""&&vo2000!==""&&vo4000!=="") ? (parseFloat(vo500)+parseFloat(vo1000)+parseFloat(vo2000)+parseFloat(vo4000))/4 : null;
 
-        let pb_max = Math.max(...y_reales); let idx_max = y_reales.indexOf(pb_max);
+        let pb_max = Math.max(...y_reales); 
+        let idx_max = y_reales.indexOf(pb_max);
         let pb_min = pb_max;
-        if(idx_max !== -1 && idx_max < y_reales.length - 1) { pb_min = Math.min(...y_reales.slice(idx_max + 1)); }
+        if(idx_max !== -1 && idx_max < y_reales.length - 1) {
+            pb_min = Math.min(...y_reales.slice(idx_max + 1));
+        }
 
         let rollover_index = pb_max > 0 ? (pb_max - pb_min) / pb_max : 0;
         let es_patologico = (rollover_index >= 0.45);
@@ -617,15 +324,20 @@
 
         let indice_corte = x_reales.length;
         if (es_patologico || es_sospecha_leve) {
-             for (let i = idx_max + 1; i < y_reales.length; i++) { if (y_reales[i] < (pb_max * 0.8)) { indice_corte = i; break; } }
+             for (let i = idx_max + 1; i < y_reales.length; i++) {
+                if (y_reales[i] < (pb_max * 0.8)) { indice_corte = i; break; }
+            }
         }
 
-        let x_filtrados = x_reales.slice(0, indice_corte); let y_filtrados = y_reales.slice(0, indice_corte);
+        let x_filtrados = x_reales.slice(0, indice_corte); 
+        let y_filtrados = y_reales.slice(0, indice_corte);
         if (x_filtrados.length < 2) return null;
 
-        let y_max_fijo = Math.max(...y_filtrados); if(y_max_fijo < 20) y_max_fijo = 100;
+        let y_max_fijo = Math.max(...y_filtrados); 
+        if(y_max_fijo < 20) y_max_fijo = 100;
 
-        let mejorError = Infinity; let bestB = 0.1, bestX50 = 0;
+        let mejorError = Infinity; 
+        let bestB = 0.1, bestX50 = 0;
         for (let b = 0.05; b <= 2.5; b += 0.05) {
             for (let x50 = -10; x50 <= 110; x50 += 0.5) {
                 let sumaError = 0;
@@ -641,35 +353,40 @@
             }
         }
 
-        let finalErrorSum = 0; let meanY = y_filtrados.reduce((a, b) => a + b, 0) / y_filtrados.length;
+        let finalErrorSum = 0; 
+        let meanY = y_filtrados.reduce((a, b) => a + b, 0) / y_filtrados.length;
         let sumSquaresTotal = 0;
         for (let k = 0; k < x_filtrados.length; k++) {
             let y_teorica = y_max_fijo / (1 + Math.exp(-bestB * (x_filtrados[k] - bestX50)));
-            finalErrorSum += Math.pow(y_filtrados[k] - y_teorica, 2); sumSquaresTotal += Math.pow(y_filtrados[k] - meanY, 2);
+            finalErrorSum += Math.pow(y_filtrados[k] - y_teorica, 2); 
+            sumSquaresTotal += Math.pow(y_filtrados[k] - meanY, 2);
         }
         let r2_num = sumSquaresTotal === 0 ? 1 : 1 - (finalErrorSum / sumSquaresTotal);
         let p_max_calc = (y_max_fijo * bestB) / 4;
 
-        // --- INTERPRETACIÓN CLÍNICA DE LA PENDIENTE ---
+        // --- INTERPRETACIÓN CLÍNICA DE LA PENDIENTE (BISÍLABOS) ---
         let pendienteText = "";
         if (p_max_calc >= 5.0) {
-            pendienteText = `${p_max_calc.toFixed(1)} %/dB <span style="color:#16a34a; font-weight:bold;">[ Normal]</span>`;
+            pendienteText = `${p_max_calc.toFixed(1)} %/dB <span style="color:#16a34a; font-weight:bold;">[🟢 Normal]</span>`;
         } else if (p_max_calc >= 3.5) {
-            pendienteText = `${p_max_calc.toFixed(1)} %/dB <span style="color:#c2410c; font-weight:bold;">[ Aplanada]</span>`;
+            pendienteText = `${p_max_calc.toFixed(1)} %/dB <span style="color:#c2410c; font-weight:bold;">[🟡 Aplanada]</span>`;
         } else {
-            pendienteText = `${p_max_calc.toFixed(1)} %/dB <span style="color:#dc2626; font-weight:bold;">[ Patológica]</span>`;
+            pendienteText = `${p_max_calc.toFixed(1)} %/dB <span style="color:#dc2626; font-weight:bold;">[🔴 Patológica]</span>`;
         }
 
-        let urvText = "No Alc. (<50%)"; let numericSRT = null;
+        let urvText = "No Alc. (<50%)"; 
+        let numericSRT = null;
         if (y_max_fijo > 50.1) {
-            numericSRT = bestX50 - Math.log((y_max_fijo / 50) - 1) / bestB; urvText = `${numericSRT.toFixed(1)} dB HL`;
+            numericSRT = bestX50 - Math.log((y_max_fijo / 50) - 1) / bestB;
+            urvText = `${numericSRT.toFixed(1)} dB HL`;
         } else if (y_max_fijo >= 50) {
-            numericSRT = bestX50; urvText = `${numericSRT.toFixed(1)} dB HL`;
+            numericSRT = bestX50;
+            urvText = `${numericSRT.toFixed(1)} dB HL`;
         }
 
-        let rolloverText = "Negativo";
-        if (rollover_index >= 0.45) rolloverText = `⚠️ Significativo (${rollover_index.toFixed(2)})`;
-        else if (rollover_index >= 0.35) rolloverText = `⚠️ Sospecha leve (${rollover_index.toFixed(2)})`;
+        let rolloverText = "Negativo (&lt;0.35)";
+        if (rollover_index >= 0.45) rolloverText = `<span style="color:#dc2626; font-weight:bold;">⚠️ Significativo (${rollover_index.toFixed(2)})</span>`;
+        else if (rollover_index >= 0.35) rolloverText = `<span style="color:#c2410c; font-weight:bold;">⚠️ Sospecha leve (${rollover_index.toFixed(2)})</span>`;
 
         let sdt_val = document.getElementById(prefix + 'UDV').value;
         let mcl_val = document.getElementById(prefix + 'MCL').value;
@@ -680,23 +397,26 @@
 
         if (numericSRT !== null && sdt_val !== "") {
             let diffSDT = numericSRT - parseFloat(sdt_val);
-            sdtText = parseFloat(sdt_val) >= numericSRT ? "❌ Incongruente" : (diffSDT > 15 ? "⚠️ Desfasado" : "🟢 Coherente");
+            sdtText = parseFloat(sdt_val) >= numericSRT ? 
+                `<span style="color:#dc2626; font-weight:bold;">❌ Incongruente</span>` : 
+                (diffSDT > 15 ? `<span style="color:#c2410c; font-weight:bold;">⚠️ Desfasado</span>` : `<span style="color:#16a34a; font-weight:bold;">🟢 Coherente</span>`);
         }
 
         if (umbralReferencia !== null) {
             let labelRef = numericSRT !== null ? "SRT" : "SDT";
             if (ucl_val !== "") {
                 let rd = parseFloat(ucl_val) - umbralReferencia;
-                rdText = `${rd.toFixed(1)} dB ${rd < 45 ? '⚠️':'🟢'}`;
-                reclutText = rd < 45 ? "⚠️ Positivo" : "🟢 Negativo";
+                rdText = rd < 45 ? `<span style="color:#dc2626; font-weight:bold;">⚠️ ${rd.toFixed(1)} dB (${labelRef})</span>` : `<span style="color:#16a34a; font-weight:bold;">🟢 ${rd.toFixed(1)} dB</span>`;
+                reclutText = rd < 45 ? `<span style="color:#dc2626; font-weight:bold;">⚠️ Positivo</span>` : `<span style="color:#16a34a; font-weight:bold;">🟢 Negativo</span>`;
             }
             if (mcl_val !== "") {
                 let mc = parseFloat(mcl_val) - umbralReferencia;
-                mclText = `${mc.toFixed(1)} dB ${mc < 20 ? '⚠️':'🟢'}`;
+                mclText = mc < 20 ? `<span style="color:#dc2626; font-weight:bold;">⚠️ ${mc.toFixed(1)} dB (${labelRef})</span>` : `<span style="color:#16a34a; font-weight:bold;">🟢 ${mc.toFixed(1)} dB</span>`;
             }
         }
 
-        let concordanciaText = "--"; let bloqueo_SRT = false;
+        let concordanciaText = "--"; 
+        let bloqueo_SRT = false;
         if (numericSRT !== null && ptaVA !== null) {
             let diffPTA_SRT = Math.abs(ptaVA - numericSRT);
             if (diffPTA_SRT <= 10) concordanciaText = `Congruente (${diffPTA_SRT.toFixed(1)} dB)`;
@@ -714,6 +434,7 @@
             } else if (p_max_calc < 3.5 && numericSRT !== null) {
                 clasificacion = "⚠️ Curva anormalmente plana: Compatible con distorsión coclear (Lesión de CCE / Pérdida de selectividad)";
             } else if (numericSRT !== null) {
+                
                 if (numericSRT <= 22) {
                     if (y_max_fijo >= 90) clasificacion = "Compatible con normalidad audiológica";
                     else if (y_max_fijo >= 80) clasificacion = "Umbral normal con WRS discretamente reducida (Posible distorsión inicial)";
@@ -728,8 +449,8 @@
                     else if (y_max_fijo >= 50) clasificacion = "Hipoacusia con WRS reducida (Compatible con distorsión coclear)";
                     else clasificacion = "Hipoacusia con WRS muy reducida (Valorar severidad coclear o retrococlear)";
                 }
-            } else { clasificacion = "Discriminación insuficiente para SRT estándar."; }
-        } else { clasificacion = "⚠️ Inconsistencia logo-tonal (SRT-PTA ≥ 15 dB)."; }
+            } else { clasificacion = "Discriminación máxima insuficiente para calcular SRT de forma estándar."; }
+        } else { clasificacion = "⚠️ Inconsistencia logo-tonal significativa (SRT-PTA ≥ 15 dB)."; }
 
         if (r2_num < 0.85) clasificacion = "⚠️ Baja fiabilidad matemática (R² < 0.85).";
 
@@ -747,7 +468,15 @@
                 document.getElementById(e.p+'SDT_SRT').innerHTML = e.res.sdtText; document.getElementById(e.p+'RangoDyn').innerHTML = e.res.rdText;
                 document.getElementById(e.p+'MargenCom').innerHTML = e.res.mclText; document.getElementById(e.p+'Reclutamiento').innerHTML = e.res.reclutText;
                 document.getElementById(e.p+'Concordancia').innerText = e.res.concordancia; document.getElementById(e.p+'Clasif').innerText = e.res.clasif;
-                document.getElementById(e.p+'R2').innerText = e.res.r2;
+                let r2E = document.getElementById(e.p+'R2');
+                r2E.innerHTML = e.res.r2 + (e.res.r2Val>=0.95?' <span style="color:var(--success)">[🟢]</span>':(e.res.r2Val>=0.85?' <span style="color:var(--warning-alert)">[🟡]</span>':' <span style="color:var(--right-ear)">[🔴]</span>'));
+            } else {
+                document.getElementById(e.p+'URV').innerText = "--"; document.getElementById(e.p+'PBMax').innerText = "--";
+                document.getElementById(e.p+'Pendiente').innerText = "--"; document.getElementById(e.p+'Rollover').innerHTML = "--";
+                document.getElementById(e.p+'SDT_SRT').innerHTML = "--"; document.getElementById(e.p+'RangoDyn').innerHTML = "--";
+                document.getElementById(e.p+'MargenCom').innerHTML = "--"; document.getElementById(e.p+'Reclutamiento').innerHTML = "--";
+                document.getElementById(e.p+'Concordancia').innerText = "--"; document.getElementById(e.p+'Clasif').innerText = "--";
+                document.getElementById(e.p+'R2').innerText = "--";
             }
         });
 
@@ -756,6 +485,8 @@
             let diff = Math.abs(resOD.yMax - resOI.yMax);
             simRow.innerText = diff>=20 ? `⚠️ Asimetría de ${diff.toFixed(0)}%` : `Simétrica (Dif: ${diff.toFixed(0)}%)`;
             if (diff>=20) { asAlert.innerHTML = `<strong>⚠️ Alerta de asimetría:</strong> Variación interaural de ${diff.toFixed(0)}% en discriminación máxima.`; asAlert.style.display='block'; } else asAlert.style.display='none';
+        } else {
+            simRow.innerText = "--"; asAlert.style.display='none';
         }
         drawCanvasChart(resOD, resOI);
     }
@@ -766,8 +497,8 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         const paddingLeft = 65;    
-        const paddingRight = 145;  // deja espacio a la derecha para la leyenda
-        const paddingTop = 35;     
+        const paddingRight = 25;
+        const paddingTop = 55;     
         const paddingBottom = 50;  
         
         const width = canvas.width - paddingLeft - paddingRight; 
@@ -777,11 +508,11 @@
         function getX(db) { return paddingLeft + ((db - minDb) / (maxDb - minDb)) * width; }
         function getY(pct) { return paddingTop + (1 - (pct / 100)) * height; }
 
-        // Leyenda lateral derecha
-        const boxW = 118;
-        const boxH = 52;
-        const boxX = paddingLeft + width + 12;
-        const boxY = paddingTop;
+        // Recuadro de leyenda superior centrado fuera del cuadrante
+        const boxW = canvas.width * 0.75;
+        const boxH = 28;
+        const boxX = (canvas.width - boxW) / 2;
+        const boxY = 12;
         
         ctx.strokeStyle = '#cbd5e1';
         ctx.fillStyle = '#f8fafc';
@@ -791,15 +522,16 @@
         ctx.fill();
         ctx.stroke();
         
-        ctx.font = 'bold 10px sans-serif';
+        ctx.font = 'bold 11px sans-serif';
         ctx.textBaseline = 'middle';
-        ctx.textAlign = 'left';
         
+        // CORRECCIÓN: Alineación centrada absoluta respecto al lienzo
+        ctx.textAlign = 'center';
         ctx.fillStyle = '#dc2626';
-        ctx.fillText('◯ Oído Derecho (OD)', boxX + 10, boxY + 18);
+        ctx.fillText('◯ Oído Derecho (OD)', canvas.width / 2 - 75, boxY + boxH / 2);
         
         ctx.fillStyle = '#2563eb';
-        ctx.fillText('✕ Oído Izquierdo (OI)', boxX + 10, boxY + 38);
+        ctx.fillText('✕ Oído Izquierdo (OI)', canvas.width / 2 + 75, boxY + boxH / 2);
 
         // Títulos estandarizados de los Ejes
         ctx.fillStyle = '#1e293b';
@@ -817,7 +549,7 @@
         ctx.fillText('Reconocimiento (%)', 0, 0);
         ctx.restore();
 
-        // CORRECCIÓN: Reparación completa de las variables del bucle en el Reporte (Se usa paddingTop/height)
+        // CORRECCIÓN FIX: Cambiado el error 'padding' por 'paddingTop' para evitar cuelgues de ejecución
         ctx.strokeStyle = '#e2e8f0'; 
         ctx.lineWidth = 1; 
         ctx.fillStyle = '#64748b'; 
@@ -825,7 +557,7 @@
         
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
-        for (let db = minDb; db <= maxDb; db += 20) { 
+        for (let db = minDb; db <= maxDb; db += 10) { 
             ctx.beginPath(); 
             ctx.moveTo(getX(db), paddingTop); 
             ctx.lineTo(getX(db), paddingTop + height); 
@@ -848,27 +580,78 @@
         ctx.strokeRect(paddingLeft, paddingTop, width, height);
 
         let empty = true;
-
+        
         if (resOD) {
             empty = false;
-            ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.5; ctx.beginPath();
-            for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOD.yMax / (1 + Math.exp(-resOD.b * (db - resOD.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); }
+            ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 3; ctx.beginPath();
+            for (let db = minDb; db <= maxDb; db += 0.5) { 
+                let pred = resOD.yMax / (1 + Math.exp(-resOD.b * (db - resOD.x50))); 
+                if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); 
+            }
             ctx.stroke();
         }
-        dataPointsOD.forEach(p => { if (p.db!==null && p.pct!==null) { empty = false; ctx.beginPath(); ctx.arc(getX(p.db), getY(p.pct), 4, 0, 2 * Math.PI); ctx.fillStyle = 'white'; ctx.fill(); ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2; ctx.stroke(); } });
+        dataPointsOD.forEach(p => { 
+            if (p.db!==null && p.pct!==null) { 
+                empty = false;
+                ctx.beginPath(); 
+                ctx.arc(getX(p.db), getY(p.pct), 5, 0, 2 * Math.PI); 
+                ctx.fillStyle = 'white'; 
+                ctx.fill(); 
+                ctx.strokeStyle = '#dc2626'; 
+                ctx.lineWidth = 2; 
+                ctx.stroke(); 
+            } 
+        });
         
         if (resOI) {
             empty = false;
-            ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2.5; ctx.beginPath();
-            for (let db = minDb; db <= maxDb; db += 0.5) { let pred = resOI.yMax / (1 + Math.exp(-resOI.b * (db - resOI.x50))); if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); }
+            ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 3; ctx.beginPath();
+            for (let db = minDb; db <= maxDb; db += 0.5) { 
+                let pred = resOI.yMax / (1 + Math.exp(-resOI.b * (db - resOI.x50))); 
+                if (db === minDb) ctx.moveTo(getX(db), getY(pred)); else ctx.lineTo(getX(db), getY(pred)); 
+            }
             ctx.stroke();
         }
-        dataPointsOI.forEach(p => { if (p.db!==null && p.pct!==null) { empty = false; let x = getX(p.db), y = getY(p.pct); ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x - 4, y - 4); ctx.lineTo(x + 4, y + 4); ctx.moveTo(x + 4, y - 4); ctx.lineTo(x - 4, y + 4); ctx.stroke(); } });
+        dataPointsOI.forEach(p => { 
+            if (p.db!==null && p.pct!==null) { 
+                empty = false;
+                let x = getX(p.db), y = getY(p.pct); 
+                ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 2; ctx.beginPath(); 
+                ctx.moveTo(x - 4, y - 4); ctx.lineTo(x + 4, y + 4); 
+                ctx.moveTo(x + 4, y - 4); ctx.lineTo(x - 4, y + 4); 
+                ctx.stroke(); 
+            } 
+        });
 
         if (empty) { 
             ctx.fillStyle = '#94a3b8'; ctx.font = 'italic 13px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
             ctx.fillText('Introduce los porcentajes en la tabla para generar la curva', paddingLeft + width / 2, paddingTop + height / 2); 
         }
+    }
+
+    function generarInforme() {
+        const datosInforme = {
+            dataPointsOD: dataPointsOD,
+            dataPointsOI: dataPointsOI,
+            tonal: {
+                odVA500: document.getElementById('odVA500').value, odVO500: document.getElementById('odVO500').value,
+                oiVA500: document.getElementById('oiVA500').value, oiVO500: document.getElementById('oiVO500').value,
+                odVA1000: document.getElementById('odVA1000').value, odVO1000: document.getElementById('odVO1000').value,
+                oiVA1000: document.getElementById('oiVA1000').value, oiVO1000: document.getElementById('oiVO1000').value,
+                odVA2000: document.getElementById('odVA2000').value, odVO2000: document.getElementById('odVO2000').value,
+                oiVA2000: document.getElementById('oiVA2000').value, oiVO2000: document.getElementById('oiVO2000').value,
+                odVA4000: document.getElementById('odVA4000').value, odVO4000: document.getElementById('odVO4000').value,
+                oiVA4000: document.getElementById('oiVA4000').value, oiVO4000: document.getElementById('oiVO4000').value
+            },
+            umbrales: {
+                odUDV: document.getElementById('odUDV').value, oiUDV: document.getElementById('oiUDV').value,
+                odMCL: document.getElementById('odMCL').value, oiMCL: document.getElementById('oiMCL').value,
+                odUCL: document.getElementById('odUCL').value, oiUCL: document.getElementById('oiUCL').value
+            }
+        };
+
+        localStorage.setItem('datos_logoaudiometria', JSON.stringify(datosInforme));
+        window.open('reporte.html', '_blank');
     }
 </script>
 </body>
