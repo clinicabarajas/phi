@@ -59,9 +59,31 @@
         .results-table td { font-size: 14px; font-weight: 500; padding: 8px 10px; }
         .metric-section td { background-color: #f8fafc; color: var(--primary); font-weight: 700; text-align: left; border-top: 2px solid var(--border); font-size: 13px; letter-spacing: 0.2px; }
 
-        .sonority-table th, .sonority-table td,
-        .clinical-analysis-table th, .clinical-analysis-table td { text-align: left; }
-        .sonority-table td:nth-child(3), .sonority-table td:nth-child(4) { white-space: nowrap; }
+        .sonority-table th,
+        .sonority-table td,
+        .clinical-analysis-table th,
+        .clinical-analysis-table td { text-align: left; }
+
+        /* Parámetros del Rango Dinámico Verbal: descripción a la izquierda; OD/OI centrados */
+        .sonority-table th:nth-child(1),
+        .sonority-table td:nth-child(1) { text-align: left; width: 18%; }
+        .sonority-table th:nth-child(2),
+        .sonority-table td:nth-child(2) { text-align: left; width: 42%; }
+        .sonority-table th:nth-child(3),
+        .sonority-table th:nth-child(4),
+        .sonority-table td:nth-child(3),
+        .sonority-table td:nth-child(4) { text-align: center; width: 20%; white-space: nowrap; }
+
+        /* Análisis y Perfil Clínico: métrica/subtítulos a la izquierda; OD/OI y resultados centrados */
+        .clinical-analysis-table th:nth-child(1),
+        .clinical-analysis-table td:nth-child(1) { text-align: left; width: 50%; }
+        .clinical-analysis-table th:nth-child(2),
+        .clinical-analysis-table th:nth-child(3),
+        .clinical-analysis-table td:nth-child(2),
+        .clinical-analysis-table td:nth-child(3) { text-align: center; width: 25%; }
+        .clinical-analysis-table .metric-section td { text-align: left !important; }
+        .clinical-analysis-table td[colspan="2"],
+        #simetriaInteraural { text-align: center !important; }
         .asymmetry-alert { display: none; font-size: 13.5px; color: #b91c1c; background-color: #fef2f2; border: 1px solid #fca5a5; padding: 12px; border-radius: 6px; margin-top: 12px; font-weight: bold; }
         .canvas-container { width: 100%; background: white; border-radius: 8px; padding: 10px; }
         canvas { width: 100%; height: auto; display: block; }
