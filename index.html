@@ -57,6 +57,11 @@
         .input-field.inline-input { max-width: 60px; padding: 5px; font-size: 14px; background-color: #fafafa; }
         .results-table th { background-color: #f1f5f9; color: #334155; }
         .results-table td { font-size: 14px; font-weight: 500; padding: 8px 10px; }
+        .metric-section td { background-color: #f8fafc; color: var(--primary); font-weight: 700; text-align: left; border-top: 2px solid var(--border); font-size: 13px; letter-spacing: 0.2px; }
+
+        .sonority-table th, .sonority-table td,
+        .clinical-analysis-table th, .clinical-analysis-table td { text-align: left; }
+        .sonority-table td:nth-child(3), .sonority-table td:nth-child(4) { white-space: nowrap; }
         .asymmetry-alert { display: none; font-size: 13.5px; color: #b91c1c; background-color: #fef2f2; border: 1px solid #fca5a5; padding: 12px; border-radius: 6px; margin-top: 12px; font-weight: bold; }
         .canvas-container { width: 100%; background: white; border-radius: 8px; padding: 10px; }
         canvas { width: 100%; height: auto; display: block; }
@@ -80,7 +85,7 @@
     <header>
         <div>
             <h1>LOGOAUDIOMETRÍA</h1>
-            <p>Modelado Digital Analítico PHI</p>
+            <p>Introducción de datos:</p>
         </div>
         <a href="https://clinicabarajas.github.io/phi/manual_clinico.html" target="_blank" class="btn btn-help hide-on-print">📖 Abrir Manual Clínico y Criterios</a>
     </header>
@@ -123,13 +128,35 @@
             </div>
 
             <div class="card">
-                <h2>Umbrales de Referencia Basales</h2>
-                <table class="results-table">
-                    <thead><tr><th>Umbral</th><th style="color:var(--right-ear);">OD</th><th style="color:var(--left-ear);">OI</th></tr></thead>
+                <h2>Parámetros de sonoridad verbal</h2>
+                <table class="results-table sonority-table">
+                    <thead>
+                        <tr>
+                            <th>Parámetro</th>
+                            <th>Descripción</th>
+                            <th style="color:var(--right-ear);">OD</th>
+                            <th style="color:var(--left-ear);">OI</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr><td><strong>Detección (SDT)</strong></td><td><input type="number" id="odUDV" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td><td><input type="number" id="oiUDV" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td></tr>
-                        <tr><td><strong>Comodidad (MCL)</strong></td><td><input type="number" id="odMCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td><td><input type="number" id="oiMCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td></tr>
-                        <tr><td><strong>Disconfort (UCL)</strong></td><td><input type="number" id="odUCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td><td><input type="number" id="oiUCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td></tr>
+                        <tr>
+                            <td><strong>SDT</strong></td>
+                            <td>Umbral de detección verbal</td>
+                            <td><input type="number" id="odUDV" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td>
+                            <td><input type="number" id="oiUDV" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MCL</strong></td>
+                            <td>Nivel de máxima comodidad</td>
+                            <td><input type="number" id="odMCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td>
+                            <td><input type="number" id="oiMCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td>
+                        </tr>
+                        <tr>
+                            <td><strong>UCL</strong></td>
+                            <td>Nivel de disconfort</td>
+                            <td><input type="number" id="odUCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td>
+                            <td><input type="number" id="oiUCL" class="input-field inline-input" placeholder="--" onchange="calculateAndDraw()"> dB</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -140,28 +167,36 @@
         <div class="right-col">
             <div class="card">
                 <h2>Análisis y Perfil Clínico</h2>
-                <table class="results-table">
-                    <thead><tr><th>Métrica Analizada</th><th style="color:var(--right-ear);">Oído Derecho</th><th style="color:var(--left-ear);">Oído Izquierdo</th></tr></thead>
+                <table class="results-table clinical-analysis-table">
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th style="color:var(--right-ear);">OD</th>
+                            <th style="color:var(--left-ear);">OI</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <!-- BLOQUE 1: Inteligibilidad -->
-                        <tr><td><strong>SRT / URV (al 50%)</strong></td><td id="odURV">--</td><td id="oiURV">--</td></tr>
+                        <tr class="metric-section"><td colspan="3">Reconocimiento verbal</td></tr>
+                        <tr><td><strong>SRT / URV 50%</strong></td><td id="odURV">--</td><td id="oiURV">--</td></tr>
                         <tr><td><strong>Discriminación Máx. (WRS)</strong></td><td id="odPBMax">--</td><td id="oiPBMax">--</td></tr>
-                        <tr><td><strong>Simetría Interaural (WRS)</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold; background-color:#f8fafc; text-align: center;">--</td></tr>
-                        <tr><td><strong>Pendiente Máxima Real</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
-                        <tr><td><strong>Índice de Roll-Over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
-                        
-                        <!-- BLOQUE 2: Perfil Dinámico -->
-                        <tr><td><strong>Rango Dinámico (UCL-SRT)</strong></td><td id="odRangoDyn">--</td><td id="oiRangoDyn">--</td></tr>
-                        <tr><td><strong>Margen Comodidad (MCL-SRT)</strong></td><td id="odMargenCom">--</td><td id="oiMargenCom">--</td></tr>
-                        <tr><td><strong>Reclutamiento por Rango</strong></td><td id="odReclutamiento">--</td><td id="oiReclutamiento">--</td></tr>
-                        
-                        <!-- BLOQUE 3: Validación e Higiene de la Prueba -->
-                        <tr><td><strong>Concord. SDT vs SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
-                        <tr><td><strong>Concordancia Logo-Tonal</strong></td><td id="odConcordancia">--</td><td id="oiConcordancia">--</td></tr>
-                        <tr><td><strong>Bondad de Ajuste (R²)</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
-                        
-                        <!-- DIAGNÓSTICO -->
-                        <tr style="background-color:#f8fafc;"><td><strong>Clasificación Diagnóstica:</strong></td><td id="odClasif" style="font-weight:bold; font-size:13px;">--</td><td id="oiClasif" style="font-weight:bold; font-size:13px;">--</td></tr>
+                        <tr><td><strong>Simetría Interaural (WRS)</strong></td><td colspan="2" id="simetriaInteraural" style="font-weight:bold; background-color:#f8fafc; text-align:left;">--</td></tr>
+
+                        <tr class="metric-section"><td colspan="3">Concordancia audiológica</td></tr>
+                        <tr><td><strong>Concordancia SDT-SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
+                        <tr><td><strong>Concordancia con audiometría</strong></td><td id="odConcordancia">--</td><td id="oiConcordancia">--</td></tr>
+
+                        <tr class="metric-section"><td colspan="3">Perfil de la curva PHI</td></tr>
+                        <tr><td><strong>Pendiente máxima</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
+                        <tr><td><strong>Índice roll-over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
+                        <tr><td><strong>Fiabilidad R²</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
+
+                        <tr class="metric-section"><td colspan="3">Sonoridad y rango dinámico</td></tr>
+                        <tr><td><strong>Rango dinámico</strong></td><td id="odRangoDyn">--</td><td id="oiRangoDyn">--</td></tr>
+                        <tr><td><strong>Margen de comodidad</strong></td><td id="odMargenCom">--</td><td id="oiMargenCom">--</td></tr>
+                        <tr><td><strong>Reclutamiento</strong></td><td id="odReclutamiento">--</td><td id="oiReclutamiento">--</td></tr>
+
+                        <tr class="metric-section"><td colspan="3">Orientación clínica</td></tr>
+                        <tr><td><strong>Orientación clínica</strong></td><td id="odClasif" style="font-weight:bold; font-size:13px;">--</td><td id="oiClasif" style="font-weight:bold; font-size:13px;">--</td></tr>
                     </tbody>
                 </table>
                 <div id="asimetriaAlert" class="asymmetry-alert"></div>
@@ -181,8 +216,8 @@
 
 <script>
     let currentEar = 'OD';
-    let dataPointsOD = [{db:10, pct:null},{db:20, pct:null},{db:30, pct:null},{db:40, pct:null},{db:50, pct:null},{db:60, pct:null}];
-    let dataPointsOI = [{db:10, pct:null},{db:20, pct:null},{db:30, pct:null},{db:40, pct:null},{db:50, pct:null},{db:60, pct:null}];
+    let dataPointsOD = [{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null}];
+    let dataPointsOI = [{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null}];
 
     window.onload = function() { renderTable(); calculateAndDraw(); };
 
@@ -199,21 +234,28 @@
         currentPoints.forEach((p, i) => {
             let row = document.createElement('tr');
             row.innerHTML = `
-                <td><input type="number" class="input-field" value="${p.db!==null?p.db:''}" onchange="updatePoint(${i},'db',this.value)"></td>
+                <td><input type="number" class="input-field" value="${p.db!==null?p.db:''}" placeholder="--" onchange="updatePoint(${i},'db',this.value)"></td>
                 <td><input type="number" class="input-field" value="${p.pct!==null?p.pct:''}" placeholder="--" onchange="updatePoint(${i},'pct',this.value)"></td>
                 <td><button class="btn btn-danger" onclick="deleteRow(${i})">🗑</button></td>`;
             tbody.appendChild(row);
         });
     }
 
-    function addRow() { let pts = currentEar === 'OD' ? dataPointsOD : dataPointsOI; let last = pts.length > 0 ? pts[pts.length - 1].db : 0; pts.push({db: last + 10, pct: null}); renderTable(); calculateAndDraw(); }
+    function addRow() {
+        let pts = currentEar === 'OD' ? dataPointsOD : dataPointsOI;
+        let valoresDb = pts.map(p => p.db).filter(v => v !== null && !isNaN(v));
+        let nuevoDb = valoresDb.length > 0 ? valoresDb[valoresDb.length - 1] + 10 : null;
+        pts.push({db: nuevoDb, pct: null});
+        renderTable();
+        calculateAndDraw();
+    }
     function deleteRow(i) { let pts = currentEar === 'OD' ? dataPointsOD : dataPointsOI; pts.splice(i, 1); renderTable(); calculateAndDraw(); }
     function updatePoint(i, f, v) { let pts = currentEar === 'OD' ? dataPointsOD : dataPointsOI; pts[i][f] = v===""?null:parseFloat(v); if(f==='pct' && pts[i].pct>100) pts[i].pct=100; calculateAndDraw(); }
 
     function clearAllData() {
         if(confirm("¿Vaciar ficha?")) {
-            dataPointsOD = [{db:10, pct:null},{db:20, pct:null},{db:30, pct:null},{db:40, pct:null},{db:50, pct:null},{db:60, pct:null}];
-            dataPointsOI = [{db:10, pct:null},{db:20, pct:null},{db:30, pct:null},{db:40, pct:null},{db:50, pct:null},{db:60, pct:null}];
+            dataPointsOD = [{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null}];
+            dataPointsOI = [{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null},{db:null, pct:null}];
             document.querySelectorAll('.input-field').forEach(i => i.value = "");
             document.getElementById('simetriaInteraural').innerText = "--";
             document.getElementById('asimetriaAlert').style.display='none';
