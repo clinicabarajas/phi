@@ -655,11 +655,11 @@
 
                     <tr class="metric-group"><td colspan="3">Concordancia audiológica</td></tr>
                     <tr><td><strong>Concordancia SDT-SRT</strong></td><td id="odSDT_SRT">--</td><td id="oiSDT_SRT">--</td></tr>
-                    <tr><td><strong>Concordancia con audiometría</strong></td><td id="odConcordancia">--</td><td id="oiConcordancia">--</td></tr>
+                    <tr><td><strong>Concordancia SRT-PTA3</strong></td><td id="odConcordancia">--</td><td id="oiConcordancia">--</td></tr>
 
                     <tr class="metric-group"><td colspan="3">Parámetros de la Función Psicométrica</td></tr>
                     <tr><td><strong>Pendiente máxima</strong></td><td id="odPendiente">--</td><td id="oiPendiente">--</td></tr>
-                    <tr><td><strong>Índice roll-over</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
+                    <tr><td><strong>Índice roll-over / regresión fonémica</strong></td><td id="odRollover">--</td><td id="oiRollover">--</td></tr>
                     <tr><td><strong>Fiabilidad R²</strong></td><td id="odR2">--</td><td id="oiR2">--</td></tr>
 
                     <tr class="metric-group"><td colspan="3">Parámetros del Rango Dinámico Verbal</td></tr>
@@ -760,8 +760,10 @@
         let vo2000 = document.getElementById(prefix + 'VO2000').value;
         let vo4000 = document.getElementById(prefix + 'VO4000').value;
 
-        let ptaVA = (va500!==""&&va1000!==""&&va2000!==""&&va4000!=="") ? (parseFloat(va500)+parseFloat(va1000)+parseFloat(va2000)+parseFloat(va4000))/4 : null;
-        let ptaVO = (vo500!==""&&vo1000!==""&&vo2000!==""&&vo4000!=="") ? (parseFloat(vo500)+parseFloat(vo1000)+parseFloat(vo2000)+parseFloat(vo4000))/4 : null;
+        // Concordancia logo-tonal y GAP calculados con PTA3: 500, 1000 y 2000 Hz.
+        // La frecuencia de 4000 Hz queda como dato complementario, pero no entra en SRT-PTA.
+        let ptaVA = (va500!==""&&va1000!==""&&va2000!=="") ? (parseFloat(va500)+parseFloat(va1000)+parseFloat(va2000))/3 : null;
+        let ptaVO = (vo500!==""&&vo1000!==""&&vo2000!=="") ? (parseFloat(vo500)+parseFloat(vo1000)+parseFloat(vo2000))/3 : null;
 
         let pb_max = Math.max(...y_reales); let idx_max = y_reales.indexOf(pb_max);
         let pb_min = pb_max;
