@@ -766,8 +766,8 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         const paddingLeft = 65;    
-        const paddingRight = 25;
-        const paddingTop = 55;     
+        const paddingRight = 145;  // deja espacio a la derecha para la leyenda
+        const paddingTop = 35;     
         const paddingBottom = 50;  
         
         const width = canvas.width - paddingLeft - paddingRight; 
@@ -777,11 +777,11 @@
         function getX(db) { return paddingLeft + ((db - minDb) / (maxDb - minDb)) * width; }
         function getY(pct) { return paddingTop + (1 - (pct / 100)) * height; }
 
-        // Recuadro de leyenda superior centrado fuera del cuadrante
-        const boxW = canvas.width * 0.75;
-        const boxH = 28;
-        const boxX = (canvas.width - boxW) / 2;
-        const boxY = 12;
+        // Leyenda lateral derecha
+        const boxW = 118;
+        const boxH = 52;
+        const boxX = paddingLeft + width + 12;
+        const boxY = paddingTop;
         
         ctx.strokeStyle = '#cbd5e1';
         ctx.fillStyle = '#f8fafc';
@@ -791,16 +791,15 @@
         ctx.fill();
         ctx.stroke();
         
-        ctx.font = 'bold 11px sans-serif';
+        ctx.font = 'bold 10px sans-serif';
         ctx.textBaseline = 'middle';
+        ctx.textAlign = 'left';
         
-        // CORRECCIÓN: Alineación centrada absoluta respecto al lienzo
-        ctx.textAlign = 'center';
         ctx.fillStyle = '#dc2626';
-        ctx.fillText('◯ Oído Derecho (OD)', canvas.width / 2 - 75, boxY + boxH / 2);
+        ctx.fillText('◯ Oído Derecho (OD)', boxX + 10, boxY + 18);
         
         ctx.fillStyle = '#2563eb';
-        ctx.fillText('✕ Oído Izquierdo (OI)', canvas.width / 2 + 75, boxY + boxH / 2);
+        ctx.fillText('✕ Oído Izquierdo (OI)', boxX + 10, boxY + 38);
 
         // Títulos estandarizados de los Ejes
         ctx.fillStyle = '#1e293b';
