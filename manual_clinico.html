@@ -158,12 +158,14 @@
         .steps li strong { color: var(--text); display: block; margin-bottom: 2px; }
 
         /* CASE CARDS */
-        .case-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 16px; }
+        .case-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
         @media (max-width: 780px) { .case-grid { grid-template-columns: 1fr; } }
         .case-card { border: 2px solid var(--border); border-radius: 10px; padding: 16px; font-size: 13.5px; }
         .case-card h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
         .case-card.conductivo { border-color: #a3a3a3; }
         .case-card.conductivo h4 { color: #525252; }
+        .case-card.mixta { border-color: #7c3aed; }
+        .case-card.mixta h4 { color: #6d28d9; }
         .case-card.coclear { border-color: #f59e0b; }
         .case-card.coclear h4 { color: #b45309; }
         .case-card.retrococlear { border-color: #dc2626; }
@@ -188,7 +190,7 @@
 <div class="container">
 
     <h1>Manual Clínico — Logoaudiometría PHI</h1>
-    <p class="subtitle">Guía de uso, descripción de variables y criterios de interpretación para el audiólogo clínico</p>
+    <p class="subtitle">Guía de uso, descripción de variables y criterios de interpretación para el audiólogo clínico · Versión 1.1</p>
 
     <nav class="toc">
         <h3>Contenido</h3>
@@ -234,7 +236,7 @@
         </li>
         <li>
             <strong>Introducir los umbrales supraliminares (SDT, MCL, UCL)</strong>
-            En el panel "Umbrales de Referencia Basales". Estos datos son opcionales pero desbloquean métricas clínicas adicionales (rango dinámico, reclutamiento, margen de comodidad).
+            En el panel <strong>"Parámetros del Rango Dinámico Verbal"</strong>. Estos datos son opcionales pero desbloquean métricas clínicas adicionales (rango dinámico, reclutamiento, margen de comodidad).
         </li>
         <li>
             <strong>Vincular la audiometría tonal (opcional pero muy recomendado)</strong>
@@ -246,7 +248,7 @@
         </li>
         <li>
             <strong>Interpretar el panel de resultados y la curva</strong>
-            El panel derecho muestra todas las métricas calculadas automáticamente. La curva de inteligibilidad superpone ambos oídos. Revisar los indicadores de color (🟢 🟡 🔴) y las alertas de asimetría.
+            El panel derecho muestra la curva de inteligibilidad superpuesta para ambos oídos. Debajo de la curva aparece la tabla <strong>Valores de la Función Resultado-Intensidad (P/I)</strong>, que estima los dB HL necesarios para alcanzar distintos porcentajes de reconocimiento. A continuación se muestra el bloque <strong>Análisis y Perfil Clínico</strong>, con los indicadores de color (🟢 🟡 🔴) y las alertas de asimetría.
         </li>
     </ol>
 
@@ -377,10 +379,52 @@
         </tbody>
     </table>
 
-    <h3>4.3 Simetría Interaural (WRS)</h3>
+
+    <h3>4.3 Valores de la Función Resultado-Intensidad (P/I)</h3>
+    <p>La tabla <strong>Valores de la Función Resultado-Intensidad (P/I)</strong> muestra la intensidad estimada, en dB HL, necesaria para alcanzar distintos porcentajes de reconocimiento verbal. En la versión actual se calculan automáticamente los niveles correspondientes a <strong>30%, 40%, 50%, 60%, 65%, 70%, 80% y 90%</strong>.</p>
+    <p>Estos valores no son necesariamente puntos medidos directamente durante la exploración. Son valores <strong>interpolados o extrapolados de forma controlada</strong> a partir de la función psicométrica PHI ajustada para cada oído. Por tanto, resumen la relación entre la intensidad presentada y el resultado verbal esperado.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Elemento de la tabla P/I</th>
+                <th>Interpretación clínica</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>30%–40%</strong></td>
+                <td>Zona baja de reconocimiento. Ayuda a visualizar el inicio funcional de la curva y la entrada en la zona de transición.</td>
+            </tr>
+            <tr>
+                <td><strong>50%</strong></td>
+                <td>Corresponde al SRT/URV cuando la curva alcanza ese porcentaje. Es el punto de referencia principal de la función verbal.</td>
+            </tr>
+            <tr>
+                <td><strong>60%–70%</strong></td>
+                <td>Zona funcional intermedia. Permite comparar cuánto incremento de intensidad necesita cada oído para obtener un reconocimiento útil.</td>
+            </tr>
+            <tr>
+                <td><strong>80%–90%</strong></td>
+                <td>Zona alta de reconocimiento. Si el WRS máximo del oído no alcanza estos porcentajes, el valor no debe calcularse y se interpreta como no alcanzable.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="callout callout-info">
+        <strong>Lectura clínica de la tabla P/I</strong>
+        Un oído que necesita más dB HL que el contralateral para alcanzar el mismo porcentaje presenta una función resultado-intensidad desplazada hacia la derecha. Si además el techo máximo de discriminación queda reducido, el patrón sugiere que no solo existe atenuación auditiva, sino también distorsión de la señal verbal.
+    </div>
+
+    <div class="callout callout-warn">
+        <strong>⚠️ La tabla P/I depende de la calidad del ajuste</strong>
+        Sus valores deben interpretarse junto con el R², el WRS máximo, la pendiente y el índice de roll-over. Si el ajuste tiene baja fiabilidad, si los puntos no cubren adecuadamente la zona de transición o si el porcentaje solicitado está por encima del WRS máximo, el valor debe considerarse no calculable o clínicamente poco fiable.
+    </div>
+
+    <h3>4.4 Simetría Interaural (WRS)</h3>
     <p>Diferencia en puntos porcentuales entre el WRS del oído derecho e izquierdo. Una asimetría ≥ 20% entre oídos es clínicamente significativa y puede indicar patología unilateral (neurinoma del acústico, hipoacusia súbita unilateral, Ménière unilateral). El programa emite una alerta visual cuando se supera este umbral.</p>
 
-    <h3>4.4 Pendiente Máxima Real</h3>
+    <h3>4.5 Pendiente Máxima Real</h3>
     <p>Expresa la velocidad de crecimiento de la discriminación en la zona de transición, en <strong>%/dB</strong>. Se calcula como Y<sub>max</sub> × b / 4. Refleja la integridad de la sincronía neural y la selectividad frecuencial coclear. Los umbrales están calibrados específicamente para material logoaudiométrico de bisílabos (De Cárdenas y Marrero-Aguilar, 1994).</p>
     <table>
         <thead><tr><th>Pendiente</th><th>Clasificación</th><th>Interpretación clínica</th></tr></thead>
@@ -391,10 +435,10 @@
         </tbody>
     </table>
 
-    <h3>4.5 Bondad de Ajuste (R²)</h3>
+    <h3>4.6 Bondad de Ajuste (R²)</h3>
     <p>Mide cuánto se parecen los puntos reales del paciente a la curva sigmoide teórica. Un R² bajo no significa que el oído esté enfermo: significa que los datos introducidos son inconsistentes entre sí y que las métricas derivadas (SRT, pendiente) son poco fiables. Ver Sección 7 para el semáforo completo.</p>
 
-    <h3>4.6 Concordancia SDT vs SRT</h3>
+    <h3>4.7 Concordancia SDT vs SRT</h3>
     <p>El SDT (umbral de detección) debe ser <strong>siempre inferior</strong> al SRT (umbral de discriminación), porque detectar la presencia de un sonido es fisiológicamente más fácil que identificarlo. Si esto no se cumple, hay una incongruencia que puede deberse a:</p>
     <ul>
         <li>Error en la técnica de obtención del SDT</li>
@@ -411,16 +455,16 @@
         </tbody>
     </table>
 
-    <h3>4.7 Rango Dinámico (UCL − SRT)</h3>
+    <h3>4.8 Rango Dinámico (UCL − SRT)</h3>
     <p>Espacio en decibelios disponible entre el umbral verbal y el nivel de disconfort. Determina directamente la estrategia de amplificación. Un rango estrecho obliga a ajustar con alta compresión y MPO (Maximum Power Output) muy controlado para evitar que el audífono amplifique hasta el dolor.</p>
 
-    <h3>4.8 Margen de Comodidad (MCL − SRT)</h3>
+    <h3>4.9 Margen de Comodidad (MCL − SRT)</h3>
     <p>Diferencia entre el nivel de comodidad subjetiva y el umbral verbal. Indica cuánto "espacio" tiene el audioprotesista para configurar la ganancia para una entrada de habla conversacional (convencionalmente 65 dB SPL) sin que el paciente la perciba como incómoda.</p>
 
-    <h3>4.9 Reclutamiento por Rango</h3>
+    <h3>4.10 Reclutamiento por Rango</h3>
     <p>El algoritmo lo estima indirectamente: si el Rango Dinámico es inferior a 45 dB, se considera positivo. El reclutamiento coclear refleja un crecimiento anormalmente rápido de la sensación de volumen tras superar el umbral auditivo, característico de la lesión de células ciliadas externas. Tiene implicaciones directas en la tolerancia al audífono.</p>
 
-    <h3>4.10 Índice de Roll-Over</h3>
+    <h3>4.11 Índice de Roll-Over</h3>
     <p>El <strong>roll-over</strong> es la caída del porcentaje de discriminación al aumentar la intensidad por encima del pico máximo. En condiciones normales y cocleares, la curva alcanza un plateau estable. En patología retrococlear (neurinoma del acústico, neuropatía auditiva), la curva cae significativamente al aumentar la intensidad.</p>
     <p>El índice se calcula como: <strong>(WRS<sub>máx</sub> − WRS<sub>min post-pico</sub>) / WRS<sub>máx</sub></strong></p>
 
@@ -437,14 +481,14 @@
         </tbody>
     </table>
 
-    <h3>4.11 Concordancia Logo-Tonal</h3>
+    <h3>4.12 Concordancia Logo-Tonal</h3>
     <p>Compara el SRT calculado por el algoritmo con el PTA4 de la vía aérea. Normalmente ambos valores difieren en menos de 10–12 dB. Una discrepancia mayor puede indicar:</p>
     <ul>
         <li><strong>SRT mucho mejor que PTA4:</strong> Posible exageración de los umbrales tonales (hipoacusia funcional) o pérdida selectiva de frecuencias no evaluadas en el PTA4.</li>
         <li><strong>SRT mucho peor que PTA4:</strong> Distorsión verbal desproporcionada para el grado de pérdida tonal. Orientativo de patología retrococlear o central.</li>
     </ul>
 
-    <h3>4.12 Clasificación Diagnóstica</h3>
+    <h3>4.13 Clasificación Diagnóstica</h3>
     <p>Síntesis automática de todos los criterios anteriores en una categoría diagnóstica orientativa. El algoritmo aplica la siguiente jerarquía de decisión:</p>
     <ul>
         <li><strong>Criterio de Normalidad Directa (Filtro de Intensidad):</strong> Si el SRT es ≤ 22 dB HL y el WRS ≥ 90%, el algoritmo clasifica directamente como <em>"Compatible con normalidad audiológica"</em>, descartando automáticamente sospechas de GAP conductivo o desplazamientos patológicos.</li>
@@ -518,6 +562,11 @@
         </tbody>
     </table>
 
+    <div class="callout callout-info">
+        <strong>Perfil mixto: combinación de desplazamiento y techo reducido</strong>
+        En la hipoacusia mixta la curva puede mostrar simultáneamente dos fenómenos: desplazamiento hacia la derecha por el componente conductivo y reducción del WRS máximo por el componente coclear. Por ello, no debe interpretarse como un perfil conductivo puro aunque exista GAP aéreo-óseo. La clave está en integrar PTA4 por vía aérea y ósea, WRS máximo, pendiente y tabla P/I.
+    </div>
+
     <!-- ===== 6. AUDIOPROTÉSICA ===== -->
     <h2 id="sec-protetica">6. Implicaciones audioprotésicas (métricas supraliminares)</h2>
     <p>La logoaudiometría aporta información que va más allá del diagnóstico: es la base para planificar la estrategia de adaptación audioprotésica. Las siguientes variables se obtienen directamente de los datos ya introducidos en el programa, sin ninguna exploración adicional.</p>
@@ -556,6 +605,11 @@
                 <td><strong>Pendiente pronunciada (&gt; 4 %/dB):</strong> El sistema auditivo responde con eficiencia a pequeños incrementos de intensidad. La ganancia prescriptiva puede ser moderada para lograr inteligibilidad completa.</td>
                 <td><strong>Pendiente aplanada (&lt; 2 %/dB):</strong> El paciente necesita incrementos de intensidad significativamente mayores para cruzar la zona de transición. Orienta hacia una ganancia objetivo más alta en frecuencias medias y sugiere que pequeños ajustes del volumen tendrán poco efecto subjetivo percibido por el usuario.</td>
             </tr>
+            <tr>
+                <td><strong>Valores de la Función Resultado-Intensidad (P/I)</strong></td>
+                <td><strong>Valores bajos y progresivos:</strong> Indican que pequeños incrementos de intensidad permiten mejorar el reconocimiento verbal de forma eficiente. Facilitan una adaptación con objetivos realistas de ganancia.</td>
+                <td><strong>Valores altos o no alcanzables:</strong> Sugieren que el paciente necesita más intensidad para obtener el mismo rendimiento, o que determinados porcentajes no son posibles por limitación del WRS máximo. Ayudan a explicar el techo funcional del audífono y a ajustar expectativas.</td>
+            </tr>
         </tbody>
     </table>
 
@@ -582,7 +636,7 @@
 
     <!-- ===== 8. CASOS CLÍNICOS ===== -->
     <h2 id="sec-casos">8. Ejemplos clínicos tipo</h2>
-    <p>Los siguientes perfiles ilustran cómo se presentan los resultados del algoritmo en los tres patrones diagnósticos más frecuentes. Los valores son aproximados y representativos, no normativos.</p>
+    <p>Los siguientes perfiles ilustran cómo se presentan los resultados del algoritmo en cuatro patrones clínicos frecuentes. Los valores son aproximados y representativos, no normativos.</p>
 
     <div class="case-grid">
         <div class="case-card conductivo">
@@ -596,6 +650,20 @@
             <div class="case-row"><span class="case-label">GAP aéreo-óseo</span><span class="case-value">35 dB</span></div>
             <div class="case-row"><span class="case-label">R²</span><span class="case-value">0.98</span></div>
             <p style="margin-top:10px; font-size:12.5px; color:#525252;">Curva desplazada a la derecha con techo conservado. El oído discrimina perfectamente si recibe suficiente intensidad. El GAP indica afectación de la vía mecánica (otosclerosis, OMA, disfunción tubárica).</p>
+        </div>
+
+        <div class="case-card mixta">
+            <h4>Perfil Mixto</h4>
+            <div class="case-row"><span class="case-label">SRT (OD)</span><span class="case-value">50 dB HL</span></div>
+            <div class="case-row"><span class="case-label">WRS máximo</span><span class="case-value">78%</span></div>
+            <div class="case-row"><span class="case-label">Pendiente</span><span class="case-value">3.4 %/dB</span></div>
+            <div class="case-row"><span class="case-label">Roll-Over</span><span class="case-value">0.10 — Negativo</span></div>
+            <div class="case-row"><span class="case-label">PTA4 VA</span><span class="case-value">55 dB</span></div>
+            <div class="case-row"><span class="case-label">PTA4 VO</span><span class="case-value">30 dB</span></div>
+            <div class="case-row"><span class="case-label">GAP aéreo-óseo</span><span class="case-value">25 dB</span></div>
+            <div class="case-row"><span class="case-label">Tabla P/I</span><span class="case-value">80–90% no alcanzable</span></div>
+            <div class="case-row"><span class="case-label">R²</span><span class="case-value">0.94</span></div>
+            <p style="margin-top:10px; font-size:12.5px; color:#525252;">Curva desplazada a la derecha por el componente conductivo, pero con techo truncado por daño coclear concomitante. El paciente mejora con intensidad, aunque no alcanza el 100%. Es un perfil típico de hipoacusia mixta: requiere valorar tanto la corrección mecánica como la limitación neurosensorial del WRS.</p>
         </div>
 
         <div class="case-card coclear">
@@ -635,6 +703,11 @@
         Para detectar caída post-pico es necesario haber estimulado a intensidades superiores al nivel de máxima discriminación. Si la exploración se detuvo en el pico (práctica habitual por comodidad del paciente), el índice de roll-over aparecerá como negativo aunque exista patología retrococlear.
     </div>
 
+    <div class="callout callout-warn">
+        <strong>⚠️ La tabla P/I no sustituye a los puntos medidos</strong>
+        Los valores de la Función Resultado-Intensidad son estimaciones derivadas del modelo PHI. No deben presentarse como umbrales medidos directamente y pierden validez cuando el R² es bajo, cuando hay pocos puntos o cuando el porcentaje solicitado supera el WRS máximo real del oído.
+    </div>
+
     <div class="callout callout-danger">
         <strong>❌ El algoritmo no diagnostica patología central</strong>
         Los patrones de lesión central (corteza auditiva, cuerpo calloso, tronco del encéfalo) pueden producir curvas logoaudiométricas completamente normales en condiciones de escucha monoótica. Un resultado "compatible con normalidad" no descarta afectación central.
@@ -651,6 +724,11 @@
     <h3>Ecuación general de la curva PHI</h3>
     <div class="formula-box">Y = Y<sub>max</sub> / (1 + e<sup>−b · (X − X₅₀)</sup>)</div>
     <p>Donde <strong>Y</strong> es el porcentaje teórico de discriminación, <strong>X</strong> la intensidad en dB HL, <strong>X₅₀</strong> el punto de inflexión (SRT), <strong>b</strong> el coeficiente de pendiente y <strong>Y<sub>max</sub></strong> el techo de discriminación efectivo.</p>
+
+    <h3>Cálculo de los valores de la Función Resultado-Intensidad (P/I)</h3>
+    <p>Para estimar la intensidad necesaria para alcanzar un porcentaje concreto de reconocimiento verbal, el programa despeja la ecuación logística y calcula X a partir de Y:</p>
+    <div class="formula-box">X = X₅₀ − ln((Y<sub>max</sub> / Y) − 1) / b</div>
+    <p>El programa aplica esta ecuación para los porcentajes <strong>30%, 40%, 50%, 60%, 65%, 70%, 80% y 90%</strong>. Si el porcentaje solicitado es igual o superior al WRS máximo de la curva, el resultado se considera no alcanzable y no debe interpretarse como un valor clínico válido.</p>
 
     <h3>Pendiente máxima real</h3>
     <p>Varía dinámicamente según el techo de discriminación alcanzado:</p>
@@ -671,17 +749,17 @@
 
     <h3>APA 7ª edición</h3>
     <div class="formula-box" style="font-family: -apple-system, sans-serif; font-size: 13.5px; text-align: left; color: var(--text); font-weight: normal; line-height: 1.7;">
-        Zenker, F. (2026). <em>Manual clínico de logoaudiometría PHI: Guía de uso, descripción de variables y criterios de interpretación clínica</em> (v1.0) [Software de análisis clínico]. https://clinicabarajas.github.io/phi/
+        Zenker, F. (2026). <em>Manual clínico de logoaudiometría PHI: Guía de uso, descripción de variables y criterios de interpretación clínica</em> (v1.1) [Software de análisis clínico]. https://clinicabarajas.github.io/phi/
     </div>
 
     <h3>Vancouver — para revistas médicas y publicaciones ORL/audiología</h3>
     <div class="formula-box" style="font-family: -apple-system, sans-serif; font-size: 13.5px; text-align: left; color: var(--text); font-weight: normal; line-height: 1.7;">
-        Zenker F. Manual clínico de logoaudiometría PHI: guía de uso, descripción de variables y criterios de interpretación clínica [Internet]. Versión 1.0. 2026 [citado DD mes AAAA]. Disponible en: https://clinicabarajas.github.io/phi/
+        Zenker F. Manual clínico de logoaudiometría PHI: guía de uso, descripción de variables y criterios de interpretación clínica [Internet]. Versión 1.1. 2026 [citado DD mes AAAA]. Disponible en: https://clinicabarajas.github.io/phi/
     </div>
 
     <div class="callout callout-info" style="margin-top: 20px;">
         <strong>ℹ️ Nota sobre la fecha de consulta</strong>
-        En APA 7ª no es obligatorio indicar fecha de consulta para recursos con URL permanente. En Vancouver sí es obligatorio: sustituya "DD mes AAAA" por la fecha en que accedió al manual (p. ej., 15 junio 2026). La versión actual es la <strong>v1.0 (2026)</strong>.
+        En APA 7ª no es obligatorio indicar fecha de consulta para recursos con URL permanente. En Vancouver sí es obligatorio: sustituya "DD mes AAAA" por la fecha en que accedió al manual (p. ej., 15 junio 2026). La versión actual es la <strong>v1.1 (2026)</strong>.
     </div>
 
     <!-- ===== 12. LEGAL ===== -->
